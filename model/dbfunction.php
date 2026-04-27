@@ -19,11 +19,11 @@ header('Content-Type: text/html; charset=UTF-8');
 // ログインチェック(戻り値はid)
 //**************************************************
 function loginCheck($email = "", $login_pass = ""){
-    //データベース接続関数の呼び出し
+    // データベース接続関数の呼び出し
     $pdo = db_connect();
     
     try {
-        // 1. SQLを修正：メールアドレスのみでユーザーを特定する
+        // 1. メールアドレスのみでユーザーを特定する
         $sSql = "SELECT id, login_pass FROM user_table WHERE email = :email";
         
         $stmh = $pdo->prepare($sSql);
@@ -33,12 +33,26 @@ function loginCheck($email = "", $login_pass = ""){
         // ユーザー情報を取得
         $user = $stmh->fetch(PDO::FETCH_ASSOC);
 
-        // 2. 判定ロジックを修正
-        if($user !== false){
-            // password_verify(入力された平文, DBにあるハッシュ値)
-            // カラム名が 'login_pass' の場合、以下のように照合します
+        // ユーザーが存在する場合の判定
+        if ($user !== false) {
+            // A. すでにハッシュ化されている場合の照合
             if (password_verify($login_pass, $user['login_pass'])) {
                 return $user['id']; // ログイン成功
+            }
+
+            // B. ハッシュ照合に失敗した場合、平文として比較（移行期間用）
+            if ($login_pass === $user['login_pass']) {
+                // 平文で一致した場合、セキュリティ向上のためハッシュ化してDBを更新する
+                $newHash = password_hash($login_pass, PASSWORD_DEFAULT);
+                
+                $updateSql = "UPDATE user_table SET login_pass = :new_pass WHERE id = :id";
+                $updateStmh = $pdo->prepare($updateSql);
+                $updateStmh->bindValue(':new_pass', $newHash, PDO::PARAM_STR);
+                $updateStmh->bindValue(':id', $user['id'], PDO::PARAM_INT);
+                $updateStmh->execute();
+                
+                // 更新後、ログイン成功としてIDを返す
+                return $user['id'];
             }
         }
         
