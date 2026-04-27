@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <meta http-equiv="refresh" content="5;URL=http://localhost/OXquiz_MVC/ctrl/"> -->
+    <!-- <meta http-equiv="refresh" content="5;URL=http://nakira.etc.kanazawa-it.ac.jp/~OXquiz/ctrl/"> -->
+    <title>よくある間違い〇✕クイズ　旧ホーム画面</title>
+    <style>
+        html {
+            height: auto;
+            background-image: url(./images/other/background.jpg);
+            object-fit: fill;
+            object-position: center;
+            background-attachment: fixed;
+        }
+        body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        main {
+            margin-top: 150px;
+            width: 800px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 50px;
+        }
+        .exp {
+            line-height: 30px;
+        }
+        img {
+            width: 300px;
+            object-fit: cover;
+            object-position: center;
+            cursor: pointer;
+            border-bottom: 1px solid black;
+        }
+        img:hover {
+            opacity: 0.65;
+        }
+        .link-area {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        .link-area span {
+            font-size: 18px;
+            font-weight: bold;
+            color: #555;
+            text-align: center;
+        }
+        .history {
+            margin-top: 50px;
+            width: 750px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1 style="margin: 0;">トップページが新しくなりました</h1>
+        <div class="exp">
+            <span style="font-weight: bold;">「よくある間違い〇✕クイズ」</span>は、ログイン機能の実装に伴い、トップページのURLが変更されました。<br>
+            以下のリンクから、新しいトップページ（ログインページ）へ移動できます。<br>
+            ゲストログインを使えば、新規登録なしでご利用いただけます。
+        </div>
+        <div class="link-area">
+            <span>リンク👉</span>
+            <a href="./ctrl/"><img src="./images/other/logo.png" alt="よくある間違い〇✕クイズ"></a>
+        </div>
+    </main>
+    <span style="font-size: 14px; color: #666; margin-top: 5px;">（クリックでログインページへ移動）</span>
+    <div class="history">
+        <h3>更新履歴</h3>
+        <ul>
+            <li>2025/10/07　ログイン機能実装</li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+</body>
+</html>

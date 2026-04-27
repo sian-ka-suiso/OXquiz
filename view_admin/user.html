@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>よくある間違いOXクイズ　ユーザー一覧</title>
+</head>
+<body>
+    <h2>ユーザーDB</h2>
+    <form action="../ctrl/user.php" method="post">
+        <button type="submit">更新</button>
+    </form>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>メールアドレス</th>
+            <th>パスワード</th>
+            <th>ユーザー名</th>
+            <th>登録日</th>
+            <th>最終更新日</th>
+            <th>管理者フラグ</th>
+            <th>編集</th>
+            <th>削除</th>
+            <th>仮パスワード</th>
+        </tr>
+    <?php foreach($users as $user): ?>
+        <tr>            
+            <td><?php echo V2H($user['id']); ?></td>
+            <td><?php echo V2H($user['email']); ?></td>
+            <td>**********</td>
+            <td><?php echo V2H($user['user_name']); ?></td>
+            <td><?php echo V2H($user['created_at']); ?></td>
+            <td><?php echo V2H($user['update_at']); ?></td>
+            <td><?php echo V2H($user['is_admin']); ?></td>
+            <form action="../ctrl/user_update.php" method="post">
+                <td><button type="submit" name="step" value="1">編集</button></td>
+                <input type="hidden" name="id" value="<?php echo V2H($user['id']); ?>">
+                <input type="hidden" name="email" value="<?php echo V2H($user['email']); ?>">
+                <input type="hidden" name="user_name" value="<?php echo V2H($user['user_name']); ?>">
+                <input type="hidden" name="is_admin" value="<?php echo V2H($user['is_admin']); ?>">
+            </form>
+            <form action="../ctrl/user_delete.php" method="post">
+                <td><button type="submit" name="step" value="1">削除</button></td>
+                <input type="hidden" name="id" value="<?php echo V2H($user['id']); ?>">
+                <input type="hidden" name="email" value="<?php echo V2H($user['email']); ?>">
+                <input type="hidden" name="user_name" value="<?php echo V2H($user['user_name']); ?>">
+            </form>
+            <form action="../ctrl/kari_pass.php" method="post">
+                <td><button type="submit" name="step" value="1">発行</button></td>
+                <input type="hidden">
+            </form>
+        </tr>
+    <?php endforeach; ?>
+    </table>
+    <form action="../ctrl/admin.php" method="post">
+        <button type="submit">戻る</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,54 @@
+.section-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.section-name {
+    margin-left: 25px;
+    color: #4a4a4a;
+    font-size: 20px;
+    margin-top: 25px;
+    margin-bottom: 20px;
+    font-family: "RocknRoll One";
+}
+
+.section-item {
+    width: 97%;
+    background-color: rgb(255, 255, 255);
+    border-radius: 5px;
+    margin-bottom: 18px;
+    padding-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(20, 20, 20, 0.3);
+}
+
+.question-button-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-left: 15px;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+.section-item button {
+    width: 4.5rem;
+    height: 4.5rem;
+    text-align: center;
+    letter-spacing: 2px;
+    background-color: rgb(255, 255, 255);
+    font-size: 14px;
+    color: rgb(65, 65, 65);
+    border: 1.5px solid rgb(240, 240, 240);
+    border-radius: 5px;
+    transition: all 0.1s ease-in-out
+}
+
+.section-item button:hover {
+    border: 1.5px solid #419dff;
+    /* background-color: #f7f7f7; */
+    /* font-size: 20px; */
+    /* scale: 1.1; */
+}

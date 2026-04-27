@@ -1,0 +1,178 @@
+.font-Noto {
+    font-family: "Noto Sans JP", sans-serif;
+}
+
+.font-Rock {
+    font-family: "RocknRoll One";
+    color: #333;
+}
+
+html{
+    height: auto;
+    background-image: url(../images/other/background.jpg);
+    object-fit: fill;
+    object-position: center;
+    background-attachment: fixed; /* 背景を固定する */
+    scrollbar-width: thin;
+    scrollbar-color: #b4b4b4 rgb(255, 255, 255);
+    scroll-behavior: smooth;
+    /* border-left: solid 5px rgb(90, 90, 90);
+    border-right: solid 5px rgb(90, 90, 90); */
+}
+
+body {
+    height: 100vh;
+    margin: 0;
+}
+
+.top-container{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 10%;
+}
+
+header {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 5px;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    width: 85%;
+    margin-top: 0;
+    padding: 20px 0 5px 0;
+    border-bottom: 1.5px solid #F7F7FA;
+    background-color: rgb(255, 255, 255);
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #adadad rgb(239, 239, 239);
+}
+
+header nav {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.site-logo {
+    white-space: nowrap;
+    width: 100%;
+}
+
+.site-logo img {
+    height: 40px;
+    object-fit: cover;
+    object-position: center;
+    cursor: pointer;
+}
+
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-left: 5px;
+}
+
+.breadcrumb span {
+    color: #9a9a9a;
+}
+
+.breadcrumb button {
+    font-size: 1.44rem;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    padding: 0;
+    appearance: none;
+    margin-bottom: 0;
+    cursor: pointer;
+}
+
+.breadcrumb button:hover {
+    color: #0556ad5d;
+}
+
+.breadcrumb .location {
+    font-size: 1.3rem;
+    color: #0556ad5d;
+}
+
+.breadcrumb .current-location {
+    font-size: 1.3rem;
+    color: #0556ad;
+    position: relative; /* 疑似要素の位置を相対指定 */
+}
+
+.links-area {
+    display: flex;
+    padding-top: 1vh;
+    justify-content: flex-end;
+    align-items: flex-end;
+    gap: 1.2vw;
+    margin-bottom: 0.18rem;
+    margin-right: 5px;
+}
+
+.user-name {
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.links-area a{
+    color: #0556ad;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    text-decoration: none;
+}
+
+.links-area button {
+    cursor: pointer;
+}
+
+.links-area a:hover{
+    color: #0556ad5d;
+}
+
+.guid-text {
+    margin-top: 7.5rem;
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+.math_nav-container a {
+    color: #419dff;
+}
+
+.math_nav-container a:hover {
+    color: #7cbbff;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.underline {
+    text-decoration: underline;
+}
+
+.err {
+    color: red;
+    font-size: 14px;
+}
+
+.logoutBtn button{
+    padding: 0;
+    margin: 0;
+    background-color: #ffffff00;
+    border: none;
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 14px;
+    color: #0556ad;
+}
+
+.logoutBtn button:hover {
+    color: #0556ad5d;
+}

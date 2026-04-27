@@ -1,0 +1,260 @@
+/* ここまで共通　以下ページコンテンツ */
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#quizForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.question-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+}
+
+.question-container h3{
+    color: rgb(71, 71, 71);
+    margin-bottom: 0;
+    margin-left: 0.9rem;
+}
+
+.question-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.question-area img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+}
+
+.option-area {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    width: 100%;
+}
+
+.option-label {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white; /* デフォ背景（透過画像用） */
+    border: 3px solid transparent;
+    border-radius: 8px;
+    box-sizing: border-box;
+    transition: background-color 0.3s, border-color 0.2s;
+    cursor: default;
+    border: 1.5px solid rgb(240, 240, 240);
+    width: 45%;
+}
+
+.option-selected {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border: 3px solid transparent;
+    border-radius: 5px;
+    box-sizing: border-box;
+    transition: background-color 0.3s, border-color 0.2s;
+    border: 1.5px solid rgb(240, 240, 240);
+    width: 45%;
+}
+
+/* ラベルホバー時の枠線 */
+.option-label:hover {
+    border: 1.5px solid #3498db;
+}
+
+/* 選択肢画像 */
+.option-label img, .option-selected img {
+    width: 90%;
+    max-height: 120px;
+    padding: 10px 0;
+    display: block;
+    object-fit: contain;
+    object-position: center;
+    pointer-events: none;
+    /* aspect-ratio: 16 / 9;  */
+}
+
+/* 正解を選択 */
+.correct-selected {
+    background-color: #e0ffe0 !important;
+}
+
+/* 間違いを選択 */
+.incorrect-selected {
+    background-color: #f8d0d0 !important;
+}
+
+/* 正解だが選ばれていない */
+.correct-unselected {
+    background-color: #e0ffe0 !important;
+}
+
+.unselected {
+    background-color: white !important;
+}
+
+/* 正解の場合 */
+.feedback.correct a {
+    color: #2ecc71; /* 緑系 */
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* 不正解の場合 */
+.feedback.incorrect a {
+    color: #e74c3c; /* 赤系 */
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.feedback {
+        margin: 30px 0;
+}
+
+.feedback.correct h2 {
+    color: #2ecc71;
+}
+
+.feedback.incorrect h2 {
+    color: #e74c3c;
+}
+
+.explanation-container {
+    display: none;
+}
+
+.button-container {
+    display: flex;
+    gap: 5px;
+}
+
+.exp-btn {
+    padding: 2px 25px;
+    font-weight: bold;
+    background-color: white;
+    color: #419dff;
+    border-radius: 3px;
+    border: solid 1px #419dff;
+}
+
+.exp-btn.active {
+    background-color: #419dff;
+    color: white;
+}
+
+.exp-btn:hover {
+    background-color: #419dff;
+    color: white;
+}
+
+/* 画像サイズ調整 */
+#image-viewer {
+    width: 650px;
+    height: auto;
+    object-fit: contain;
+    transition: opacity 0.5s ease; /* フェードにかかる時間 */
+    opacity: 1;
+}
+
+#image-viewer.fade-out {
+  opacity: 0;
+}
+
+/* PHPから表示制御 */
+.explanation-container.show {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-top: 1px solid #3498db;
+    border-bottom: 1px solid #3498db;
+    padding: 15px 0;
+}
+
+.exp_h3 {
+    display: flex;
+    align-items: baseline;
+    margin-right: auto;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.math_nav-container {
+    display: none;
+    margin-top: 15px;
+}
+
+.math_nav-container ul{
+    margin: 0;
+    padding: 0;
+    margin-left: 20px;
+}
+
+.math_nav-container li {
+    margin: 5px 0;
+}
+
+.math_nav-container.show {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.question-nav-button{
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.question-nav-button button {
+    padding: 15px;
+    background-color: white;
+    color: #555;
+    border: none;
+    font-size: 16px;
+    transition: all 0.2s;
+    margin: 30px 0;
+}
+
+.question-nav-button .back {
+    /* text-decoration: underline; */
+}
+
+.question-nav-button .back:hover {
+    transform: translateY(5px);
+}
+
+.question-nav-button .next:hover {
+    transform: translateX(8px);
+}
+
+.question-nav-button .prev:hover {
+    transform: translateX(-8px);
+}

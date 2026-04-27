@@ -1,0 +1,115 @@
+<?php
+//**************************************************
+// 初期処理
+//**************************************************
+    //SESSIONスタート
+    session_start();
+
+    //データベース接続関数の定義ファイルを読み込み
+    require_once('../model/dbconnect.php');
+
+    //データベース操作関数の定義ファイルを読み込み
+    require_once('../model/dbfunction.php');
+
+//**************************************************
+// 変数取得
+//**************************************************
+    //ログインチェックフラグ
+    $is_login = isset($_SESSION['is_login']) ? $_SESSION['is_login'] : "";
+    //Id
+    $id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : "";
+    //メールアドレス
+    $email = isset($_SESSION['email']) ? $_SESSION['email'] : "";
+    //ゲスト
+    $is_guest = !empty($_SESSION['guest']);
+
+    // チャプターid
+    $chapter_id = isset($_GET['chapter_id']) ? $_GET['chapter_id'] : "";
+    // セクションid
+    $section_id = isset($_GET['section_id']) ? $_GET['section_id'] : "";
+    // クエスチョンid
+    $question_id = isset($_GET['question_id']) ? $_GET['question_id'] : "";
+    // クエスチョンid配列
+    $question_ids = getQuestionIds($section_id);
+    // 問題番号
+    $question_number = isset($_GET['qn']) ? $_GET['qn'] : "";
+    // チャプター名＋フォルダー名
+    $chapter_names = getChapterNames($chapter_id);
+    // セクション名＋フォルダー名
+    $section_names = getSectionNames($section_id);
+    // 選択肢数＋正答
+    $questions = getQuestions($question_id);
+    // 問題数カウント
+    $question_count = count($question_ids);
+    // 解説id（評価の高い順）
+    $explanation_ids = getExplanationIds($question_id);
+    // 数学ナビのリンク名とURL
+    $math_navs = getNavs($question_id);
+    // 解説の表示フラグ
+    $show_explanation = false;
+    // 結果判定
+    $feedback = '';
+    // 正解/不正解の結果表示＋解説表示
+    if (isset($_POST['selected_option'])) {
+        $selected_option = (int)$_POST['selected_option'];
+        if ($selected_option === (int)$questions["correct_answer"]) {
+            $feedback = "〇 正解！関連するリンクは下へ";
+        } else {
+            $feedback = "✕ 不正解...解説は下へ";
+        }
+        $show_explanation = true;
+    }
+
+    //ユーザー情報（ユーザー名、登録日、更新日、管理者フラグ）取得
+    $userData = getUserInfo($id);
+    if ($userData) {
+        $user_name  = $userData['user_name'];
+        $created_at = $userData['created_at'];
+        $update_at  = $userData['update_at'];
+        $is_admin   = $userData['is_admin'];
+    } else {
+        // ユーザーが見つからなかった場合の予備処理
+        $user_name = "ゲスト";
+        $is_admin = 0;
+    }
+//**************************************************
+// ファイルパスを生成
+//**************************************************
+    // フォルダー名
+    $chapter_fname = $chapter_names["folder_name"];
+    $section_fname = $section_names["folder_name"];
+    $question_fname = sprintf("%05d", $question_id);
+
+    // 問題画像
+    $questionPath = "../images/".$chapter_fname."/".$section_fname."/".$question_fname."/q.png";
+    $qPathmtime = filemtime($questionPath);
+    $questionPath = "".$questionPath . "?v=" . $qPathmtime;
+
+    // 選択肢画像
+    $optionPath = [];
+    for($i=1; $i<=$questions["options"]; $i++){
+        $optionPath[$i] = "../images/".$chapter_fname."/".$section_fname."/".$question_fname."/opt".$i.".png";
+        $oPathmtime = filemtime($optionPath[$i]);
+        $optionPath[$i] = "".$optionPath[$i] . "?v=" . $oPathmtime;
+    }
+
+    // 解説画像
+    $explanationPath = [];
+    for($j=1; $j<=count($explanation_ids); $j++){
+        $explanationPath[$j] = "../images/".$chapter_fname."/".$section_fname."/".$question_fname."/exp".$j.".png";
+        $ePathmtime = filemtime($explanationPath[$j]);
+        $explanationPath[$j] = "".$explanationPath[$j] . "?v=" . $ePathmtime;
+    }
+//**************************************************
+// ログインチェック
+//**************************************************
+    if(!isset($_SESSION['is_login']) || $_SESSION['is_login'] !== true){
+        header("location: index.php"); // ログイン画面に戻す
+        exit();
+    }
+//**************************************************
+// HTMLを出力
+//**************************************************
+    require_once('../view/question.html');
+
+?>

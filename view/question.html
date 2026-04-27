@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>よくある間違いOXクイズ QuestionPage</title>
+    <link rel="stylesheet" type="text/css" href="../css/common.css">
+    <link rel="stylesheet" type="text/css" href="../css/question.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=RocknRoll+One&family=WDXL+Lubrifont+JP+N&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="top-container">
+        <!-- ヘッダー -->
+        <header>
+            <!-- サイトロゴ -->
+            <a href="../ctrl/chapter.php" class="site-logo"><img src="../images/other/logo.png" alt="よくある間違い〇✕クイズ"></a>
+            <nav>
+                <!-- パンくずリスト -->
+                <div class="breadcrumb">
+                    <button class="current-location font-Noto" onclick="location.href='../ctrl/chapter.php'">Chapter</button>
+                    <span>▸</span>
+                    <form action="../ctrl/section.php" method="get">
+                        <button class="current-location font-Noto" type="submit">Section</button>
+                        <input type="hidden" name="chapter_id" value="<?= $chapter_id ?>">
+                    </form>
+                    <span>▸</span>
+                    <form action="../ctrl/question.php" method="get">
+                        <button class="current-location underline font-Noto" type="submit">Question</button>
+                        <input type="hidden" name="chapter_id" value="<?= $chapter_id ?>">
+                        <input type="hidden" name="section_id" value="<?= $section_id ?>">
+                        <input type="hidden" name="question_id" value="<?= $question_id ?>">
+                        <input type="hidden" name="qn" value="<?= htmlspecialchars($question_number); ?>">
+                    </form>
+                </div>
+                <!-- 外部リンク -->
+                <div class="links-area">
+                    <?php if ($is_guest) { ?>
+                    <span class="user-name">ゲスト さん</span>
+                    <?php } else { ?>
+                    <span class="user-name">
+                        <a href="../ctrl/mypage.php"><?= htmlspecialchars($user_name);?> さん</a>
+                    </span>
+                    <?php } ?>
+                    <a href="https://w3e.kanazawa-it.ac.jp/math/" target="_blank" rel="noopener noreferrer">KIT数学ナビゲーション</a>
+                    <form action="../ctrl/" method="post" class="logoutBtn">
+                        <input type="hidden" name="sign_out" value="true">
+                        <button type="submit">ログアウト</button>
+                    </form>
+                </div>
+            </nav>
+        </header>
+        <div class="guid-text">
+            正しいと思う解答を選択してください.
+        </div>
+        <!-- <?php print_r($explanation_ids); ?> -->
+        <!-- <?= print_r($_SESSION['question_ids'], true) ?> -->
+        <main>
+            <form id="quizForm" action="" method="post">
+                <h3 style="margin-right: auto; color: #555; font-family: RocknRoll One; font-weight: 400;">
+                    <?= $chapter_names["name"] ?> <span style="margin-right: auto; color: #55555571;">▸</span> <?= $section_names["name"] ?> <span style="margin-right: auto; color: #55555571;">▸</span> Q<?= $question_number ?>
+                </h3>
+                <div class="question-container">
+                    <div class="question-area">
+                        <img src="<?= htmlspecialchars($questionPath) ?>" alt="問題画像がありません">
+                    </div>
+
+                    <div class="option-area">
+                        <input type="hidden" name="chapter_id" value="<?= $chapter_id; ?>">
+                        <input type="hidden" name="section_id" value="<?= $section_id; ?>">
+                        <input type="hidden" name="question_id" value="<?= $question_id; ?>">
+                        <input type="hidden" name="qn" value="<?= $question_number; ?>">
+                        <input type="hidden" name="answer" value="">
+
+                        <?php for($i = 1; $i <= $questions["options"]; $i++): 
+                            $id = "option" . $i;
+                            $value = $i;
+                            $class = "option-label";
+
+                            if (isset($_POST['selected_option'])) {
+                                $selected = (int)$_POST['selected_option'];
+
+                                if ($value === (int)$questions["correct_answer"] && $value === $selected) {
+                                    $class = "correct-selected";
+                                } elseif ($value !== (int)$questions["correct_answer"] && $value === $selected) {
+                                    $class = "incorrect-selected";
+                                } elseif ($value === (int)$questions["correct_answer"] && $value !== $selected) {
+                                    $class = "correct-unselected";
+                                } else {
+                                    $class = "unselected";
+                                }
+                            }
+                        ?>
+
+                            <?php if (!isset($selected)): ?>
+                                <input type="radio" id="<?= $id ?>" name="selected_option" value="<?= $value ?>" hidden>
+                                <label for="<?= $id ?>" class="<?= $class ?>">
+                                    <img src="<?= htmlspecialchars($optionPath[$i]) ?>" alt="選択肢画像がありません">
+                                </label>
+                            <?php else: ?>
+                                <div class="option-selected <?= $class ?>">
+                                    <img src="<?= htmlspecialchars($optionPath[$i]) ?>" alt="選択肢画像がありません">
+                                </div>
+                            <?php endif; ?>
+                        <?php endfor; ?>
+                    </div>
+                </div>
+            </form>
+            <?php if ($show_explanation): ?>
+            <?php
+                // 選択された値と正答が一致しているかで判定
+                $is_correct = isset($_POST['selected_option']) && (int)$_POST['selected_option'] === (int)$questions["correct_answer"];
+            ?>
+            <div class="feedback <?= $is_correct ? 'correct' : 'incorrect' ?>">
+                <h2>
+                    <?= $feedback ?>
+                </h2>
+            </div>
+            <?php endif; ?>
+            <div class="explanation-container<?= $show_explanation ? ' show' : '' ?>" id="exp">
+                <div class="exp_h3">
+                    <h3 style="color: #555; margin-bottom: 0; font-family: RocknRoll One; font-weight: 400;">正答・解説</h3>
+                    <div class="button-container">
+                        <?php $exp_index = 1; ?>
+                        <?php foreach ($explanation_ids as $exp): ?>
+                        <button class="exp-btn" onclick="changeImage(<?= $exp_index - 1 ?>, this)">解説 <?= $exp_index ?></button>
+                        <?php $exp_index++; ?>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+                <img id="image-viewer" src="<?= htmlspecialchars($explanationPath[1]); ?>" alt="解説画像がありません" />
+            </div>
+            <div class="math_nav-container<?= $show_explanation ? ' show' : '' ?>" id="nav">
+                <h3 style="margin-right: auto; color: #555; font-family: RocknRoll One; font-weight: 400;">KIT数学ナビゲーションの関連リンク</h3>
+                <ul>
+                    <?php if(empty($math_navs)): ?>
+                    <li><span style="color: #419dff83;">関連するリンクはありません</span></li>
+                    <?php endif; ?>
+                    <?php foreach ($math_navs as $nav): ?>
+                    <li>
+                        <a href="<?php echo htmlspecialchars($nav['link_url']); ?>" target="_blank" rel="noopener noreferrer">
+                        <?php echo $nav['link_name']; ?>
+                        </a>
+                    </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        </main>
+        <div class="question-nav-button">
+            <form action="../ctrl/question.php" method="get" class="<?= $question_number == 1 ? 'hidden' : '' ?>">
+                <input type="hidden" name="chapter_id" value="<?= $chapter_id ?>">
+                <input type="hidden" name="section_id" value="<?= $section_id ?>">
+                <input type="hidden" name="question_id" value="<?= $question_ids[$question_number - 2]?>">
+                <input type="hidden" name="qn" value="<?= htmlspecialchars($question_number - 1); ?>">
+                <button class="prev" type="submit">← 前の問題</button>
+            </form>
+            <!-- <form action="../ctrl/section.php" method="get">
+                <input type="hidden" name="chapter_id" value="<?= $chapter_id ?>">
+                <button class="back" type="submit">Sectionに戻る</button>
+            </form> -->
+            <form action="../ctrl/question.php" method="get" class="<?= $question_number == $question_count ? 'hidden' : '' ?>">
+                <input type="hidden" name="chapter_id" value="<?= $chapter_id; ?>">
+                <input type="hidden" name="section_id" value="<?= $section_id; ?>">
+                <input type="hidden" name="question_id" value="<?= $question_ids[$question_number]?>">
+                <input type="hidden" name="qn" value="<?= htmlspecialchars($question_number + 1); ?>">
+                <button class="next" type="submit">次の問題 →</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        const explanationPath = <?= json_encode(array_values($explanationPath)) ?>;
+    </script>
+    <script src="../js/question.js"></script>
+</body>
+</html>

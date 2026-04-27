@@ -1,0 +1,75 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+img {
+    padding: 0 0 10px 0;
+    width: 600px;
+    object-fit: fill;
+    object-position: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+}
+
+.form-group input {
+    padding: 4px;
+}
+
+.btn-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 300px;
+}
+
+.btn-area a {
+    display: inline-block;
+    width: 145px;
+    height: 25px;
+    box-sizing: border-box;   /* button と挙動を揃える */
+    line-height: 25px;        /* テキストを縦中央に */
+    text-align: center;       /* 横中央に */
+    color: white;
+    background-color: #303030;
+    border: 0.5px solid #303030;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+}
+
+.btn-area a:hover {
+    color: #303030;
+    background-color: white;
+}
+
+button {
+    width: 145px;
+    height: 25px;
+    color: white;
+    background-color: #303030;
+    border: 0.5px solid #303030;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+button:hover {
+    color: #303030;
+    background-color: white;
+}

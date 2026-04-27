@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../css/mypage.css">
+    <link rel="stylesheet" type="text/css" href="../css/common.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=RocknRoll+One&family=WDXL+Lubrifont+JP+N&display=swap" rel="stylesheet">
+    <title>よくある間違い〇✕クイズ マイページ</title>
+</head>
+<body>
+    <header>
+        <a href="../ctrl/chapter.php" class="site-logo"><img src="../images/other/logo.png" alt="よくある間違い〇✕クイズ"></a>
+    </header>
+    <h2>マイページ</h2>
+    <?php if(isset($change_message)): ?>
+        <span class="update-message"><?= V2H($change_message);?></span>
+    <?php endif; ?>
+    <?php if(isset($reset_message)): ?>
+        <span class="update-message"><?= V2H($reset_message);?></span>
+    <?php endif; ?>
+    <div class="user-info">
+        <h3>ユーザー情報</h3>
+        <div class="info-category">
+            <div class="category-name">ユーザー名</div>
+            <div class="update-area">
+                <span><?= V2H($user_name);?></span>
+                <form action="mypage.php" method="post">
+                    <input type="text" name="change_name" placeholder="変更名を入力">
+                    <button type="submit">変更</button>
+                </form>
+            </div>
+        </div>
+        <div class="info-category">
+            <div class="category-name">メールアドレス</div>
+            <span><?= V2H($email) ?></span>
+        </div>
+        <div class="info-category">
+            <div class="category-name">パスワード</div>
+            <div class="update-area">
+                <span>**********</span>
+                <form action="mypage.php" method="post">
+                    <input type="password" name="reset_pass" placeholder="新規パスワードを入力">
+                    <button type="submit">再設定</button>
+                </form>
+            </div>
+        </div>
+        <div class="info-category">
+            <div class="category-name">登録日</div>
+            <span><?= V2H($created_at); ?></span>
+        </div>
+        <div class="info-category">
+            <div class="category-name">最終更新日</div>
+            <span><?= V2H($update_at); ?></span>
+        </div>
+    </div>
+    <a href="<?= htmlspecialchars($pre_page_link); ?>" style="margin-top: 30px;">戻る</a>
+</body>
+</html>

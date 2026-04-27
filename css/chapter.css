@@ -1,0 +1,79 @@
+.chapter-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px 10px;
+}
+
+.chapter-card{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 14.5rem;
+    padding: 0 5px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 2px 4px rgba(20, 20, 20, 0.3);
+    border-radius: 5px;
+    border: 1.5px solid rgba(72, 96, 255, 0);
+    transition: all 0.25s ease-in-out;
+}
+
+.chapter-card:hover {
+    border: 1.5px solid #419dff;
+}
+
+.adapt-box{
+    visibility: hidden;
+    background-color: rgb(255, 0, 0);
+    height: 1px;
+    width: 14.5rem;
+    padding: 0 5px;
+    border: 1.25px solid transparent;
+}
+
+.chapter-card button{
+    width: 100%;
+    padding: 0;
+    border: none;
+    background-color: rgba(255, 255, 255, 0);
+    font-family: "RocknRoll One";
+    font-size: 30px;
+    text-align: center;
+    text-decoration: none;
+    color: #4a4a4a;
+    transition: all 0.25s ease-in-out;
+}
+
+.chapter-name-container {
+    padding: 50px 0;
+    letter-spacing: 2px;
+    /* font-family: "Noto Sans JP", sans-serif;
+    font-weight: 600; */
+}
+
+.chapter-name-container span {
+    display: inline-block;
+    line-height: 50px;
+    height: 50px;
+}
+
+.small-text {
+    font-size: 24px;
+}
+
+.section-name-container {
+    width: 100%;
+    border-top: 1px solid #cbcbcb;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    padding: 10px 0;
+}
+
+.section-name-container span {
+    font-size: 12px;
+    padding: 0 5px;
+    color: #4d4d4d; /* テキストの色 */
+    word-wrap: break-word; /* 長い単語が折り返されるようにする */
+    overflow-wrap: break-word; /* 長い単語が折り返されるようにする */
+}
