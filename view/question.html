@@ -77,38 +77,44 @@
                         <input type="hidden" name="question_id" value="<?= $question_id; ?>">
                         <input type="hidden" name="qn" value="<?= $question_number; ?>">
                         <input type="hidden" name="answer" value="">
+                        <?php $orderList = implode(',', array_column($shuffledOptions, 'id')); ?>
+                        <input type="hidden" name="option_order" value="<?= $orderList ?>">
 
-                        <?php for($i = 1; $i <= $questions["options"]; $i++): 
-                            $id = "option" . $i;
-                            $value = $i;
-                            $class = "option-label";
+                        <?php foreach($shuffledOptions as $opt): 
+                        // $opt['id'] が本来の正答番号と比べるべき値
+                        $i = $opt['id']; 
+                        $id = "option" . $i;
+                        $value = $i; // これがPOSTされる
+                        $currentPath = $opt['path'];
+                        $class = "option-label";
 
-                            if (isset($_POST['selected_option'])) {
-                                $selected = (int)$_POST['selected_option'];
-
-                                if ($value === (int)$questions["correct_answer"] && $value === $selected) {
-                                    $class = "correct-selected";
-                                } elseif ($value !== (int)$questions["correct_answer"] && $value === $selected) {
-                                    $class = "incorrect-selected";
-                                } elseif ($value === (int)$questions["correct_answer"] && $value !== $selected) {
-                                    $class = "correct-unselected";
-                                } else {
-                                    $class = "unselected";
-                                }
+                        if (isset($_POST['selected_option'])) {
+                            $selected = (int)$_POST['selected_option'];
+                            // 判定ロジックは今のままでOK（$valueが本来の番号を指しているため）
+                            if ($value === (int)$questions["correct_answer"] && $value === $selected) {
+                                $class = "correct-selected";
+                            } elseif ($value !== (int)$questions["correct_answer"] && $value === $selected) {
+                                $class = "incorrect-selected";
+                            } elseif ($value === (int)$questions["correct_answer"] && $value !== $selected) {
+                                $class = "correct-unselected";
+                            } else {
+                                $class = "unselected";
                             }
+                        }
                         ?>
 
-                            <?php if (!isset($selected)): ?>
-                                <input type="radio" id="<?= $id ?>" name="selected_option" value="<?= $value ?>" hidden>
-                                <label for="<?= $id ?>" class="<?= $class ?>">
-                                    <img src="<?= htmlspecialchars($optionPath[$i]) ?>" alt="選択肢画像がありません">
-                                </label>
-                            <?php else: ?>
-                                <div class="option-selected <?= $class ?>">
-                                    <img src="<?= htmlspecialchars($optionPath[$i]) ?>" alt="選択肢画像がありません">
-                                </div>
-                            <?php endif; ?>
-                        <?php endfor; ?>
+                        <?php if (!isset($selected)): ?>
+                            <input type="radio" id="<?= $id ?>" name="selected_option" value="<?= $value ?>" hidden>
+                            <label for="<?= $id ?>" class="<?= $class ?>">
+                                <img src="<?= htmlspecialchars($currentPath) ?>" alt="選択肢画像">
+                            </label>
+                        <?php else: ?>
+                            <div class="option-selected <?= $class ?>">
+                                <img src="<?= htmlspecialchars($currentPath) ?>" alt="選択肢画像">
+                            </div>
+                        <?php endif; ?>
+
+                        <?php endforeach; ?>
                     </div>
                 </div>
             </form>

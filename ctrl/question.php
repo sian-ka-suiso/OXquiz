@@ -86,11 +86,28 @@
     $questionPath = "".$questionPath . "?v=" . $qPathmtime;
 
     // 選択肢画像
-    $optionPath = [];
+    // --- 選択肢の配列作成 ---
+    $options = [];
     for($i=1; $i<=$questions["options"]; $i++){
-        $optionPath[$i] = "../images/".$chapter_fname."/".$section_fname."/".$question_fname."/opt".$i.".png";
-        $oPathmtime = filemtime($optionPath[$i]);
-        $optionPath[$i] = "".$optionPath[$i] . "?v=" . $oPathmtime;
+        $path = "../images/".$chapter_fname."/".$section_fname."/".$question_fname."/opt".$i.".png";
+        $mtime = filemtime($path);
+        $options[$i] = [ // キーをIDにしておくと復元が楽です
+            'id'   => $i, 
+            'path' => $path . "?v=" . $mtime
+        ];
+    }
+    // --- 並び順の決定ロジック ---
+    if (isset($_POST['option_order'])) {
+        // 回答送信後：送られてきた順番（カンマ区切りの文字列）を配列に戻す
+        $order = explode(',', $_POST['option_order']);
+        $shuffledOptions = [];
+        foreach ($order as $id) {
+            $shuffledOptions[] = $options[$id];
+        }
+    } else {
+        // 初回表示時：シャッフルして順番を確定させる
+        $shuffledOptions = $options;
+        shuffle($shuffledOptions);
     }
 
     // 解説画像
