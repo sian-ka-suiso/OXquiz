@@ -45,9 +45,11 @@
                 <input type="hidden" name="email" value="<?php echo V2H($user['email']); ?>">
                 <input type="hidden" name="user_name" value="<?php echo V2H($user['user_name']); ?>">
             </form>
-            <form action="../ctrl/kari_pass.php" method="post">
+            <form action="../ctrl/temp_pass.php" method="post">
                 <td><button type="submit" name="step" value="1">発行</button></td>
-                <input type="hidden">
+                <input type="hidden" name="id" value="<?php echo V2H($user['id']); ?>">
+                <input type="hidden" name="email" value="<?php echo V2H($user['email']); ?>">
+                <input type="hidden" name="user_name" value="<?php echo V2H($user['user_name']); ?>">
             </form>
         </tr>
     <?php endforeach; ?>

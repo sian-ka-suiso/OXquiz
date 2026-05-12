@@ -84,7 +84,7 @@ function getUsers(){
 //**************************************************
 // ユーザー情報（ユーザー名、登録日、更新日、管理者フラグ）取得
 //**************************************************
-function getUserInfo($id) {
+function getUserInfo(int $id) {
     $pdo = db_connect();
     try {
         $sSql = "SELECT user_name, created_at, update_at, is_admin ";
@@ -105,7 +105,7 @@ function getUserInfo($id) {
 //**************************************************
 // メアド重複確認
 //**************************************************
-function checkEmail($email) {
+function checkEmail(string $email) {
     $pdo = db_connect();  // ここで接続を確保
     $stmt = $pdo->prepare("SELECT COUNT(*) FROM user_table WHERE email = :email");
     $stmt->bindValue(':email', $email, PDO::PARAM_STR);
@@ -116,7 +116,7 @@ function checkEmail($email) {
 //**************************************************
 // 新規登録
 //**************************************************
-function insertUser($email, $login_pass) {
+function insertUser(string $email, string $login_pass) {
 
 	//データベース接続関数の呼び出し
 	$pdo = db_connect();
@@ -145,7 +145,7 @@ function insertUser($email, $login_pass) {
 //**************************************************
 // ユーザー名変更(マイページ用)
 //**************************************************
-function ChangeUserName($id, $change_name) {
+function ChangeUserName(int $id, string $change_name) {
 	$pdo = db_connect();
 	try {
 		//データ検索の条件
@@ -167,9 +167,9 @@ function ChangeUserName($id, $change_name) {
 	}
 }
 //**************************************************
-// パスワード再設定(マイページ用)
+// パスワード再設定(マイページ＆仮パスワード用)
 //**************************************************
-function ResetLoginPass($id, $reset_pass) {
+function ResetLoginPass(int $id, string $reset_pass) {
     $pdo = db_connect();
     try {
         // --- 追加：新しいパスワードをハッシュ化する ---
@@ -189,10 +189,14 @@ function ResetLoginPass($id, $reset_pass) {
         return false;
     }
 }
+
+####################################################################################
+### 管理者
+####################################################################################
 //**************************************************
 // ユーザー更新（管理ページ用）
 //**************************************************
-function updateUser($id, $is_admin) {
+function updateUser(int $id, int $is_admin) {
 	$pdo = db_connect();
 	try {
 		//データ検索の条件
@@ -216,7 +220,7 @@ function updateUser($id, $is_admin) {
 //**************************************************
 // ユーザー削除（管理ページ用）
 //**************************************************
-function deleteUser($id){
+function deleteUser(int $id){
 	$pdo = db_connect();
 	try {
 		$sql = "DELETE FROM user_table WHERE id = :id";
@@ -229,46 +233,52 @@ function deleteUser($id){
 		return false;
 	}
 }
-####################################################################################
-### 管理者
-####################################################################################
 //**************************************************
 // 管理者ログインチェック
 //**************************************************
-function admLoginCheck($email = "", $pw = ""){
-    //初期化
-    $arrUser = array();
-    //データベース接続関数の呼び出し
+function admLoginCheck($email = "", $login_pass = ""){
+    // データベース接続関数の呼び出し
     $pdo = db_connect();
+    
     try {
-        //変数の準備
-        $sSql  = "";
-        //データ検索のSQLを作成
-        $sSql .= "SELECT ";
-        $sSql .= "   * ";
-        $sSql .= "FROM ";
-        $sSql .= "   user_table ";
-        $sSql .= "WHERE ";
-        $sSql .= "  email = :email AND ";
-        $sSql .= "  login_pass = :pw AND ";
-        $sSql .= "  is_admin = 1 ";
-        //ステートメントハンドラを作成
+        // 1. メールアドレスのみでユーザーを特定する
+        $sSql = "SELECT id, login_pass FROM user_table WHERE email = :email AND is_admin = 1";
+        
         $stmh = $pdo->prepare($sSql);
-        $stmh->bindValue(':email',   $email,   PDO::PARAM_STR);
-        $stmh->bindValue(':pw', $pw, PDO::PARAM_STR);
-        //SQL文の実行
+        $stmh->bindValue(':email', $email, PDO::PARAM_STR);
         $stmh->execute();
-        //実行結果を取得
-        $arrUser = $stmh->fetch(PDO::FETCH_ASSOC);
-        //ログイン情報の有無を判定
-        if($arrUser !== false){
-            return true;
+        
+        // ユーザー情報を取得
+        $user = $stmh->fetch(PDO::FETCH_ASSOC);
+
+        // ユーザーが存在する場合の判定
+        if ($user !== false) {
+            // A. すでにハッシュ化されている場合の照合
+            if (password_verify($login_pass, $user['login_pass'])) {
+                return $user['id']; // ログイン成功
+            }
+
+            // B. ハッシュ照合に失敗した場合、平文として比較（移行期間用）
+            if ($login_pass === $user['login_pass']) {
+                // 平文で一致した場合、セキュリティ向上のためハッシュ化してDBを更新する
+                $newHash = password_hash($login_pass, PASSWORD_DEFAULT);
+                
+                $updateSql = "UPDATE user_table SET login_pass = :new_pass WHERE id = :id";
+                $updateStmh = $pdo->prepare($updateSql);
+                $updateStmh->bindValue(':new_pass', $newHash, PDO::PARAM_STR);
+                $updateStmh->bindValue(':id', $user['id'], PDO::PARAM_INT);
+                $updateStmh->execute();
+                
+                // 更新後、ログイン成功としてIDを返す
+                return $user['id'];
+            }
         }
+        
     } catch (PDOException $Exception) {
-        //例外が発生したらエラーを出力
         die('実行エラー（' . __FUNCTION__."）：".$Exception->getMessage()."<br />");
     }
-    return false;
+    
+    return false; // ユーザーがいない、またはパスワード不一致
 }
 //**************************************************
 // 章、節、問の全情報を取り出す
@@ -326,7 +336,7 @@ function getChapterAll(){
 //**************************************************
 // チャプター名を取り出す
 //**************************************************
-function getChapterNames($chapter_id)
+function getChapterNames(int $chapter_id)
 {
     $array_result = array();
     $pdo = db_connect();
@@ -428,7 +438,7 @@ function getSectionAll(){
 //**************************************************
 // セクション名を取り出す（ファイルパス用）
 //**************************************************
-function getSectionNames($section_id)
+function getSectionNames(int $section_id)
 {
     $array_result = array();
     $pdo = db_connect();
@@ -454,7 +464,7 @@ function getSectionNames($section_id)
 //**************************************************
 // チャプターIdに対応する、セクション名（クエスチョンId付き）を取り出す
 //**************************************************
-function getSectionsWithQuestions($chapter_id)
+function getSectionsWithQuestions(int $chapter_id)
 {
     // 初期化
     $array_result = array();
@@ -507,7 +517,7 @@ function getSectionsWithQuestions($chapter_id)
 //**********************************************************************************
 // 選択肢数、正答の情報を取得
 //**********************************************************************************
-function getQuestions($question_id)
+function getQuestions(int $question_id)
 {
     $array_result = array();
     if (empty($question_id)) {
@@ -534,7 +544,7 @@ function getQuestions($question_id)
 //**********************************************************************************
 // 問題id配列
 //**********************************************************************************
-function getQuestionIds($section_id){
+function getQuestionIds(int $section_id){
     $array_result = array();
     $pdo = db_connect();
     try {
@@ -559,7 +569,7 @@ function getQuestionIds($section_id){
 //**********************************************************************************
 // 問題数カウント
 //**********************************************************************************
-function getQuestionCount($section_id){
+function getQuestionCount(int $section_id){
     $result = 0;
     if (empty($section_id)) {
         return $result;
@@ -587,7 +597,7 @@ function getQuestionCount($section_id){
 ####################################################################################
 ### 解説
 ####################################################################################
-function getExplanationIds($question_id)
+function getExplanationIds(int $question_id)
 {
     $array_result = array();
     if (empty($question_id)) {
@@ -618,7 +628,7 @@ function getExplanationIds($question_id)
 //********************************************************************************************
 // 数学ナビのリンク名とURLを取得
 //********************************************************************************************
-function getNavs($question_id)
+function getNavs(int $question_id)
 {
     $array_result = array();
 
@@ -652,7 +662,7 @@ function getNavs($question_id)
 //********************************************************************************************
 // htmlへの文字列出力用
 //********************************************************************************************
-function V2H($str) {
+function V2H(string $str) {
     return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
 }
 ?>

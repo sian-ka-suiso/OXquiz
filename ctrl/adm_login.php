@@ -18,19 +18,42 @@
     $sign_out = isset($_POST['sign_out']) ? $_POST['sign_out'] : "";
     $arrErr = array();
 //**************************************************
-// ログインチェック
+// 入力確認
 //**************************************************
-    $loginOk = admLoginCheck($email, $pw);
-    if($loginOk){
-        $_SESSION['email'] = $email;
-        $_SESSION['pw'] = $pw;
-        header("location: admin.php");
-        exit();
-    } else if ($email != "" || $pw != "") {
-        $arrErr['common'] = "メールアドレスもしくはパスワードが間違っています。";
-    } else {
-        $arrErr['common'] = "";
-    }
+        if($email == ""){
+            $arrErr['email'] = "メールアドレスを入力してください";
+        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $arrErr['email'] = "メールアドレスの形式が正しくありません";
+        }
+
+        if($pw == ""){
+            $arrErr['login_pass'] = "パスワードを入力してください";
+        } elseif(mb_strlen($pw,"UTF-8") < 6 || mb_strlen($pw,"UTF-8") > 20){
+            $arrErr['login_pass'] = "パスワードは6〜20文字で入力してください";
+        }
+
+        if(empty($arrErr)){
+            //**************************************************
+            // ログインチェック
+            //**************************************************
+            $id = admloginCheck($email, $pw);
+            if ($id) {
+                // ログイン成功！セッションハイジャック対策を実行
+                session_regenerate_id(true);
+
+                // セッションに「ログイン済みフラグ」と「ユーザー情報」を保存
+                $_SESSION['is_login'] = true;
+                $_SESSION['user_id']  = $id;
+                $_SESSION['email']    = $email;
+
+                header("location: admin.php");
+                exit();
+            } else if ($email != "" || $pw != "") {
+                $arrErr['common'] = "メールアドレスもしくはパスワードが間違っています。";
+            } else {
+                $arrErr['common'] = "管理者権限ではありません";
+            }
+        }
 //**************************************************
 // サインアウト処理
 //**************************************************
