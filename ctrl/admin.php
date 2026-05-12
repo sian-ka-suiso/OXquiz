@@ -18,12 +18,16 @@
     $chapterSectionQuestions = getAll();
     $loginOk = admLoginCheck($email, $pw);
 //**************************************************
+// ログインチェック
+//**************************************************
+    if(!isset($_SESSION['is_login']) || $_SESSION['is_login'] !== true){
+        header("location: adm_login.php"); // ログイン画面に戻す
+        exit();
+    }
+//**************************************************
 // HTMLを出力
 //**************************************************
     //画面へ表示
-    if($loginOk === true) {
-        require_once('../view_admin/admin.html');
-    } else {
-        require_once('../view_admin/adm_login.html');
-    }
+    require_once('../view_admin/admin.html');
+
 ?>
