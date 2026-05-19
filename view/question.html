@@ -76,7 +76,7 @@
                         <input type="hidden" name="section_id" value="<?= $section_id; ?>">
                         <input type="hidden" name="question_id" value="<?= $question_id; ?>">
                         <input type="hidden" name="qn" value="<?= $question_number; ?>">
-                        <input type="hidden" name="answer" value="">
+                        <!-- <input type="hidden" name="answer" value=""> -->
                         <?php $orderList = implode(',', array_column($shuffledOptions, 'id')); ?>
                         <input type="hidden" name="option_order" value="<?= $orderList ?>">
 

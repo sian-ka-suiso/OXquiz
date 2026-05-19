@@ -17,7 +17,7 @@
     //ログインチェックフラグ
     $is_login = isset($_SESSION['is_login']) ? $_SESSION['is_login'] : "";
     //Id
-    $id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : "";
+    $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : "";
     //メールアドレス
     $email = isset($_SESSION['email']) ? $_SESSION['email'] : "";
     //ゲスト
@@ -58,10 +58,15 @@
             $feedback = "✕ 不正解...解説は下へ";
         }
         $show_explanation = true;
+
+            $is_correct = ($selected_option === (int)$questions["correct_answer"]);
+            $q_id = (int)$_POST['question_id'];
+            updateQuestionStatus($user_id, $q_id, $is_correct);
+            insertFirstAnswer($user_id, $q_id, $is_correct);
     }
 
     //ユーザー情報（ユーザー名、登録日、更新日、管理者フラグ）取得
-    $userData = getUserInfo($id);
+    $userData = getUserInfo($user_id);
     if ($userData) {
         $user_name  = $userData['user_name'];
         $created_at = $userData['created_at'];
@@ -101,8 +106,8 @@
         // 回答送信後：送られてきた順番（カンマ区切りの文字列）を配列に戻す
         $order = explode(',', $_POST['option_order']);
         $shuffledOptions = [];
-        foreach ($order as $id) {
-            $shuffledOptions[] = $options[$id];
+        foreach ($order as $user_id) {
+            $shuffledOptions[] = $options[$user_id];
         }
     } else {
         // 初回表示時：シャッフルして順番を確定させる

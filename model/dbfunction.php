@@ -622,6 +622,50 @@ function getExplanationIds(int $question_id)
     return $array_result;
 }
 
+//********************************************************************************************
+// 回答結果を記録
+//********************************************************************************************
+function updateQuestionStatus(int $user_id, int $question_id, bool $is_correct)
+{
+    $status = $is_correct ? 'correct' : 'wrong';
+    $pdo = db_connect();
+    try {
+        $sSql  = "INSERT INTO user_question_status (user_id, question_id, status, attempt_count, last_answered_at) ";
+        $sSql .= "VALUES (:user_id, :question_id, :status, 1, NOW()) ";
+        $sSql .= "ON DUPLICATE KEY UPDATE ";
+        $sSql .= "status = VALUES(status), ";
+        $sSql .= "attempt_count = attempt_count + 1, ";
+        $sSql .= "last_answered_at = NOW()";
+
+        $stmh = $pdo->prepare($sSql);
+        $stmh->bindValue(':user_id',     $user_id,     PDO::PARAM_INT);
+        $stmh->bindValue(':question_id', $question_id, PDO::PARAM_INT);
+        $stmh->bindValue(':status',      $status,      PDO::PARAM_STR);
+        $stmh->execute();
+
+    } catch (PDOException $Exception) {
+        die('実行エラー :' . $Exception->getMessage() . "<br/>");
+    }
+}
+
+function insertFirstAnswer(int $user_id, int $question_id, bool $is_correct)
+{
+    $pdo = db_connect();
+    try {
+        $sSql  = "INSERT IGNORE INTO first_answers (user_id, question_id, is_correct, answered_at) ";
+        $sSql .= "VALUES (:user_id, :question_id, :is_correct, NOW())";
+
+        $stmh = $pdo->prepare($sSql);
+        $stmh->bindValue(':user_id',     $user_id,        PDO::PARAM_INT);
+        $stmh->bindValue(':question_id', $question_id,    PDO::PARAM_INT);
+        $stmh->bindValue(':is_correct',  (int)$is_correct, PDO::PARAM_INT);
+        $stmh->execute();
+
+    } catch (PDOException $Exception) {
+        die('実行エラー :' . $Exception->getMessage() . "<br/>");
+    }
+}
+
 ####################################################################################
 ### math_nav関連
 ####################################################################################
