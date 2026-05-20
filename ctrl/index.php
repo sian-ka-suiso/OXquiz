@@ -35,11 +35,11 @@
 // 入力確認
 //**************************************************
     if($step == 1){
-        if($email == ""){
-            $arrErr['email'] = "メールアドレスを入力してください";
-        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $arrErr['email'] = "メールアドレスの形式が正しくありません";
-        }
+        // if($email == ""){
+        //     $arrErr['email'] = "メールアドレスを入力してください";
+        // } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        //     $arrErr['email'] = "メールアドレスの形式が正しくありません";
+        // }
 
         if($login_pass == ""){
             $arrErr['login_pass'] = "パスワードを入力してください";
