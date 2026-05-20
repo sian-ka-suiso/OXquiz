@@ -52,3 +52,11 @@
     /* font-size: 20px; */
     /* scale: 1.1; */
 }
+
+button.done {
+    background-color: #e0ffe0;
+}
+
+button.wrong {
+    background-color: #f8d0d0;
+}

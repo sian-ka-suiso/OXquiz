@@ -41,11 +41,11 @@
         //     $arrErr['email'] = "メールアドレスの形式が正しくありません";
         // }
 
-        if($login_pass == ""){
-            $arrErr['login_pass'] = "パスワードを入力してください";
-        } elseif(mb_strlen($login_pass,"UTF-8") < 6 || mb_strlen($login_pass,"UTF-8") > 20){
-            $arrErr['login_pass'] = "パスワードは6〜20文字で入力してください";
-        }
+        // if($login_pass == ""){
+        //     $arrErr['login_pass'] = "パスワードを入力してください";
+        // } elseif(mb_strlen($login_pass,"UTF-8") < 6 || mb_strlen($login_pass,"UTF-8") > 20){
+        //     $arrErr['login_pass'] = "パスワードは6〜20文字で入力してください";
+        // }
 
         if(empty($arrErr)){
             //**************************************************
