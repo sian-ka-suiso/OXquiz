@@ -3,16 +3,16 @@
 function db_connect()
 {
     // データベース接続情報
-    $host = 'localhost';
-    $dbname = 'oxquiz';
-    $user = 'root';
-    $password = '';
-
-    // 学内サーバのDBへのログイン内容は以下の通り
     // $host = 'localhost';
     // $dbname = 'oxquiz';
-    // $user = 'OXquiz';
-    // $password = 'REDACTED';
+    // $user = 'root';
+    // $password = '';
+
+    // 学内サーバのDBへのログイン内容は以下の通り
+    $host = 'localhost';
+    $dbname = 'oxquiz';
+    $user = 'OXquiz';
+    $password = 'REDACTED';
 
     //DSNの作成
     $dsn = "mysql:host=" . $host . ";dbname=" . $dbname . ";charset=utf8";
