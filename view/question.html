@@ -59,6 +59,7 @@
         <div class="guid-text">
             正しいと思う解答を選択してください.
         </div>
+        <!-- ↓ デバッグ用 ↓ -->
         <!-- <?php print_r($explanation_ids); ?> -->
         <!-- <?= print_r($_SESSION['question_ids'], true) ?> -->
         <main>
@@ -76,7 +77,6 @@
                         <input type="hidden" name="section_id" value="<?= $section_id; ?>">
                         <input type="hidden" name="question_id" value="<?= $question_id; ?>">
                         <input type="hidden" name="qn" value="<?= $question_number; ?>">
-                        <!-- <input type="hidden" name="answer" value=""> -->
                         <?php $orderList = implode(',', array_column($shuffledOptions, 'id')); ?>
                         <input type="hidden" name="option_order" value="<?= $orderList ?>">
 
@@ -166,10 +166,6 @@
                 <input type="hidden" name="qn" value="<?= htmlspecialchars($question_number - 1); ?>">
                 <button class="prev" type="submit">← 前の問題</button>
             </form>
-            <!-- <form action="../ctrl/section.php" method="get">
-                <input type="hidden" name="chapter_id" value="<?= $chapter_id ?>">
-                <button class="back" type="submit">Sectionに戻る</button>
-            </form> -->
             <form action="../ctrl/question.php" method="get" class="<?= $question_number == $question_count ? 'hidden' : '' ?>">
                 <input type="hidden" name="chapter_id" value="<?= $chapter_id; ?>">
                 <input type="hidden" name="section_id" value="<?= $section_id; ?>">

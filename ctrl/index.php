@@ -35,19 +35,19 @@
 // 入力確認
 //**************************************************
     if($step == 1){
-        // if($email == ""){
-        //     $arrErr['email'] = "メールアドレスを入力してください";
-        // } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        //     $arrErr['email'] = "メールアドレスの形式が正しくありません";
-        // }
+        if($email == ""){
+            $arrErr['email'] = "メールアドレスを入力してください";
+        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $arrErr['email'] = "メールアドレスの形式が正しくありません";
+        }
 
-        // if($login_pass == ""){
-        //     $arrErr['login_pass'] = "パスワードを入力してください";
-        // } elseif(mb_strlen($login_pass,"UTF-8") < 6 || mb_strlen($login_pass,"UTF-8") > 20){
-        //     $arrErr['login_pass'] = "パスワードは6〜20文字で入力してください";
-        // }
+        if($login_pass == ""){
+            $arrErr['login_pass'] = "パスワードを入力してください";
+        } elseif(mb_strlen($login_pass,"UTF-8") < 6 || mb_strlen($login_pass,"UTF-8") > 20){
+            $arrErr['login_pass'] = "パスワードは6〜20文字で入力してください";
+        }
 
-        if(empty($arrErr)){
+        if(empty($arrErr) || empty($is_guest)){
             //**************************************************
             // ログインチェック
             //**************************************************

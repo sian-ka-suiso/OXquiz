@@ -48,15 +48,12 @@
 
 .section-item button:hover {
     border: 1.5px solid #419dff;
-    /* background-color: #f7f7f7; */
-    /* font-size: 20px; */
-    /* scale: 1.1; */
 }
 
-button.done {
+.section-item button.done {
     background-color: #e0ffe0;
 }
 
-button.wrong {
+.section-item button.wrong {
     background-color: #f8d0d0;
 }

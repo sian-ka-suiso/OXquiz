@@ -38,7 +38,7 @@
                     <span class="user-name">ゲスト さん</span>
                     <?php } else { ?>
                     <span class="user-name">
-                        <a href="../ctrl/mypage.php"><?= htmlspecialchars($user_name);?> さん</a>
+                        <a href="../ctrl/mypage.php"><?= V2H($user_name);?> さん</a>
                     </span>
                     <?php } ?>
                     <a href="https://w3e.kanazawa-it.ac.jp/math/" target="_blank" rel="noopener noreferrer">KIT数学ナビゲーション</a>
@@ -59,10 +59,10 @@
             <?php
                 $section_id   = $section['id'];
                 $section_name = $section['name'];
-                $question_ids = $section['question_ids']; // ← これが必要
+                $question_ids = $section['question_ids'];
             ?>
                 <div class="section-item">
-                    <p class="section-name"><?= htmlspecialchars($section_index + 1) ?>. <?= htmlspecialchars($section_name) ?></p>
+                    <p class="section-name"><?= V2H($section_index + 1) ?>. <?= V2H($section_name) ?></p>
                     <div class="question-button-container">
                         <?php foreach($question_ids as $question_index => $question): ?>
                         <?php
@@ -74,12 +74,12 @@
                             };
                         ?>
                         <form action="../ctrl/question.php" method="get">
-                            <input type="hidden" name="chapter_id" value="<?= htmlspecialchars($chapter_id); ?>">
-                            <input type="hidden" name="section_id" value="<?= htmlspecialchars($section_id); ?>">
-                            <input type="hidden" name="question_id" value="<?= htmlspecialchars($question); ?>">
-                            <input type="hidden" name="qn" value="<?= htmlspecialchars($question_index + 1); ?>">
+                            <input type="hidden" name="chapter_id" value="<?= V2H($chapter_id); ?>">
+                            <input type="hidden" name="section_id" value="<?= V2H($section_id); ?>">
+                            <input type="hidden" name="question_id" value="<?= V2H($question); ?>">
+                            <input type="hidden" name="qn" value="<?= V2H($question_index + 1); ?>">
                             <button type="submit" class="<?= $btn_class ?>">
-                                Q<?= htmlspecialchars($question_index + 1); ?>
+                                Q<?= V2H($question_index + 1); ?>
                             </button>
                         </form>
                         <?php endforeach; ?>

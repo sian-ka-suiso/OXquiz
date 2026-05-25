@@ -59,10 +59,13 @@
         }
         $show_explanation = true;
 
-            $is_correct = ($selected_option === (int)$questions["correct_answer"]);
-            $q_id = (int)$_POST['question_id'];
+        $is_correct = ($selected_option === (int)$questions["correct_answer"]);
+        $q_id = (int)$_POST['question_id'];
+        
+        if (!$is_guest) {
             updateQuestionStatus($user_id, $q_id, $is_correct);
             insertFirstAnswer($user_id, $q_id, $is_correct);
+        }
     }
 
     //ユーザー情報（ユーザー名、登録日、更新日、管理者フラグ）取得
@@ -74,7 +77,7 @@
         $is_admin   = $userData['is_admin'];
     } else {
         // ユーザーが見つからなかった場合の予備処理
-        $user_name = "ゲスト";
+        $user_name = "ログインユーザー";
         $is_admin = 0;
     }
 //**************************************************
