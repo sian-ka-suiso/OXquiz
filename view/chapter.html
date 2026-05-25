@@ -32,13 +32,13 @@
                 </div>
                 <!-- 外部リンク -->
                 <div class="links-area">
-                    <?php if ($is_guest) { ?>
-                    <span class="user-name">ゲスト さん</span>
-                    <?php } else { ?>
                     <span class="user-name">
-                        <a href="../ctrl/mypage.php"><?= htmlspecialchars($user_name);?> さん</a>
+                        <?php if ($is_guest): ?>
+                            <?= V2H($user_name) ?>
+                        <?php else: ?>
+                            <a href="../ctrl/mypage.php"><?= V2H($user_name);?> さん</a>
+                        <?php endif; ?>
                     </span>
-                    <?php } ?>
                     <a href="https://w3e.kanazawa-it.ac.jp/math/" target="_blank" rel="noopener noreferrer">KIT数学ナビゲーション</a>
                     <form action="../ctrl/" method="post" class="logoutBtn">
                         <input type="hidden" name="sign_out" value="true">
@@ -51,23 +51,7 @@
             単元を選択してください.
         </div>
         <!-- チャプター要素 -->
-        <div class="chapter-container">  
-
-            <!-- <?php if($_SESSION['guest'] != true){ ?>
-            <div class="chapter-card" style="background-color: rgb(236, 236, 255);">
-                <button type="submit">
-                    <div class="chapter-name-container">
-                        <span>マイページ</span>
-                    </div>
-                    <div class="section-name-container font-Noto">
-                        <span>1. ユーザー名の変更</span>
-                        <span>2. 成績・進捗の確認</span>
-                        <span>3. 保存した問題の確認</span>
-                    </div>
-                </button>
-            </div>
-            <?php } ?> -->
-
+        <div class="chapter-container">
             <?php $chapter_index = 1; ?>
             <?php foreach ($chapters as $chapter): ?>
             <?php if ($chapter['chapter_published'] || $is_admin): ?>
@@ -78,20 +62,43 @@
             ?>
             <?php $section_names = $chapter['sections']; ?>
             <form action="section.php" method="get" class="chapter-card">
-                <input type="hidden" name="chapter_id" value="<?= htmlspecialchars($chapter_id); ?>">
+                <input type="hidden" name="chapter_id" value="<?= V2H($chapter_id); ?>">
                 <button type="submit">
                     <div class="chapter-name-container <?= V2H($text_class) ?>">
-                        <span><?= htmlspecialchars($chapter_name); ?></span>
+                        <span><?= V2H($chapter_name); ?></span>
                     </div>
                     <!-- セクション名リスト -->
                     <div class="section-name-container">
                         <?php $section_index = 1; ?>
                         <?php foreach ($section_names as $section): ?>
-                        <?php if ($section['section_published']): ?>
-                            <span class="font-Noto"><?= htmlspecialchars($section_index) ?>. <?= htmlspecialchars($section['name']); ?></span>
+                        <?php if ($section['section_published'] || $is_admin): ?>
+                            <span class="font-Noto"><?= V2H($section_index) ?>. <?= V2H($section['name']); ?></span>
                         <?php endif; ?>
                         <?php $section_index++; ?>
                         <?php endforeach; ?>
+                        <?php
+                            $progress     = $chapter_progress[$chapter_id] ?? ['total' => 0, 'correct_count' => 0];
+                            $total        = $progress['total'];
+                            $correct      = $progress['correct_count'];
+                            $percent      = ($total > 0) ? round($correct / $total * 100) : 0;
+
+                            if ($total === 0 || $correct === 0) {
+                                $progress_label = '未着手';
+                                $progress_class = 'progress-none';
+                            } elseif ($percent === 100) {
+                                $progress_label = '完了！';
+                                $progress_class = 'progress-done';
+                            } else {
+                                $progress_label = $correct . ' / ' . $total . ' 完了　' . $percent . '%';
+                                $progress_class = 'progress-ongoing';
+                            }
+                        ?>
+                        <div class="chapter-progress <?= $progress_class ?>">
+                            <?= $progress_label ?>
+                        </div>
+                        <div class="progress-bar-wrap">
+                            <div class="progress-bar-fill <?= $progress_class ?>" style="width: <?= $percent ?>%;"></div>
+                        </div>
                     </div>
                 </button>
             </form>

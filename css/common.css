@@ -9,7 +9,8 @@
 
 html{
     height: auto;
-    background-image: url(../images/other/background.jpg);
+    /* background-image: url(../images/other/background.jpg); */
+    background-color: white;
     object-fit: fill;
     object-position: center;
     background-attachment: fixed; /* 背景を固定する */

@@ -19,35 +19,36 @@
     $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : "";
     //メールアドレス
     $email = isset($_SESSION['email']) ? $_SESSION['email'] : "";
+    //ゲスト
+    $is_guest = !empty($_SESSION['guest']);
     
     // チャプター番号
     $chapter_id = isset($_GET['chapter_id']) ? $_GET['chapter_id'] : "";
     // セクションid、セクション名、クエスチョンid配列
     $sections = getSectionsWithQuestions($chapter_id);
 
-    // done/wrongのラベル付け
-    $all_question_ids = [];
-    foreach ($sections as $section) {
-        foreach ($section['question_ids'] as $qid) {
-            $all_question_ids[] = $qid;
+    if (!$is_guest){
+        // done/wrongのラベル付け
+        $all_question_ids = [];
+        foreach ($sections as $section) {
+            foreach ($section['question_ids'] as $qid) {
+                $all_question_ids[] = $qid;
+            }
         }
-    }
-    $question_statuses = getQuestionStatuses($user_id, $all_question_ids);
-
-    //ゲスト
-    $is_guest = !empty($_SESSION['guest']);
-
-    //ユーザー情報（ユーザー名、登録日、更新日、管理者フラグ）取得
-    $userData = getUserInfo($user_id);
-    if ($userData) {
-        $user_name  = $userData['user_name'];
-        $created_at = $userData['created_at'];
-        $update_at  = $userData['update_at'];
-        $is_admin   = $userData['is_admin'];
-    } else {
-        // ユーザーが見つからなかった場合の予備処理
-        $user_name = "ユーザーネーム";
-        $is_admin = 0;
+        $question_statuses = getQuestionStatuses($user_id, $all_question_ids);
+        
+        //ユーザー情報（ユーザー名、登録日、更新日、管理者フラグ）取得
+        $userData = getUserInfo($user_id);
+        if ($userData) {
+            $user_name  = $userData['user_name'];
+            $created_at = $userData['created_at'];
+            $update_at  = $userData['update_at'];
+            $is_admin   = $userData['is_admin'];
+        } else {
+            // ユーザーが見つからなかった場合の予備処理
+            $user_name = "ユーザーネーム";
+            $is_admin = 0;
+        }
     }
 //**************************************************
 // ログインチェック処理

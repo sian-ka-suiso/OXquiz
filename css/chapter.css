@@ -77,3 +77,53 @@
     word-wrap: break-word; /* 長い単語が折り返されるようにする */
     overflow-wrap: break-word; /* 長い単語が折り返されるようにする */
 }
+
+.chapter-progress {
+    font-size: 0.75rem;
+    margin-top: 6px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+.progress-none {
+    background-color: #e8e8e8;
+    color: #888;
+}
+
+.progress-ongoing {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.progress-done {
+    background-color: #e0ffe0;
+    color: #2d7a2d;
+}
+
+.progress-bar-wrap {
+    width: 100%;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    height: 6px;
+    margin-top: 6px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 6px;
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+.progress-bar-fill.progress-none {
+    background-color: #c0c0c0;
+}
+
+.progress-bar-fill.progress-ongoing {
+    background-color: #ffc107;
+}
+
+.progress-bar-fill.progress-done {
+    background-color: #4caf50;
+}

@@ -408,6 +408,46 @@ function getChaptersWithSections()
     return $array_result;
 }
 
+//**************************************************
+// チャプターごとの進捗状況取得
+//**************************************************
+function getChapterProgressList(int $user_id)
+{
+    $result = array();
+    if (empty($user_id)) {
+        return $result;
+    }
+
+    $pdo = db_connect();
+    try {
+        $sSql  = "SELECT c.id AS chapter_id, ";
+        $sSql .= "COUNT(q.id) AS total, ";
+        $sSql .= "SUM(CASE WHEN uqs.status = 'correct' THEN 1 ELSE 0 END) AS correct_count ";
+        $sSql .= "FROM chapter_table c ";
+        $sSql .= "JOIN section_table s ON s.chapter_id = c.id ";
+        $sSql .= "JOIN question_table q ON q.section_id = s.id ";
+        $sSql .= "LEFT JOIN user_question_status uqs ";
+        $sSql .= "  ON uqs.question_id = q.id AND uqs.user_id = :user_id ";
+        $sSql .= "GROUP BY c.id";
+
+        $stmh = $pdo->prepare($sSql);
+        $stmh->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+        $stmh->execute();
+
+        // chapter_id をキーにした連想配列で返す
+        foreach ($stmh->fetchAll(PDO::FETCH_ASSOC) as $row) {
+            $result[$row['chapter_id']] = [
+                'total'         => (int)$row['total'],
+                'correct_count' => (int)$row['correct_count'],
+            ];
+        }
+
+    } catch (PDOException $Exception) {
+        die('実行エラー :' . $Exception->getMessage() . "<br/>");
+    }
+
+    return $result;
+}
 
 ####################################################################################
 ### セクション関連

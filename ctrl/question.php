@@ -68,18 +68,21 @@
         }
     }
 
-    //ユーザー情報（ユーザー名、登録日、更新日、管理者フラグ）取得
-    $userData = getUserInfo($user_id);
-    if ($userData) {
-        $user_name  = $userData['user_name'];
-        $created_at = $userData['created_at'];
-        $update_at  = $userData['update_at'];
-        $is_admin   = $userData['is_admin'];
-    } else {
-        // ユーザーが見つからなかった場合の予備処理
-        $user_name = "ログインユーザー";
-        $is_admin = 0;
+    if (!$is_guest) {
+        //ユーザー情報（ユーザー名、登録日、更新日、管理者フラグ）取得
+        $userData = getUserInfo($user_id);
+        if ($userData) {
+            $user_name  = $userData['user_name'];
+            $created_at = $userData['created_at'];
+            $update_at  = $userData['update_at'];
+            $is_admin   = $userData['is_admin'];
+        } else {
+            // ユーザーが見つからなかった場合の予備処理
+            $user_name = "ユーザーネーム";
+            $is_admin = 0;
+        }
     }
+
 //**************************************************
 // ファイルパスを生成
 //**************************************************
