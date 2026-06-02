@@ -24,11 +24,12 @@
     
     // チャプター番号
     $chapter_id = isset($_GET['chapter_id']) ? $_GET['chapter_id'] : "";
+    // チャプター名取得を追加
+    $chapter_names = getChapterNames($chapter_id);
     // セクションid、セクション名、クエスチョンid配列
     $sections = getSectionsWithQuestions($chapter_id);
 
     if (!$is_guest){
-        // done/wrongのラベル付け
         $all_question_ids = [];
         foreach ($sections as $section) {
             foreach ($section['question_ids'] as $qid) {
@@ -36,8 +37,7 @@
             }
         }
         $question_statuses = getQuestionStatuses($user_id, $all_question_ids);
-        
-        //ユーザー情報（ユーザー名、登録日、更新日、管理者フラグ）取得
+
         $userData = getUserInfo($user_id);
         if ($userData) {
             $user_name  = $userData['user_name'];
@@ -45,11 +45,17 @@
             $update_at  = $userData['update_at'];
             $is_admin   = $userData['is_admin'];
         } else {
-            // ユーザーが見つからなかった場合の予備処理
             $user_name = "ユーザーネーム";
             $is_admin = 0;
         }
+    } else {
+        // ゲストのときも変数を定義しておく
+        $user_name  = "ゲストユーザー";
+        $is_admin   = 0;
+        $question_statuses = [];
     }
+    
+    $chapter_progress = (!$is_guest) ? getChapterProgressList($user_id) : [];
 //**************************************************
 // ログインチェック処理
 //**************************************************
