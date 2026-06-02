@@ -26,25 +26,25 @@
             <nav>
                 <!-- パンくずリスト -->
                 <div class="breadcrumb">
-                    <button class="current-location font-Noto" onclick="location.href='../ctrl/chapter.php'">Chapter</button>
+                    <button class="visited-location font-Noto" onclick="location.href='../ctrl/chapter.php'">Chapter</button>
                     <span>▸</span>
-                    <button class="current-location underline font-Noto" onclick="location.reload()">Section</button>
+                    <button class="current-location font-Noto" onclick="location.reload()">Section</button>
                     <span>▸</span>
                     <div class="location">Question</div>
                 </div>
                 <!-- 外部リンク -->
                 <div class="links-area">
-                    <?php if ($is_guest) { ?>
-                    <span class="user-name">ゲスト さん</span>
-                    <?php } else { ?>
                     <span class="user-name">
-                        <a href="../ctrl/mypage.php"><?= V2H($user_name);?> さん</a>
+                        <?php if ($is_guest): ?>
+                            <?= V2H($user_name) ?> さん
+                        <?php else: ?>
+                            <a href="../ctrl/mypage.php" class="nav-link"><?= V2H($user_name); ?></a> さん
+                        <?php endif; ?>
                     </span>
-                    <?php } ?>
-                    <a href="https://w3e.kanazawa-it.ac.jp/math/" target="_blank" rel="noopener noreferrer">KIT数学ナビゲーション</a>
-                    <form action="../ctrl/" method="post" class="logoutBtn">
+                    <a href="https://w3e.kanazawa-it.ac.jp/math/" target="_blank" rel="noopener noreferrer" class="nav-link">KIT数学ナビゲーション</a>
+                        <form action="../ctrl/" method="post" class="logoutBtn">
                         <input type="hidden" name="sign_out" value="true">
-                        <button type="submit">ログアウト</button>
+                        <button type="submit" class="nav-link">ログアウト</button>
                     </form>
                 </div>
             </nav>

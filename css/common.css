@@ -1,3 +1,8 @@
+/* =============================================
+   Common Styles
+   ============================================= */
+
+/* ---------- Font Utilities ---------- */
 .font-Noto {
     font-family: "Noto Sans JP", sans-serif;
 }
@@ -7,18 +12,16 @@
     color: #333;
 }
 
-html{
+/* ---------- Base ---------- */
+html {
     height: auto;
-    /* background-image: url(../images/other/background.jpg); */
-    background-color: white;
+    background-color: #ffffff;
     object-fit: fill;
     object-position: center;
-    background-attachment: fixed; /* 背景を固定する */
+    background-attachment: fixed;
     scrollbar-width: thin;
-    scrollbar-color: #b4b4b4 rgb(255, 255, 255);
+    scrollbar-color: #b4b4b4 #ffffff;
     scroll-behavior: smooth;
-    /* border-left: solid 5px rgb(90, 90, 90);
-    border-right: solid 5px rgb(90, 90, 90); */
 }
 
 body {
@@ -26,7 +29,8 @@ body {
     margin: 0;
 }
 
-.top-container{
+/* ---------- Layout ---------- */
+.top-container {
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -34,6 +38,7 @@ body {
     padding: 0 10%;
 }
 
+/* ---------- Header ---------- */
 header {
     display: flex;
     flex-direction: column;
@@ -42,14 +47,16 @@ header {
     position: fixed;
     top: 0;
     z-index: 1000;
-    width: 85%;
+    width: 100%;
+    box-sizing: border-box;
     margin-top: 0;
-    padding: 20px 0 5px 0;
-    border-bottom: 1.5px solid #F7F7FA;
-    background-color: rgb(255, 255, 255);
+    padding: 16px 5% 8px 5%;
+    border-bottom: 1px solid #e2e2e2;
+    background-color: rgba(255, 255, 255, 0.97);
+    backdrop-filter: blur(8px);
     overflow-x: auto;
     scrollbar-width: thin;
-    scrollbar-color: #adadad rgb(239, 239, 239);
+    scrollbar-color: #adadad #efefef;
 }
 
 header nav {
@@ -58,6 +65,7 @@ header nav {
     justify-content: space-between;
 }
 
+/* ---------- Site Logo ---------- */
 .site-logo {
     white-space: nowrap;
     width: 100%;
@@ -70,6 +78,7 @@ header nav {
     cursor: pointer;
 }
 
+/* ---------- Breadcrumb ---------- */
 .breadcrumb {
     display: flex;
     align-items: center;
@@ -78,102 +87,112 @@ header nav {
 }
 
 .breadcrumb span {
-    color: #9a9a9a;
-}
-
-.breadcrumb button {
-    font-size: 1.44rem;
-    background-color: transparent;
-    border: none;
-    outline: none;
-    padding: 0;
-    appearance: none;
-    margin-bottom: 0;
-    cursor: pointer;
-}
-
-.breadcrumb button:hover {
-    color: #0556ad5d;
+    color: #c8c8c8;
 }
 
 .breadcrumb .location {
-    font-size: 1.3rem;
-    color: #0556ad5d;
+    font-size: 18px;
+    color: #aac4e0;
 }
 
 .breadcrumb .current-location {
-    font-size: 1.3rem;
-    color: #0556ad;
-    position: relative; /* 疑似要素の位置を相対指定 */
+    font-size: 18px;
+    color: #185FA5;
+    position: relative;
+    border: none;
+    background: transparent;
+    outline: none;
+    padding: 0 5px 3px 5px;
+    appearance: none;
+    cursor: pointer;
+    border-bottom: 2px solid #185FA5;
+    transition: color 0.18s, border-color 0.18s;
 }
 
+.breadcrumb .visited-location {
+    font-size: 18px;
+    color: #185FA5;
+    border: none;
+    background: transparent;
+    outline: none;
+    padding: 0 5px 3px 5px;
+    appearance: none;
+    cursor: pointer;
+    transition: color 0.18s;
+}
+
+.breadcrumb .visited-location:hover {
+    color: #3a85cc;
+}
+
+/* ---------- Links Area ---------- */
 .links-area {
     display: flex;
-    padding-top: 1vh;
+    padding-top: 0;
     justify-content: flex-end;
-    align-items: flex-end;
-    gap: 1.2vw;
-    margin-bottom: 0.18rem;
-    margin-right: 5px;
+    align-items: center;
+    gap: 1.4vw;
+    margin-bottom: 0;
+    margin-right: 0;
 }
 
-.user-name {
-    font-size: 14px;
+.nav-link {
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 0.88rem;
+    color: #185FA5;
     text-decoration: none;
-}
-
-.links-area a{
-    color: #0556ad;
-    font-size: 0.9rem;
     white-space: nowrap;
-    text-decoration: none;
-}
-
-.links-area button {
+    background: transparent;
+    border: none;
+    padding: 0 0 2px 0;
+    margin: 0;
     cursor: pointer;
+    position: relative;
+    transition: color 0.18s;
 }
 
-.links-area a:hover{
-    color: #0556ad5d;
+.nav-link {
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 0.88rem;
+    color: #185FA5;
+    text-decoration: none;
+    white-space: nowrap;
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    transition: opacity 0.18s;
 }
 
+.nav-link:hover {
+    opacity: 0.5;
+}
+
+/* ---------- Guid Text ---------- */
 .guid-text {
-    margin-top: 7.5rem;
-    margin-bottom: 15px;
+    margin-top: 8.5rem;
+    margin-bottom: 25px;
     font-size: 18px;
+    font-weight: 400;
+    color: #3a3a3a;
 }
 
+/* ---------- Math Nav ---------- */
 .math_nav-container a {
-    color: #419dff;
+    color: #185FA5;
 }
 
 .math_nav-container a:hover {
-    color: #7cbbff;
+    color: #3a85cc;
 }
 
+/* ---------- Utilities ---------- */
 .hidden {
-  visibility: hidden;
-}
-
-.underline {
-    text-decoration: underline;
+    visibility: hidden;
 }
 
 .err {
     color: red;
     font-size: 14px;
-}
-
-.logoutBtn button{
-    padding: 0;
-    margin: 0;
-    background-color: #ffffff00;
-    border: none;
-    font-family: "Noto Sans JP", sans-serif;
-    font-size: 14px;
-    color: #0556ad;
-}
-
-.logoutBtn button:hover {
-    color: #0556ad5d;
 }
