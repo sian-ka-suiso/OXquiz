@@ -9,20 +9,18 @@
     <link rel="stylesheet" type="text/css" href="../css/question.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=RocknRoll+One&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 
 <body>
     <div class="top-container">
+
         <!-- ヘッダー -->
         <header>
-            <!-- サイトロゴ -->
-            <a href="../ctrl/chapter.php" class="site-logo"><img src="../images/other/logo.png" alt="よくある間違い〇✕クイズ"></a>
+            <a href="../ctrl/chapter.php" class="site-logo">
+                <img src="../images/other/logo.png" alt="よくある間違い〇✕クイズ">
+            </a>
             <nav>
-                <!-- パンくずリスト -->
                 <div class="breadcrumb">
                     <button class="visited-location font-Noto" onclick="location.href='../ctrl/chapter.php'">Chapter</button>
                     <span>▸</span>
@@ -39,7 +37,6 @@
                         <input type="hidden" name="qn" value="<?= htmlspecialchars($question_number); ?>">
                     </form>
                 </div>
-                <!-- 外部リンク -->
                 <div class="links-area">
                     <span class="user-name">
                         <?php if ($is_guest): ?>
@@ -49,29 +46,58 @@
                         <?php endif; ?>
                     </span>
                     <a href="https://w3e.kanazawa-it.ac.jp/math/" target="_blank" rel="noopener noreferrer" class="nav-link">KIT数学ナビゲーション</a>
-                        <form action="../ctrl/" method="post" class="logoutBtn">
+                    <form action="../ctrl/" method="post" class="logoutBtn">
                         <input type="hidden" name="sign_out" value="true">
                         <button type="submit" class="nav-link">ログアウト</button>
                     </form>
                 </div>
             </nav>
         </header>
-        <div class="guid-text">
-            正しいと思う解答を選択してください.
-        </div>
-        <!-- ↓ デバッグ用 ↓ -->
-        <!-- <?php print_r($explanation_ids); ?> -->
-        <!-- <?= print_r($_SESSION['question_ids'], true) ?> -->
+
+        <div class="guid-text">正しいと思う解答を選択してください.</div>
+
         <main>
+
+            <!-- Section一覧に戻るボタン -->
+            <form action="../ctrl/section.php" method="get" style="width:90%; margin-bottom:4px;">
+                <input type="hidden" name="chapter_id" value="<?= $chapter_id ?>">
+                <button type="submit" class="back-to-section">← Section一覧に戻る</button>
+            </form>
+
+            <!-- 正解済みバッジ（正解済みのときのみ表示） -->
+            <?php
+                // user_question_statusから現在の問題のステータスを取得
+                $current_status = '';
+                if (!$is_guest) {
+                    $statuses = getQuestionStatuses($user_id, [(int)$question_id]);
+                    $current_status = $statuses[(int)$question_id] ?? '';
+                }
+            ?>
+            <?php if ($current_status === 'correct' && !$show_explanation): ?>
+            <div class="answered-badge">
+                この問題は正解済みです
+            </div>
+            <?php endif; ?>
+
             <form id="quizForm" action="" method="post">
-                <h3 style="margin-right: auto; color: #555; font-family: RocknRoll One; font-weight: 400;">
-                    <?= $chapter_names["name"] ?> <span style="margin-right: auto; color: #55555571;">▸</span> <?= $section_names["name"] ?> <span style="margin-right: auto; color: #55555571;">▸</span> Q<?= $question_number ?>
-                </h3>
+
+                <!-- 問題内パンくず -->
+                <div class="question-breadcrumb">
+                    <span><?= V2H($chapter_names["name"]) ?></span>
+                    <span style="color:#ccc;">▸</span>
+                    <span><?= V2H($section_names["name"]) ?></span>
+                    <span style="color:#ccc;">▸</span>
+                    <span class="q-current">Q<?= V2H($question_number) ?></span>
+                </div>
+
                 <div class="question-container">
+
+                    <!-- 問題画像 -->
                     <div class="question-area">
                         <img src="<?= htmlspecialchars($questionPath) ?>" alt="問題画像がありません">
                     </div>
 
+                    <!-- 選択肢 -->
                     <div class="option-area">
                         <input type="hidden" name="chapter_id" value="<?= $chapter_id; ?>">
                         <input type="hidden" name="section_id" value="<?= $section_id; ?>">
@@ -80,27 +106,25 @@
                         <?php $orderList = implode(',', array_column($shuffledOptions, 'id')); ?>
                         <input type="hidden" name="option_order" value="<?= $orderList ?>">
 
-                        <?php foreach($shuffledOptions as $opt): 
-                        // $opt['id'] が本来の正答番号と比べるべき値
-                        $i = $opt['id']; 
-                        $id = "option" . $i;
-                        $value = $i; // これがPOSTされる
-                        $currentPath = $opt['path'];
-                        $class = "option-label";
+                        <?php foreach($shuffledOptions as $opt):
+                            $i = $opt['id'];
+                            $id = "option" . $i;
+                            $value = $i;
+                            $currentPath = $opt['path'];
+                            $class = "option-label";
 
-                        if (isset($_POST['selected_option'])) {
-                            $selected = (int)$_POST['selected_option'];
-                            // 判定ロジックは今のままでOK（$valueが本来の番号を指しているため）
-                            if ($value === (int)$questions["correct_answer"] && $value === $selected) {
-                                $class = "correct-selected";
-                            } elseif ($value !== (int)$questions["correct_answer"] && $value === $selected) {
-                                $class = "incorrect-selected";
-                            } elseif ($value === (int)$questions["correct_answer"] && $value !== $selected) {
-                                $class = "correct-unselected";
-                            } else {
-                                $class = "unselected";
+                            if (isset($_POST['selected_option'])) {
+                                $selected = (int)$_POST['selected_option'];
+                                if ($value === (int)$questions["correct_answer"] && $value === $selected) {
+                                    $class = "correct-selected";
+                                } elseif ($value !== (int)$questions["correct_answer"] && $value === $selected) {
+                                    $class = "incorrect-selected";
+                                } elseif ($value === (int)$questions["correct_answer"] && $value !== $selected) {
+                                    $class = "correct-unselected";
+                                } else {
+                                    $class = "unselected";
+                                }
                             }
-                        }
                         ?>
 
                         <?php if (!isset($selected)): ?>
@@ -116,22 +140,24 @@
 
                         <?php endforeach; ?>
                     </div>
+
                 </div>
             </form>
+
+            <!-- 正誤フィードバック -->
             <?php if ($show_explanation): ?>
             <?php
-                // 選択された値と正答が一致しているかで判定
                 $is_correct = isset($_POST['selected_option']) && (int)$_POST['selected_option'] === (int)$questions["correct_answer"];
             ?>
             <div class="feedback <?= $is_correct ? 'correct' : 'incorrect' ?>">
-                <h2>
-                    <?= $feedback ?>
-                </h2>
+                <h2><?= $feedback ?></h2>
             </div>
             <?php endif; ?>
+
+            <!-- 解説エリア -->
             <div class="explanation-container<?= $show_explanation ? ' show' : '' ?>" id="exp">
                 <div class="exp_h3">
-                    <h3 style="color: #555; margin-bottom: 0; font-family: RocknRoll One; font-weight: 400;">正答・解説</h3>
+                    <h3>正答・解説</h3>
                     <div class="button-container">
                         <?php $exp_index = 1; ?>
                         <?php foreach ($explanation_ids as $exp): ?>
@@ -142,39 +168,46 @@
                 </div>
                 <img id="image-viewer" src="<?= htmlspecialchars($explanationPath[1]); ?>" alt="解説画像がありません" />
             </div>
+
+            <!-- 数学ナビリンク -->
             <div class="math_nav-container<?= $show_explanation ? ' show' : '' ?>" id="nav">
-                <h3 style="margin-right: auto; color: #555; font-family: RocknRoll One; font-weight: 400;">KIT数学ナビゲーションの関連リンク</h3>
+                <h3>KIT数学ナビゲーションの関連リンク</h3>
                 <ul>
                     <?php if(empty($math_navs)): ?>
-                    <li><span style="color: #419dff83;">関連するリンクはありません</span></li>
+                    <li><span style="color:#aac4e0;">関連するリンクはありません</span></li>
                     <?php endif; ?>
                     <?php foreach ($math_navs as $nav): ?>
                     <li>
-                        <a href="<?php echo htmlspecialchars($nav['link_url']); ?>" target="_blank" rel="noopener noreferrer">
-                        <?php echo $nav['link_name']; ?>
+                        <a href="<?= htmlspecialchars($nav['link_url']); ?>" target="_blank" rel="noopener noreferrer">
+                            <?= $nav['link_name']; ?>
                         </a>
                     </li>
                     <?php endforeach; ?>
                 </ul>
             </div>
+
         </main>
+
+        <!-- 前後ナビゲーション -->
         <div class="question-nav-button">
             <form action="../ctrl/question.php" method="get" class="<?= $question_number == 1 ? 'hidden' : '' ?>">
                 <input type="hidden" name="chapter_id" value="<?= $chapter_id ?>">
                 <input type="hidden" name="section_id" value="<?= $section_id ?>">
-                <input type="hidden" name="question_id" value="<?= $question_ids[$question_number - 2]?>">
+                <input type="hidden" name="question_id" value="<?= $question_ids[$question_number - 2] ?>">
                 <input type="hidden" name="qn" value="<?= htmlspecialchars($question_number - 1); ?>">
                 <button class="prev" type="submit">← 前の問題</button>
             </form>
             <form action="../ctrl/question.php" method="get" class="<?= $question_number == $question_count ? 'hidden' : '' ?>">
                 <input type="hidden" name="chapter_id" value="<?= $chapter_id; ?>">
                 <input type="hidden" name="section_id" value="<?= $section_id; ?>">
-                <input type="hidden" name="question_id" value="<?= $question_ids[$question_number]?>">
+                <input type="hidden" name="question_id" value="<?= $question_ids[$question_number] ?>">
                 <input type="hidden" name="qn" value="<?= htmlspecialchars($question_number + 1); ?>">
                 <button class="next" type="submit">次の問題 →</button>
             </form>
         </div>
+
     </div>
+
     <script>
         const explanationPath = <?= json_encode(array_values($explanationPath)) ?>;
     </script>

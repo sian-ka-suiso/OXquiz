@@ -1,11 +1,55 @@
-/* ここまで共通　以下ページコンテンツ */
+/* =============================================
+   Question Page Styles
+   ============================================= */
+
+:root {
+    --primary:       #185FA5;
+    --primary-light: #E6F1FB;
+    --primary-mid:   #85B7EB;
+
+    --success:       #3a8a3a;
+    --success-light: #e8f7e8;
+    --success-mid:   #a8d8a8;
+
+    --danger:        #a33a3a;
+    --danger-light:  #fdecea;
+    --danger-mid:    #f5b8b8;
+
+    --card-radius:   12px;
+    --transition:    0.22s ease;
+}
+
+/* ---------- Main Layout ---------- */
 main {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 100%;
 }
 
+/* ---------- Section一覧に戻る ---------- */
+.back-to-section {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 13px;
+    color: var(--primary);
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: opacity var(--transition);
+    align-self: flex-start;
+    margin-bottom: 12px;
+}
+
+.back-to-section:hover {
+    opacity: 0.5;
+}
+
+/* ---------- Quiz Form ---------- */
 #quizForm {
     display: flex;
     flex-direction: column;
@@ -14,24 +58,48 @@ main {
     width: 100%;
 }
 
-.question-container{
+/* ---------- パンくず（問題内） ---------- */
+.question-breadcrumb {
+    width: 90%;
+    font-family: "Roboto", sans-serif;
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.question-breadcrumb .q-current {
+    /* color: #2a2a2a; */
+    color: #888;
+}
+
+/* ---------- Question Container ---------- */
+.question-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 90%;
+    background: #ffffff;
+    border: 1.5px solid #e8e8e8;
+    border-radius: var(--card-radius);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    margin-bottom: 16px;
 }
 
-.question-container h3{
-    color: rgb(71, 71, 71);
-    margin-bottom: 0;
-    margin-left: 0.9rem;
-}
-
+/* ---------- Question Image ---------- */
 .question-area {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
+    padding: 20px 20px 10px 20px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #ebebeb;
+    background-color: #fafafa;
 }
 
 .question-area img {
@@ -41,50 +109,52 @@ main {
     object-position: center;
 }
 
+/* ---------- Option Area ---------- */
 .option-area {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 12px;
     width: 100%;
+    padding: 16px 20px;
+    box-sizing: border-box;
 }
 
+/* ---------- Option Labels ---------- */
 .option-label {
     flex: 1;
+    min-width: 40%;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: white; /* デフォ背景（透過画像用） */
-    border: 3px solid transparent;
-    border-radius: 8px;
+    background-color: #ffffff;
+    border: 1.5px solid #e8e8e8;
+    border-radius: var(--card-radius);
     box-sizing: border-box;
-    transition: background-color 0.3s, border-color 0.2s;
-    cursor: default;
-    border: 1.5px solid rgb(240, 240, 240);
-    width: 45%;
+    transition: border-color var(--transition), background-color var(--transition), transform 0.1s ease;
+    cursor: pointer;
+}
+
+.option-label:hover {
+    border-color: var(--primary-mid);
+    background-color: var(--primary-light);
 }
 
 .option-selected {
     flex: 1;
+    min-width: 40%;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: white;
-    border: 3px solid transparent;
-    border-radius: 5px;
+    background-color: #ffffff;
+    border: 1.5px solid #e8e8e8;
+    border-radius: var(--card-radius);
     box-sizing: border-box;
-    transition: background-color 0.3s, border-color 0.2s;
-    border: 1.5px solid rgb(240, 240, 240);
-    width: 45%;
-}
-
-/* ラベルホバー時の枠線 */
-.option-label:hover {
-    border: 1.5px solid #3498db;
 }
 
 /* 選択肢画像 */
-.option-label img, .option-selected img {
+.option-label img,
+.option-selected img {
     width: 90%;
     max-height: 120px;
     padding: 10px 0;
@@ -92,130 +162,157 @@ main {
     object-fit: contain;
     object-position: center;
     pointer-events: none;
-    /* aspect-ratio: 16 / 9;  */
 }
 
-/* 正解を選択 */
+/* ---------- 回答後フィードバック ---------- */
 .correct-selected {
-    background-color: #e0ffe0 !important;
+    background-color: var(--success-light) !important;
+    border-color: var(--success-mid) !important;
 }
 
-/* 間違いを選択 */
 .incorrect-selected {
-    background-color: #f8d0d0 !important;
+    background-color: var(--danger-light) !important;
+    border-color: var(--danger-mid) !important;
 }
 
-/* 正解だが選ばれていない */
 .correct-unselected {
-    background-color: #e0ffe0 !important;
+    background-color: var(--success-light) !important;
+    border-color: var(--success-mid) !important;
 }
 
 .unselected {
-    background-color: white !important;
+    background-color: #ffffff !important;
 }
 
-/* 正解の場合 */
-.feedback.correct a {
-    color: #2ecc71; /* 緑系 */
-    font-size: 1.8rem;
-    font-weight: bold;
-    text-align: center;
-}
-
-/* 不正解の場合 */
-.feedback.incorrect a {
-    color: #e74c3c; /* 赤系 */
-    font-size: 1.8rem;
-    font-weight: bold;
-    text-align: center;
-}
-
+/* ---------- Feedback Banner ---------- */
 .feedback {
-        margin: 30px 0;
+    width: 90%;
+    border-radius: var(--card-radius);
+    padding: 14px 20px;
+    margin: 12px 0;
+    box-sizing: border-box;
 }
 
-.feedback.correct h2 {
-    color: #2ecc71;
+.feedback.correct {
+    background-color: var(--success-light);
+    border: 1.5px solid var(--success-mid);
 }
 
-.feedback.incorrect h2 {
-    color: #e74c3c;
+.feedback.incorrect {
+    background-color: var(--danger-light);
+    border: 1.5px solid var(--danger-mid);
 }
 
+.feedback h2 {
+    margin: 0;
+    font-size: 18px;
+    font-family: "Noto Sans JP", sans-serif;
+    font-weight: 600;
+}
+
+.feedback.correct h2 { color: var(--success); }
+.feedback.incorrect h2 { color: var(--danger); }
+
+/* ---------- 正解済みバッジ ---------- */
+.answered-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--success);
+    background-color: var(--success-light);
+    border: 1.5px solid var(--success-mid);
+    border-radius: 20px;
+    padding: 6px 16px;
+    margin: 8px 0 16px 0;
+    align-self: flex-start;
+    margin-left: 5%;
+}
+
+/* ---------- Explanation Container ---------- */
 .explanation-container {
     display: none;
 }
 
-.button-container {
-    display: flex;
-    gap: 5px;
-}
-
-.exp-btn {
-    padding: 2px 25px;
-    font-weight: bold;
-    background-color: white;
-    color: #419dff;
-    border-radius: 3px;
-    border: solid 1px #419dff;
-}
-
-.exp-btn.active {
-    background-color: #419dff;
-    color: white;
-}
-
-.exp-btn:hover {
-    background-color: #419dff;
-    color: white;
-}
-
-/* 画像サイズ調整 */
-#image-viewer {
-    width: 650px;
-    height: auto;
-    object-fit: contain;
-    transition: opacity 0.5s ease; /* フェードにかかる時間 */
-    opacity: 1;
-}
-
-#image-viewer.fade-out {
-  opacity: 0;
-}
-
-/* PHPから表示制御 */
 .explanation-container.show {
     display: flex;
-    width: 100%;
+    width: 90%;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border-top: 1px solid #3498db;
-    border-bottom: 1px solid #3498db;
-    padding: 15px 0;
+    background: #ffffff;
+    border: 1.5px solid #e8e8e8;
+    border-radius: var(--card-radius);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    box-sizing: border-box;
+    margin-bottom: 16px;
 }
 
 .exp_h3 {
     display: flex;
-    align-items: baseline;
-    margin-right: auto;
-    gap: 30px;
-    margin-bottom: 30px;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 16px;
+    gap: 16px;
 }
 
+.exp_h3 h3 {
+    color: #2a2a2a;
+    margin: 0;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+}
+
+/* ---------- 解説切り替えボタン ---------- */
+.button-container {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.exp-btn {
+    padding: 4px 18px;
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    background-color: #ffffff;
+    color: var(--primary);
+    border-radius: 20px;
+    border: 1.5px solid var(--primary-mid);
+    cursor: pointer;
+    transition: background-color var(--transition), color var(--transition);
+}
+
+.exp-btn:hover,
+.exp-btn.active {
+    background-color: var(--primary);
+    color: #ffffff;
+    border-color: var(--primary);
+}
+
+/* ---------- 解説画像 ---------- */
+#image-viewer {
+    width: 100%;
+    max-width: 650px;
+    height: auto;
+    object-fit: contain;
+    transition: opacity 0.3s ease;
+    opacity: 1;
+    border-radius: 8px;
+}
+
+#image-viewer.fade-out {
+    opacity: 0;
+}
+
+/* ---------- Math Nav ---------- */
 .math_nav-container {
     display: none;
-    margin-top: 15px;
-}
-
-.math_nav-container ul{
-    margin: 0;
-    padding: 0;
-    margin-left: 20px;
-}
-
-.math_nav-container li {
-    margin: 5px 0;
 }
 
 .math_nav-container.show {
@@ -223,38 +320,65 @@ main {
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    width: 100%;
+    width: 90%;
+    background: #ffffff;
+    border: 1.5px solid #e8e8e8;
+    border-radius: var(--card-radius);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    padding: 16px 20px;
+    box-sizing: border-box;
+    margin-bottom: 16px;
 }
 
-.question-nav-button{
+.math_nav-container h3 {
+    margin: 0 0 10px 0;
+    color: #2a2a2a;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+}
+
+.math_nav-container ul {
+    margin: 0;
+    padding: 0;
+    padding-left: 18px;
+}
+
+.math_nav-container li {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+/* ---------- 前後ナビゲーション ---------- */
+.question-nav-button {
     width: 90%;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin: 10px 0 40px 0;
 }
 
 .question-nav-button button {
-    padding: 15px;
-    background-color: white;
-    color: #555;
-    border: none;
-    font-size: 16px;
-    transition: all 0.2s;
-    margin: 30px 0;
+    padding: 10px 20px;
+    background-color: #ffffff;
+    color: #3a3a3a;
+    border: 1.5px solid #e8e8e8;
+    border-radius: var(--card-radius);
+    font-size: 14px;
+    font-family: "Noto Sans JP", sans-serif;
+    cursor: pointer;
+    transition: border-color var(--transition), color var(--transition), transform 0.15s ease;
 }
 
-.question-nav-button .back {
-    /* text-decoration: underline; */
-}
-
-.question-nav-button .back:hover {
-    transform: translateY(5px);
+.question-nav-button button:hover {
+    border-color: var(--primary-mid);
+    color: var(--primary);
 }
 
 .question-nav-button .next:hover {
-    transform: translateX(8px);
+    transform: translateX(4px);
 }
 
 .question-nav-button .prev:hover {
-    transform: translateX(-8px);
+    transform: translateX(-4px);
 }

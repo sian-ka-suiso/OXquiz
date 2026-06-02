@@ -68,8 +68,7 @@
         }
     }
 
-    if (!$is_guest) {
-        //ユーザー情報（ユーザー名、登録日、更新日、管理者フラグ）取得
+    if (!$is_guest){
         $userData = getUserInfo($user_id);
         if ($userData) {
             $user_name  = $userData['user_name'];
@@ -78,9 +77,14 @@
             $is_admin   = $userData['is_admin'];
         } else {
             // ユーザーが見つからなかった場合の予備処理
-            $user_name = "ユーザーネーム";
+            $user_name = "ログインユーザー";
             $is_admin = 0;
         }
+    } else {
+        $user_name  = "ゲストユーザー";
+        $created_at = 0;
+        $update_at  = 0;
+        $is_admin   = 0;
     }
 
 //**************************************************
