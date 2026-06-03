@@ -1,61 +1,123 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="../css/mypage.css">
+    <title>よくある間違い〇✕クイズ マイページ</title>
     <link rel="stylesheet" type="text/css" href="../css/common.css">
+    <link rel="stylesheet" type="text/css" href="../css/mypage.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=RocknRoll+One&family=WDXL+Lubrifont+JP+N&display=swap" rel="stylesheet">
-    <title>よくある間違い〇✕クイズ マイページ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=RocknRoll+One&display=swap"
+        rel="stylesheet">
 </head>
+
 <body>
+
+    <!-- ヘッダー（ロゴのみ） -->
     <header>
-        <a href="../ctrl/chapter.php" class="site-logo"><img src="../images/other/logo.png" alt="よくある間違い〇✕クイズ"></a>
+        <a href="../ctrl/chapter.php" class="site-logo">
+            <img src="../images/other/logo.png" alt="よくある間違い〇✕クイズ">
+        </a>
+        <nav>
+            <div class="breadcrumb">
+                <div class="location">Chapter</div>
+                <span>▸</span>
+                <div class="location">Section</div>
+                <span>▸</span>
+                <div class="location">Question</div>
+            </div>
+            <div class="links-area">
+                <span class="user-name">
+                    <a href="../ctrl/mypage.php" class="nav-link">
+                        <?= V2H($user_name); ?>
+                    </a> さん
+                </span>
+                <a href="https://w3e.kanazawa-it.ac.jp/math/" target="_blank" rel="noopener noreferrer"
+                    class="nav-link">KIT数学ナビゲーション</a>
+                <form action="../ctrl/" method="post" class="logoutBtn">
+                    <input type="hidden" name="sign_out" value="true">
+                    <button type="submit" class="nav-link">ログアウト</button>
+                </form>
+            </div>
+        </nav>
     </header>
-    <h2>マイページ</h2>
+
+    <!-- ページタイトル -->
+    <h2 class="page-title">マイページ</h2>
+
+    <!-- 更新メッセージ -->
     <?php if(isset($change_message)): ?>
-        <span class="update-message"><?= V2H($change_message);?></span>
+    <span class="update-message">
+        <?= V2H($change_message); ?>
+    </span>
     <?php endif; ?>
     <?php if(isset($reset_message)): ?>
-        <span class="update-message"><?= V2H($reset_message);?></span>
+    <span class="update-message">
+        <?= V2H($reset_message); ?>
+    </span>
     <?php endif; ?>
+
+    <!-- ユーザー情報カード -->
     <div class="user-info">
         <h3>ユーザー情報</h3>
+
+        <!-- ユーザー名 -->
         <div class="info-category">
             <div class="category-name">ユーザー名</div>
             <div class="update-area">
-                <span><?= V2H($user_name);?></span>
+                <span>
+                    <?= V2H($user_name); ?>
+                </span>
                 <form action="mypage.php" method="post">
-                    <input type="text" name="change_name" placeholder="変更名を入力">
+                    <input type="text" name="change_name" placeholder="新しいユーザー名">
                     <button type="submit">変更</button>
                 </form>
             </div>
         </div>
+
+        <!-- メールアドレス -->
         <div class="info-category">
             <div class="category-name">メールアドレス</div>
-            <span><?= V2H($email) ?></span>
+            <span>
+                <?= V2H($email); ?>
+            </span>
         </div>
+
+        <!-- パスワード -->
         <div class="info-category">
             <div class="category-name">パスワード</div>
             <div class="update-area">
-                <span>**********</span>
+                <span>••••••••••</span>
                 <form action="mypage.php" method="post">
-                    <input type="password" name="reset_pass" placeholder="新規パスワードを入力">
+                    <input type="password" name="reset_pass" placeholder="新しいパスワード">
                     <button type="submit">再設定</button>
                 </form>
             </div>
         </div>
+
+        <!-- 登録日 -->
         <div class="info-category">
             <div class="category-name">登録日</div>
-            <span><?= V2H($created_at); ?></span>
+            <span>
+                <?= V2H($created_at); ?>
+            </span>
         </div>
+
+        <!-- 最終更新日 -->
         <div class="info-category">
             <div class="category-name">最終更新日</div>
-            <span><?= V2H($update_at); ?></span>
+            <span>
+                <?= V2H($update_at); ?>
+            </span>
         </div>
+
     </div>
-    <a href="../ctrl/chapter.php" style="margin-top: 30px;">戻る</a>
+
+    <!-- 戻るリンク -->
+    <a href="../ctrl/chapter.php" class="back-link">Chapter一覧に戻る</a>
+
 </body>
+
 </html>

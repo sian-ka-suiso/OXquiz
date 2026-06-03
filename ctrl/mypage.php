@@ -14,7 +14,7 @@
 // 変数取得
 //**************************************************
     $is_login = isset($_SESSION['is_login']) ? $_SESSION['is_login'] : "";
-    $id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : "";
+    $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : "";
     $email = isset($_SESSION['email']) ? $_SESSION['email'] : "";
     $pre_page_link = isset($_POST['pre_page_link']) ? $_POST['pre_page_link'] : "";
 //**************************************************
@@ -26,14 +26,14 @@
 // ユーザー名変更
 //**************************************************
     if($change_name !== "") { 
-        ChangeUserName($id, $change_name);
+        ChangeUserName($user_id, $change_name);
         $change_message = "ユーザー名を更新しました。";
     }
 //**************************************************
 // パスワード再設定
 //**************************************************
     if($reset_pass !== "") { 
-        ResetLoginPass($id, $reset_pass);
+        ResetLoginPass($user_id, $reset_pass);
         $reset_message = "パスワードを更新しました。";
     }
 //**************************************************
@@ -47,7 +47,7 @@
 //**************************************************
 // 変数取得（更新後反映させるため、最後に取得）
 //**************************************************
-    $userData = getUserInfo($id);
+    $userData = getUserInfo($user_id);
     if ($userData) {
         $user_name  = $userData['user_name'];
         $created_at = $userData['created_at'];

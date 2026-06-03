@@ -1,46 +1,188 @@
+/* =============================================
+   Mypage Styles
+   ============================================= */
+
+:root {
+    --primary:       #185FA5;
+    --primary-light: #E6F1FB;
+    --primary-mid:   #85B7EB;
+
+    --success:       #3a8a3a;
+    --success-light: #e8f7e8;
+    --success-mid:   #a8d8a8;
+
+    --danger:        #a33a3a;
+    --danger-light:  #fdecea;
+    --danger-mid:    #f5b8b8;
+
+    --card-radius:   12px;
+    --transition:    0.22s ease;
+}
+
+/* ---------- Body ---------- */
 body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
+    background-color: #f4f4f1;
+    min-height: 100vh;
+    margin: 0;
+    padding-bottom: 30px;
 }
 
-h2 {
-    margin-top: 100px;
+/* ---------- Page Title ---------- */
+.page-title {
+    margin-top: 7.5rem;
+    margin-bottom: 12px;
+    font-size: 22px;
+    font-family: "Noto Sans JP", sans-serif;
+    font-weight: 600;
+    color: #2a2a2a;
+    align-self: center;
 }
 
-span {
-    font-size: 16px;
-}
-
+/* ---------- Update Message ---------- */
 .update-message {
-    color: red;
+    font-size: 13px;
+    font-family: "Noto Sans JP", sans-serif;
+    padding: 8px 14px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    width: min(90%, 620px);
+    box-sizing: border-box;
+    background-color: var(--success-light);
+    color: var(--success);
+    border: 1px solid var(--success-mid);
 }
 
+/* ---------- User Info Card ---------- */
 .user-info {
     display: flex;
     flex-direction: column;
-    width: 80%;
-    gap: 10px;
+    width: min(90%, 620px);
+    gap: 0;
+    background-color: #ffffff;
+    border: 1.5px solid #e8e8e8;
+    border-radius: var(--card-radius);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
 }
 
+.user-info > h3 {
+    margin: 0;
+    padding: 13px 20px;
+    font-size: 14px;
+    font-family: "Noto Sans JP", sans-serif;
+    font-weight: 500;
+    color: white;
+    /* color: #2a2a2a; */
+    background-color: var(--primary);
+    /* background-image: linear-gradient(90deg, var(--primary), var(--primary-mid)); */
+    /* background-color: #fafafa; */
+    border-bottom: 1px solid #ebebeb;
+}
+
+/* ---------- Info Category ---------- */
 .info-category {
-    border-radius: 5px;
-    background-color: rgb(250, 250, 250);
-    padding: 10px 20px 10px 20px;
+    padding: 16px 20px;
+    border-bottom: 1px solid #ebebeb;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.info-category:last-child {
+    border-bottom: none;
 }
 
 .category-name {
-    font-size: 18px;
-    font-weight: bold;
+    font-size: 11px;
+    font-family: "Noto Sans JP", sans-serif;
+    font-weight: 600;
+    color: #888;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
 }
 
+.info-category > span {
+    font-size: 15px;
+    font-family: "Noto Sans JP", sans-serif;
+    color: #2a2a2a;
+}
+
+/* ---------- Update Area ---------- */
 .update-area {
     display: flex;
+    align-items: center;
     justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.update-area > span {
+    font-size: 15px;
+    font-family: "Noto Sans JP", sans-serif;
+    color: #2a2a2a;
+}
+
+.update-area form {
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .update-area input {
-    width: 250px;
-    padding: 2px 2px 2px 2px;
+    width: 200px;
+    padding: 7px 12px;
+    font-size: 13px;
+    font-family: "Noto Sans JP", sans-serif;
+    border: 1.5px solid #e8e8e8;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color var(--transition);
+    box-sizing: border-box;
+}
+
+.update-area input:focus {
+    border-color: var(--primary-mid);
+}
+
+.update-area input::placeholder {
+    color: #bbb;
+}
+
+.update-area button {
+    padding: 7px 16px;
+    font-size: 13px;
+    font-family: "Noto Sans JP", sans-serif;
+    font-weight: 500;
+    color: var(--primary);
+    background-color: var(--primary-light);
+    border: 1.5px solid var(--primary-mid);
+    border-radius: 8px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color var(--transition), color var(--transition);
+}
+
+.update-area button:hover {
+    background-color: var(--primary);
+    color: #ffffff;
+    border-color: var(--primary);
+}
+
+/* ---------- Back Link ---------- */
+.back-link {
+    margin-top: 20px;
+    font-size: 13px;
+    font-family: "Noto Sans JP", sans-serif;
+    color: var(--primary);
+    text-decoration: none;
+    opacity: 0.85;
+    transition: opacity var(--transition);
+    align-items: center;
+}
+
+.back-link:hover {
+    opacity: 0.5;
 }
