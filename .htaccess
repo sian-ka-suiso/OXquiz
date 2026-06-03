@@ -1,2 +1,3 @@
-AddHandler application/x-httpd-php8 .php
-SetHandler "proxy:unix:/usr/local/php8/php-fpm.sock|fcgi://localhost/"
+# ローカル(XAMPP)ではエラーになるためコメントアウト
+# AddHandler application/x-httpd-php8 .php
+# SetHandler "proxy:unix:/usr/local/php8/php-fpm.sock|fcgi://localhost/"
