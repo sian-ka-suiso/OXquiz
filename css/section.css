@@ -1,54 +1,216 @@
+/* =============================================
+   Section Page Styles
+   ============================================= */
+
+/* ---------- CSS Variables (chapter.cssと統一) ---------- */
+:root {
+    --primary:       #185FA5;
+    --primary-light: #E6F1FB;
+    --primary-mid:   #85B7EB;
+
+    --success:       #3a8a3a;
+    --success-light: #e8f7e8;
+    --success-mid:   #a8d8a8;
+
+    --warning:       #9a6800;
+    --warning-light: #fff8e1;
+    --warning-mid:   #ffd54f;
+
+    --neutral:       #888;
+    --neutral-light: #f0f0f0;
+    --neutral-mid:   #c8c8c8;
+
+    --card-radius:   12px;
+    --transition:    0.22s ease;
+}
+
+/* ---------- Section Container ---------- */
 .section-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     width: 100%;
+    gap: 14px;
+    padding-bottom: 40px;
 }
 
-.section-name {
-    margin-left: 25px;
-    color: #4a4a4a;
-    font-size: 20px;
-    margin-top: 25px;
-    margin-bottom: 20px;
-    font-family: "RocknRoll One";
+/* ---------- Chapter進捗バーエリア ---------- */
+.chapter-progress-area {
+    width: 100%;
+    background-color: #ffffff;
+    /* border: 1.5px solid #e8e8e8; */
+    /* border-radius: var(--card-radius); */
+    /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); */
+    padding: 14px 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
+.chapter-progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    font-family: "Noto Sans JP", sans-serif;
+}
+
+.chapter-progress-label {
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+.chapter-progress-label.progress-none    { background-color: var(--neutral-light); color: var(--neutral); }
+.chapter-progress-label.progress-ongoing { background-color: var(--warning-light); color: var(--warning); }
+.chapter-progress-label.progress-done    { background-color: var(--success-light); color: var(--success); }
+
+.chapter-progress-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.chapter-progress-bar-wrap {
+    flex: 1;
+    background-color: #e8e8e8;
+    border-radius: 4px;
+    height: 5px;
+    overflow: hidden;
+}
+
+.chapter-progress-bar-fill {
+    height: 5px;
+    border-radius: 4px;
+    transition: width 0.4s ease;
+}
+
+.chapter-progress-bar-fill.progress-none    { background-color: var(--neutral-mid); }
+.chapter-progress-bar-fill.progress-ongoing { background-color: var(--warning-mid); }
+.chapter-progress-bar-fill.progress-done    { background-color: var(--success-mid); }
+
+.chapter-progress-percent {
+    font-size: 12px;
+    font-weight: 600;
+    font-family: "Noto Sans JP", sans-serif;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.chapter-progress-percent.progress-none    { color: var(--neutral); }
+.chapter-progress-percent.progress-ongoing { color: var(--warning); }
+.chapter-progress-percent.progress-done    { color: var(--success); }
+
+/* ---------- Chapterに戻るボタン ---------- */
+.back-to-chapter {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 13px;
+    color: var(--primary);
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    opacity: 0.85;
+    transition: opacity var(--transition);
+    align-self: flex-start;
+}
+
+.back-to-chapter:hover {
+    opacity: 0.5;
+}
+
+.back-arrow {
+    font-size: 16px;
+    line-height: 1;
+}
+
+/* ---------- Section Item ---------- */
 .section-item {
-    width: 97%;
-    background-color: rgb(255, 255, 255);
-    border-radius: 5px;
-    margin-bottom: 18px;
-    padding-bottom: 20px;
-    box-shadow: 0 2px 4px rgba(20, 20, 20, 0.3);
+    width: 100%;
+    background-color: #ffffff;
+    border: 1.5px solid #e8e8e8;
+    border-radius: var(--card-radius);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    transition: border-color var(--transition), box-shadow var(--transition);
 }
 
+/* ---------- Section Name ---------- */
+.section-name {
+    margin: 0;
+    padding: 13px 18px;
+    color: #2a2a2a;
+    font-size: 15px;
+    font-family: "Noto Sans JP", sans-serif;
+    font-weight: 400;
+    border-bottom: 1px solid #ebebeb;
+    background-color: #fafafa;
+}
+
+/* ---------- Question Button Container ---------- */
 .question-button-container {
     display: flex;
     flex-direction: row;
-    width: 100%;
-    margin-left: 15px;
-    gap: 5px;
     flex-wrap: wrap;
+    gap: 12px;
+    padding: 24px 16px;
+}
+
+/* ---------- Question Buttons ---------- */
+.question-button-container form {
+    display: inline;
+    margin: 0;
+    padding: 0;
 }
 
 .section-item button {
-    width: 4.5rem;
-    height: 4.5rem;
+    width: 3.2rem;
+    height: 3.2rem;
+    padding: 2px 0;
     text-align: center;
-    letter-spacing: 2px;
-    background-color: rgb(255, 255, 255);
-    font-size: 14px;
-    color: rgb(65, 65, 65);
-    border: 1.5px solid rgb(240, 240, 240);
-    border-radius: 5px;
-    transition: all 0.1s ease-in-out
+    background: transparent;
+    border: none;
+    /* border: 2px solid #e8e8e8; */
+    border: 2px solid transparent;
+    border-radius: 30px;
+    font-size: 18px;
+    font-family: "Roboto", sans-serif;
+    font-style: italic;
+    cursor: pointer;
+}
+.section-item button:hover {
+    border-color: var(--primary);
+    background: transparent;
+    transform: none;
 }
 
-.section-item button:hover {
-    border: 1.5px solid #419dff;
-    /* background-color: #f7f7f7; */
-    /* font-size: 20px; */
-    /* scale: 1.1; */
+/* 正解済み */
+.section-item button.done {
+    background-color: var(--success-light);
+    /* border-color: var(--success-mid); */
+    color: var(--success);
+}
+
+.section-item button.done:hover {
+    background-color: #d4f0d4;
+    border-color: var(--success);
+}
+
+/* 誤答 */
+.section-item button.wrong {
+    background-color: #fdecea;
+    /* border-color: #f5b8b8; */
+    color: #a33a3a;
+}
+
+.section-item button.wrong:hover {
+    background-color: #fad5d5;
+    border-color: #a33a3a;
 }

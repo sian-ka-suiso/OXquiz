@@ -17,7 +17,7 @@
     //ログインチェックフラグ
     $is_login = isset($_SESSION['is_login']) ? $_SESSION['is_login'] : "";
     //Id
-    $id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : "";
+    $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : "";
     //メールアドレス
     $email = isset($_SESSION['email']) ? $_SESSION['email'] : "";
     //ゲスト
@@ -58,20 +58,35 @@
             $feedback = "✕ 不正解...解説は下へ";
         }
         $show_explanation = true;
+
+        $is_correct = ($selected_option === (int)$questions["correct_answer"]);
+        $q_id = (int)$_POST['question_id'];
+        
+        if (!$is_guest) {
+            updateQuestionStatus($user_id, $q_id, $is_correct);
+            insertFirstAnswer($user_id, $q_id, $is_correct);
+        }
     }
 
-    //ユーザー情報（ユーザー名、登録日、更新日、管理者フラグ）取得
-    $userData = getUserInfo($id);
-    if ($userData) {
-        $user_name  = $userData['user_name'];
-        $created_at = $userData['created_at'];
-        $update_at  = $userData['update_at'];
-        $is_admin   = $userData['is_admin'];
+    if (!$is_guest){
+        $userData = getUserInfo($user_id);
+        if ($userData) {
+            $user_name  = $userData['user_name'];
+            $created_at = $userData['created_at'];
+            $update_at  = $userData['update_at'];
+            $is_admin   = $userData['is_admin'];
+        } else {
+            // ユーザーが見つからなかった場合の予備処理
+            $user_name = "ログインユーザー";
+            $is_admin = 0;
+        }
     } else {
-        // ユーザーが見つからなかった場合の予備処理
-        $user_name = "ゲスト";
-        $is_admin = 0;
+        $user_name  = "ゲストユーザー";
+        $created_at = 0;
+        $update_at  = 0;
+        $is_admin   = 0;
     }
+
 //**************************************************
 // ファイルパスを生成
 //**************************************************
@@ -101,8 +116,8 @@
         // 回答送信後：送られてきた順番（カンマ区切りの文字列）を配列に戻す
         $order = explode(',', $_POST['option_order']);
         $shuffledOptions = [];
-        foreach ($order as $id) {
-            $shuffledOptions[] = $options[$id];
+        foreach ($order as $user_id) {
+            $shuffledOptions[] = $options[$user_id];
         }
     } else {
         // 初回表示時：シャッフルして順番を確定させる

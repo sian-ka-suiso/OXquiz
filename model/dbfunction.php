@@ -408,6 +408,46 @@ function getChaptersWithSections()
     return $array_result;
 }
 
+//**************************************************
+// チャプターごとの進捗状況取得
+//**************************************************
+function getChapterProgressList(int $user_id)
+{
+    $result = array();
+    if (empty($user_id)) {
+        return $result;
+    }
+
+    $pdo = db_connect();
+    try {
+        $sSql  = "SELECT c.id AS chapter_id, ";
+        $sSql .= "COUNT(q.id) AS total, ";
+        $sSql .= "SUM(CASE WHEN uqs.status = 'correct' THEN 1 ELSE 0 END) AS correct_count ";
+        $sSql .= "FROM chapter_table c ";
+        $sSql .= "JOIN section_table s ON s.chapter_id = c.id ";
+        $sSql .= "JOIN question_table q ON q.section_id = s.id ";
+        $sSql .= "LEFT JOIN user_question_status uqs ";
+        $sSql .= "  ON uqs.question_id = q.id AND uqs.user_id = :user_id ";
+        $sSql .= "GROUP BY c.id";
+
+        $stmh = $pdo->prepare($sSql);
+        $stmh->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+        $stmh->execute();
+
+        // chapter_id をキーにした連想配列で返す
+        foreach ($stmh->fetchAll(PDO::FETCH_ASSOC) as $row) {
+            $result[$row['chapter_id']] = [
+                'total'         => (int)$row['total'],
+                'correct_count' => (int)$row['correct_count'],
+            ];
+        }
+
+    } catch (PDOException $Exception) {
+        die('実行エラー :' . $Exception->getMessage() . "<br/>");
+    }
+
+    return $result;
+}
 
 ####################################################################################
 ### セクション関連
@@ -511,8 +551,43 @@ function getSectionsWithQuestions(int $chapter_id)
     return $array_result;
 }
 
+//**************************************************
+// 回答状況(done/wrong)を取得
+//**************************************************
+function getQuestionStatuses(int $user_id, array $question_ids)
+{
+    $result = array();
+    if (empty($user_id) || empty($question_ids)) {
+        return $result;
+    }
+
+    $pdo = db_connect();
+    try {
+        // IN句のプレースホルダーを動的に生成
+        $placeholders = implode(',', array_fill(0, count($question_ids), '?'));
+        $sSql  = "SELECT question_id, status ";
+        $sSql .= "FROM user_question_status ";
+        $sSql .= "WHERE user_id = ? ";
+        $sSql .= "AND question_id IN ($placeholders)";
+
+        $stmh = $pdo->prepare($sSql);
+        // 第一引数にuser_id、残りにquestion_idsを展開して渡す
+        $stmh->execute(array_merge([$user_id], $question_ids));
+
+        // question_id をキーにした連想配列で返す
+        foreach ($stmh->fetchAll(PDO::FETCH_ASSOC) as $row) {
+            $result[$row['question_id']] = $row['status'];
+        }
+
+    } catch (PDOException $Exception) {
+        die('実行エラー :' . $Exception->getMessage() . "<br/>");
+    }
+
+    return $result;
+}
+
 ####################################################################################
-### 問題
+### クエスチョン関係
 ####################################################################################
 //**********************************************************************************
 // 選択肢数、正答の情報を取得
@@ -620,6 +695,50 @@ function getExplanationIds(int $question_id)
     }
 
     return $array_result;
+}
+
+//********************************************************************************************
+// 回答結果を記録
+//********************************************************************************************
+function updateQuestionStatus(int $user_id, int $question_id, bool $is_correct)
+{
+    $status = $is_correct ? 'correct' : 'wrong';
+    $pdo = db_connect();
+    try {
+        $sSql  = "INSERT INTO user_question_status (user_id, question_id, status, attempt_count, last_answered_at) ";
+        $sSql .= "VALUES (:user_id, :question_id, :status, 1, NOW()) ";
+        $sSql .= "ON DUPLICATE KEY UPDATE ";
+        $sSql .= "status = VALUES(status), ";
+        $sSql .= "attempt_count = attempt_count + 1, ";
+        $sSql .= "last_answered_at = NOW()";
+
+        $stmh = $pdo->prepare($sSql);
+        $stmh->bindValue(':user_id',     $user_id,     PDO::PARAM_INT);
+        $stmh->bindValue(':question_id', $question_id, PDO::PARAM_INT);
+        $stmh->bindValue(':status',      $status,      PDO::PARAM_STR);
+        $stmh->execute();
+
+    } catch (PDOException $Exception) {
+        die('実行エラー :' . $Exception->getMessage() . "<br/>");
+    }
+}
+
+function insertFirstAnswer(int $user_id, int $question_id, bool $is_correct)
+{
+    $pdo = db_connect();
+    try {
+        $sSql  = "INSERT IGNORE INTO first_answers (user_id, question_id, is_correct, answered_at) ";
+        $sSql .= "VALUES (:user_id, :question_id, :is_correct, NOW())";
+
+        $stmh = $pdo->prepare($sSql);
+        $stmh->bindValue(':user_id',     $user_id,        PDO::PARAM_INT);
+        $stmh->bindValue(':question_id', $question_id,    PDO::PARAM_INT);
+        $stmh->bindValue(':is_correct',  (int)$is_correct, PDO::PARAM_INT);
+        $stmh->execute();
+
+    } catch (PDOException $Exception) {
+        die('実行エラー :' . $Exception->getMessage() . "<br/>");
+    }
 }
 
 ####################################################################################

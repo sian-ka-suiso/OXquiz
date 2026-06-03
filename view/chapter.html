@@ -4,108 +4,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>よくある間違いOXクイズ Chapter Page</title>
     <link rel="stylesheet" type="text/css" href="../css/common.css">
     <link rel="stylesheet" type="text/css" href="../css/chapter.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=RocknRoll+One&family=WDXL+Lubrifont+JP+N&display=swap" rel="stylesheet">
-    <title>よくある間違いOXクイズ Chapter Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
+
 <body>
-    <!-- トップコンテナ -->
     <div class="top-container">
+
         <!-- ヘッダー -->
         <header>
-            <!-- サイトロゴ -->
-            <a href="../ctrl/chapter.php" class="site-logo"><img src="../images/other/logo.png" alt="よくある間違い〇✕クイズ"></a>
+            <a href="../ctrl/chapter.php" class="site-logo">
+                <img src="../images/other/logo.png" alt="よくある間違い〇✕クイズ">
+            </a>
             <nav>
-                <!-- パンくずリスト -->
                 <div class="breadcrumb">
-                    <button class="current-location underline font-Noto" onclick="location.reload()">Chapter</button>
+                    <button class="current-location font-Noto" onclick="location.reload()">Chapter</button>
                     <span>▸</span>
-                    <div class="location ">Section</div>
+                    <div class="location">Section</div>
                     <span>▸</span>
-                    <div class="location ">Question</div>
+                    <div class="location">Question</div>
                 </div>
-                <!-- 外部リンク -->
                 <div class="links-area">
-                    <?php if ($is_guest) { ?>
-                    <span class="user-name">ゲスト さん</span>
-                    <?php } else { ?>
                     <span class="user-name">
-                        <a href="../ctrl/mypage.php"><?= htmlspecialchars($user_name);?> さん</a>
+                        <?php if ($is_guest): ?>
+                            <?= V2H($user_name) ?> さん
+                        <?php else: ?>
+                            <a href="../ctrl/mypage.php" class="nav-link"><?= V2H($user_name); ?></a> さん
+                        <?php endif; ?>
                     </span>
-                    <?php } ?>
-                    <a href="https://w3e.kanazawa-it.ac.jp/math/" target="_blank" rel="noopener noreferrer">KIT数学ナビゲーション</a>
-                    <form action="../ctrl/" method="post" class="logoutBtn">
+                    <a href="https://w3e.kanazawa-it.ac.jp/math/" target="_blank" rel="noopener noreferrer" class="nav-link">KIT数学ナビゲーション</a>
+                        <form action="../ctrl/" method="post" class="logoutBtn">
                         <input type="hidden" name="sign_out" value="true">
-                        <button type="submit">ログアウト</button>
+                        <button type="submit" class="nav-link">ログアウト</button>
                     </form>
                 </div>
             </nav>
         </header>
-        <div class="guid-text">
-            単元を選択してください.
-        </div>
-        <!-- チャプター要素 -->
-        <div class="chapter-container">  
 
-            <!-- <?php if($_SESSION['guest'] != true){ ?>
-            <div class="chapter-card" style="background-color: rgb(236, 236, 255);">
-                <button type="submit">
-                    <div class="chapter-name-container">
-                        <span>マイページ</span>
-                    </div>
-                    <div class="section-name-container font-Noto">
-                        <span>1. ユーザー名の変更</span>
-                        <span>2. 成績・進捗の確認</span>
-                        <span>3. 保存した問題の確認</span>
-                    </div>
-                </button>
-            </div>
-            <?php } ?> -->
+        <div class="guid-text">単元を選択してください.</div>
 
+        <!-- チャプター一覧（Grid） -->
+        <div class="chapter-container">
             <?php $chapter_index = 1; ?>
             <?php foreach ($chapters as $chapter): ?>
             <?php if ($chapter['chapter_published'] || $is_admin): ?>
-            <?php $chapter_id = $chapter['id']; ?>
             <?php
+                $chapter_id   = $chapter['id'];
                 $chapter_name = $chapter['chapter_name'];
-                $text_class = (mb_strlen($chapter_name) > 5) ? 'small-text' : ''; 
+                $section_names = $chapter['sections'];
+
+                // 進捗計算
+                $progress     = $chapter_progress[$chapter_id] ?? ['total' => 0, 'correct_count' => 0];
+                $total        = $progress['total'];
+                $correct      = $progress['correct_count'];
+                $percent = ($total > 0) ? (int)round($correct / $total * 100) : 0;
+
+                if ($percent === 100) {
+                    $progress_label = $correct . ' / ' . $total . '　完了！';
+                    $progress_class = 'progress-done';
+                } elseif ($correct === 0) {
+                    $progress_label = '未着手';
+                    $progress_class = 'progress-none';
+                } else {
+                    $progress_label = $correct . ' / ' . $total . '　進行中';
+                    $progress_class = 'progress-ongoing';
+                }
             ?>
-            <?php $section_names = $chapter['sections']; ?>
             <form action="section.php" method="get" class="chapter-card">
-                <input type="hidden" name="chapter_id" value="<?= htmlspecialchars($chapter_id); ?>">
+                <input type="hidden" name="chapter_id" value="<?= V2H($chapter_id); ?>">
                 <button type="submit">
-                    <div class="chapter-name-container <?= V2H($text_class) ?>">
-                        <span><?= htmlspecialchars($chapter_name); ?></span>
+
+                    <!-- Chapter番号バッジ -->
+                    <div class="chapter-number-badge">
+                        Chapter <?= $chapter_index ?>
                     </div>
-                    <!-- セクション名リスト -->
+
+                    <!-- 章名 -->
+                    <div class="chapter-name-container">
+                        <span><?= V2H($chapter_name); ?></span>
+                    </div>
+
+                    <!-- セクション名リスト + 進捗 -->
                     <div class="section-name-container">
                         <?php $section_index = 1; ?>
                         <?php foreach ($section_names as $section): ?>
-                        <?php if ($section['section_published']): ?>
-                            <span class="font-Noto"><?= htmlspecialchars($section_index) ?>. <?= htmlspecialchars($section['name']); ?></span>
-                        <?php endif; ?>
-                        <?php $section_index++; ?>
+                            <?php if ($section['section_published'] || $is_admin): ?>
+                                <span class="font-Noto"><?= V2H($section_index) ?>. <?= V2H($section['name']); ?></span>
+                            <?php endif; ?>
+                            <?php $section_index++; ?>
                         <?php endforeach; ?>
+                        <div class="progress-area">
+                            <!-- 進捗ラベル -->
+                            <div class="chapter-progress <?= $progress_class ?>">
+                                <?= $progress_label ?>
+                            </div>
+                            <!-- プログレスバー + パーセント -->
+                            <div class="progress-bar-row">
+                                <div class="progress-bar-wrap">
+                                    <div class="progress-bar-fill <?= $progress_class ?>" style="width: <?= $percent ?>%;"></div>
+                                </div>
+                                <span class="progress-percent"><?= $percent ?>%</span>
+                            </div>
+                        </div>
                     </div>
+                    
                 </button>
             </form>
             <?php $chapter_index++; ?>
-            <?php $section_index = 1; ?>
             <?php endif; ?>
             <?php endforeach; ?>
-            
-            <!-- 空のボックス -->
-            <?php
-            for($i=0;$i<=10;$i++){
-            echo '<div class="adapt-box"></div>';}
-            ?>
+
         </div>
+
     </div>
     <script src="../js/chapter.js"></script>
 </body>

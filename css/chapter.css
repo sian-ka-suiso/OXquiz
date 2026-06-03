@@ -1,79 +1,211 @@
-.chapter-container {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 30px 10px;
+/* =============================================
+   Chapter Page Styles
+   ============================================= */
+
+/* ---------- CSS Variables ---------- */
+:root {
+    --primary:        #185FA5;
+    --primary-light:  #E6F1FB;
+    --primary-mid:    #85B7EB;
+
+    --success:        #3a8a3a;
+    --success-light:  #e8f7e8;
+    --success-mid:    #a8d8a8;
+
+    --warning:        #9a6800;
+    --warning-light:  #fff8e1;
+    --warning-mid:    #ffd54f;
+
+    --neutral:        #888;
+    --neutral-light:  #f0f0f0;
+    --neutral-mid:    #c8c8c8;
+
+    --card-radius:    8px;
+    --transition:     0.22s ease;
 }
 
-.chapter-card{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 14.5rem;
-    padding: 0 5px;
-    background-color: rgb(255, 255, 255);
-    box-shadow: 0 2px 4px rgba(20, 20, 20, 0.3);
-    border-radius: 5px;
-    border: 1.5px solid rgba(72, 96, 255, 0);
-    transition: all 0.25s ease-in-out;
+/* ---------- Chapter Container (Grid) ---------- */
+.chapter-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 18px;
+    width: 100%;
+    padding-bottom: 40px;
+}
+
+/* ---------- Chapter Card ---------- */
+.chapter-card {
+    display: block;
+    background-color: #ffffff;
+    border-radius: var(--card-radius);
+    border: 1.5px solid #e8e8e8;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    padding: 0;
+    transition: border-color var(--transition), box-shadow var(--transition), transform var(--transition);
+    cursor: pointer;
+    overflow: hidden;
 }
 
 .chapter-card:hover {
-    border: 1.5px solid #419dff;
+    border-color: var(--primary-mid);
+    box-shadow: 0 6px 20px rgba(24, 95, 165, 0.12);
+    transform: translateY(-2px);
 }
 
-.adapt-box{
-    visibility: hidden;
-    background-color: rgb(255, 0, 0);
-    height: 1px;
-    width: 14.5rem;
-    padding: 0 5px;
-    border: 1.25px solid transparent;
-}
-
-.chapter-card button{
+.chapter-card button {
     width: 100%;
+    height: 100%;
     padding: 0;
     border: none;
-    background-color: rgba(255, 255, 255, 0);
-    font-family: "RocknRoll One";
-    font-size: 30px;
-    text-align: center;
-    text-decoration: none;
-    color: #4a4a4a;
-    transition: all 0.25s ease-in-out;
+    background-color: transparent;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
 }
 
-.chapter-name-container {
-    padding: 50px 0;
-    letter-spacing: 2px;
-    /* font-family: "Noto Sans JP", sans-serif;
-    font-weight: 600; */
+/* ---------- Chapter Number Badge ---------- */
+.chapter-number-badge {
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--primary-light);
+    background-color: #3b9aff;
+    padding: 5px 12px;
+    border-bottom: 1px solid #ddeeff;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* ---------- Chapter Name Area ---------- */
+.chapter-name-container {    
+    padding: 16px 24px 16px 16px;
+    letter-spacing: 1.5px;
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: #2a2a2a;
+    line-height: 1.3;
+    flex-shrink: 0;
 }
 
 .chapter-name-container span {
-    display: inline-block;
-    line-height: 50px;
-    height: 50px;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .small-text {
-    font-size: 24px;
+    font-size: 18px;
+    letter-spacing: 0.5px;
 }
 
+/* ---------- Section Name List ---------- */
 .section-name-container {
     width: 100%;
-    border-top: 1px solid #cbcbcb;
+    border-top: 1px solid #ebebeb;
     display: flex;
     flex-direction: column;
-    align-items: start;
-    padding: 10px 0;
+    align-items: flex-start;
+    padding: 8px 16px 8px 16px;
+    box-sizing: border-box;
+    flex-grow: 1;
+    gap: 2px;
 }
 
-.section-name-container span {
-    font-size: 12px;
-    padding: 0 5px;
-    color: #4d4d4d; /* テキストの色 */
-    word-wrap: break-word; /* 長い単語が折り返されるようにする */
-    overflow-wrap: break-word; /* 長い単語が折り返されるようにする */
+.section-name-container > span {
+    font-size: 11.5px;
+    color: #5a5a5a;
+    word-break: break-all;
+    line-height: 1.6;
+    padding: 0 2px;
+}
+
+/* ---------- Progress Label ---------- */
+.progress-area {
+    width: 100%;
+    margin-top: auto;
+}
+
+.progress-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 7px;
+    width: 100%;
+}
+
+.chapter-progress {
+    font-size: 11px;
+    font-weight: 600;
+    font-family: "Noto Sans JP", sans-serif;
+    margin-top: 10px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    display: inline-block;
+    letter-spacing: 0.02em;
+}
+
+.progress-none {
+    background-color: var(--neutral-light);
+    color: var(--neutral);
+}
+
+.progress-ongoing {
+    background-color: var(--warning-light);
+    color: var(--warning);
+}
+
+.progress-done {
+    background-color: var(--success-light);
+    color: var(--success);
+}
+
+/* ---------- Progress Bar ---------- */
+.progress-bar-wrap {
+    flex: 1;
+    background-color: #e8e8e8;
+    border-radius: 4px;
+    height: 5px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 5px;
+    border-radius: 4px;
+    transition: width 0.4s ease;
+}
+
+.progress-bar-fill.progress-none {
+    background-color: var(--neutral-mid);
+    width: 0%;
+}
+
+.progress-bar-fill.progress-ongoing {
+    background-color: var(--warning-mid);
+}
+
+.progress-bar-fill.progress-done {
+    background-color: var(--success-mid);
+}
+
+.progress-percent {
+    font-size: 11px;
+    font-weight: 600;
+    font-family: "Noto Sans JP", sans-serif;
+    white-space: nowrap;
+    flex-shrink: 0;
+    color: var(--neutral);
+}
+
+/* ---------- Font Utilities ---------- */
+.font-Noto {
+    font-family: "Noto Sans JP", sans-serif;
+}
+
+.font-Rock {
+    font-family: "RocknRoll One", sans-serif;
+    color: #333;
 }

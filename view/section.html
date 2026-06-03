@@ -4,82 +4,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
-        <?= isset($chapter_number) ? "Chapter $chapter_number - セクション一覧" : "Chapter"; ?>
-    </title>
+    <title><?= isset($chapter_number) ? "Chapter $chapter_number - セクション一覧" : "Chapter"; ?></title>
     <link rel="stylesheet" type="text/css" href="../css/common.css">
     <link rel="stylesheet" type="text/css" href="../css/section.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=RocknRoll+One&family=WDXL+Lubrifont+JP+N&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 
 <body>
     <div class="top-container">
+
         <!-- ヘッダー -->
         <header>
-            <!-- サイトロゴ -->
-            <a href="../ctrl/chapter.php" class="site-logo"><img src="../images/other/logo.png" alt="よくある間違い〇✕クイズ"></a>
+            <a href="../ctrl/chapter.php" class="site-logo">
+                <img src="../images/other/logo.png" alt="よくある間違い〇✕クイズ">
+            </a>
             <nav>
-                <!-- パンくずリスト -->
                 <div class="breadcrumb">
-                    <button class="current-location font-Noto" onclick="location.href='../ctrl/chapter.php'">Chapter</button>
+                    <button class="visited-location font-Noto" onclick="location.href='../ctrl/chapter.php'">Chapter</button>
                     <span>▸</span>
-                    <button class="current-location underline font-Noto" onclick="location.reload()">Section</button>
+                    <button class="current-location font-Noto" onclick="location.reload()">Section</button>
                     <span>▸</span>
                     <div class="location">Question</div>
                 </div>
-                <!-- 外部リンク -->
                 <div class="links-area">
-                    <?php if ($is_guest) { ?>
-                    <span class="user-name">ゲスト さん</span>
-                    <?php } else { ?>
                     <span class="user-name">
-                        <a href="../ctrl/mypage.php"><?= htmlspecialchars($user_name);?> さん</a>
+                        <?php if ($is_guest): ?>
+                            <?= V2H($user_name) ?> さん
+                        <?php else: ?>
+                            <a href="../ctrl/mypage.php" class="nav-link"><?= V2H($user_name); ?></a> さん
+                        <?php endif; ?>
                     </span>
-                    <?php } ?>
-                    <a href="https://w3e.kanazawa-it.ac.jp/math/" target="_blank" rel="noopener noreferrer">KIT数学ナビゲーション</a>
+                    <a href="https://w3e.kanazawa-it.ac.jp/math/" target="_blank" rel="noopener noreferrer" class="nav-link">KIT数学ナビゲーション</a>
                     <form action="../ctrl/" method="post" class="logoutBtn">
                         <input type="hidden" name="sign_out" value="true">
-                        <button type="submit">ログアウト</button>
+                        <button type="submit" class="nav-link">ログアウト</button>
                     </form>
                 </div>
             </nav>
         </header>
-        <div class="guid-text">
-            問題を選択してください.
-        </div>
-        <!-- <?= print_r($sections); ?> -->
+
+        <div class="guid-text">問題を選択してください.</div>
+
         <div class="section-container">
+
+            <?php
+                // Chapterの進捗を計算（section.phpのCtrl側で $chapter_progress を渡す必要があります）
+                $ch_progress = $chapter_progress[$chapter_id] ?? ['total' => 0, 'correct_count' => 0];
+                $ch_total    = $ch_progress['total'];
+                $ch_correct  = $ch_progress['correct_count'];
+                $ch_percent  = ($ch_total > 0) ? (int)round($ch_correct / $ch_total * 100) : 0;
+
+                if ($ch_percent == 100) {
+                    $ch_label = '完了！';
+                    $ch_class = 'progress-done';
+                } elseif ($ch_correct === 0) {
+                    $ch_label = '未着手';
+                    $ch_class = 'progress-none';
+                } else {
+                    $ch_label = $ch_correct . ' / ' . $ch_total . '　進行中';
+                    $ch_class = 'progress-ongoing';
+                }
+            ?>
+
+            <!-- Chapterに戻るボタン -->
+            <button class="back-to-chapter" onclick="location.href='../ctrl/chapter.php'">
+                <span class="back-arrow">←</span> Chapter一覧に戻る
+            </button>
+
+            <!-- Chapter進捗バー -->
+            <div class="chapter-progress-area">
+                <div class="chapter-progress-header">
+                    <span>
+                        <?= V2H($chapter_names["name"]) ?>
+                    </span>
+                    <div class="chapter-progress-label <?= $ch_class ?>">
+                        <?= $ch_label ?>
+                    </div>
+                </div>
+                <div class="chapter-progress-bar-row">
+                    <div class="chapter-progress-bar-wrap">
+                        <div class="chapter-progress-bar-fill <?= $ch_class ?>" style="width: <?= $ch_percent ?>%;"></div>
+                    </div>
+                    <span class="chapter-progress-percent <?= $ch_class ?>"><?= $ch_percent ?>%</span>
+                </div>
+            </div>
+
+            <!-- Section一覧 -->
             <?php foreach($sections as $section_index => $section): ?>
             <?php if ($section['is_published'] || $is_admin): ?>
-            <?php $section_id = $section['id']; ?>
-            <?php $section_name = $section['name']; ?>
-            <?php $question_ids = $section['question_ids']; ?>
+            <?php
+                $section_id   = $section['id'];
+                $section_name = $section['name'];
+                $question_ids = $section['question_ids'];
+            ?>
                 <div class="section-item">
-                    <p class="section-name"><?= htmlspecialchars($section_index + 1) ?>. <?=htmlspecialchars($section_name) ?></p>
+                    <p class="section-name"><?= V2H($section_index + 1) ?>. <?= V2H($section_name) ?></p>
                     <div class="question-button-container">
                         <?php foreach($question_ids as $question_index => $question): ?>
-                            <form action="../ctrl/question.php" method="get">
-                                <input type="hidden" name="chapter_id" value="<?= htmlspecialchars($chapter_id); ?>">
-                                <input type="hidden" name="section_id" value="<?= htmlspecialchars($section_id); ?>">
-                                <input type="hidden" name="question_id" value="<?= htmlspecialchars($question); ?>">
-                                <input type="hidden" name="qn" value="<?= htmlspecialchars($question_index + 1); ?>">
-                                <button type="submit" class="font-Rock">
-                                    Q<?= htmlspecialchars($question_index + 1); ?>
-                                </button>
-                            </form>
+                        <?php
+                            $status = (!$is_guest)
+                                ? ($question_statuses[$question] ?? 'unanswered')
+                                : 'unanswered';
+                            $btn_class = match($status) {
+                                'correct' => 'font-Rock done',
+                                'wrong'   => 'font-Rock wrong',
+                                default   => 'font-Rock',
+                            };
+                        ?>
+                        <form action="../ctrl/question.php" method="get">
+                            <input type="hidden" name="chapter_id" value="<?= V2H($chapter_id); ?>">
+                            <input type="hidden" name="section_id" value="<?= V2H($section_id); ?>">
+                            <input type="hidden" name="question_id" value="<?= V2H($question); ?>">
+                            <input type="hidden" name="qn" value="<?= V2H($question_index + 1); ?>">
+                            <button type="submit" class="<?= $btn_class ?>">
+                                Q<?= V2H($question_index + 1); ?>
+                            </button>
+                        </form>
                         <?php endforeach; ?>
                     </div>
                 </div>
             <?php endif; ?>
             <?php endforeach; ?>
+
         </div>
     </div>
     <script src="../js/section.js"></script>
 </body>
-
 </html>

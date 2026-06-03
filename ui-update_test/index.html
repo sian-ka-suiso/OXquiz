@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MathQuiz</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <!-- Tabler Icons (アイコンフォント) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <!-- スタイルシート -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ===================== ナビゲーションバー ===================== -->
+  <nav class="nav">
+    <div class="nav-logo">
+      <div class="logo-mark">
+        <i class="ti ti-math" aria-hidden="true"></i>
+      </div>
+      MathQuiz
+    </div>
+    <div class="nav-right">
+      <div class="badge-ranking">
+        <i class="ti ti-trophy" aria-hidden="true"></i>
+        ランキング（準備中）
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===================== タブ切り替え ===================== -->
+  <!--
+    【PHPでの実装例】
+    各ページは別PHPファイルになると思われますが、
+    このモックではJS + タブで3画面を表現しています。
+    実際の実装では、このタブ部分をナビゲーションリンクに置き換えてください。
+  -->
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('chapter')">Chapter一覧</div>
+    <div class="tab" onclick="switchTab('section')">Section一覧</div>
+    <div class="tab" onclick="switchTab('question')">Question</div>
+  </div>
+
+
+  <!-- ===================== Chapter ページ ===================== -->
+  <!--
+    【PHP実装メモ】
+    DBから全Chapterを取得し、.chapter-card を動的に繰り返し出力します。
+    href は ?chapter_id=1 のようなクエリパラメータで。
+    各カードの進捗（完了問数 / 全問数）はDBから算出して渡してください。
+  -->
+  <div id="page-chapter" class="page active">
+
+    <div class="page-header">
+      <h2>章を選んでください</h2>
+      <p>各章の問題を解いて、理解を深めましょう</p>
+    </div>
+
+    <div class="chapter-grid">
+
+      <!-- Chapter 1 -->
+      <a href="?chapter_id=1" class="chapter-card" onclick="switchTab('section'); return false;">
+        <div class="ch-num">Chapter 1</div>
+        <div class="ch-title">極限と連続性</div>
+        <div class="ch-meta">
+          <span class="ch-tag tag-green">5 / 8 完了</span>
+          <span class="ch-progress-pct">62%</span>
+        </div>
+        <div class="ch-bar">
+          <div class="ch-bar-fill fill-green" style="width: 62%;"></div>
+        </div>
+      </a>
+
+      <!-- Chapter 2 -->
+      <a href="?chapter_id=2" class="chapter-card" onclick="switchTab('section'); return false;">
+        <div class="ch-num">Chapter 2</div>
+        <div class="ch-title">微分法と導関数</div>
+        <div class="ch-meta">
+          <span class="ch-tag tag-amber">2 / 10 完了</span>
+          <span class="ch-progress-pct">20%</span>
+        </div>
+        <div class="ch-bar">
+          <div class="ch-bar-fill fill-amber" style="width: 20%;"></div>
+        </div>
+      </a>
+
+      <!-- Chapter 3 -->
+      <a href="?chapter_id=3" class="chapter-card" onclick="switchTab('section'); return false;">
+        <div class="ch-num">Chapter 3</div>
+        <div class="ch-title">積分法と応用</div>
+        <div class="ch-meta">
+          <span class="ch-tag tag-blue">未着手</span>
+          <span class="ch-progress-pct">0%</span>
+        </div>
+        <div class="ch-bar">
+          <div class="ch-bar-fill fill-blue" style="width: 0%;"></div>
+        </div>
+      </a>
+
+      <!-- Chapter 4 -->
+      <a href="?chapter_id=4" class="chapter-card" onclick="switchTab('section'); return false;">
+        <div class="ch-num">Chapter 4</div>
+        <div class="ch-title">線形代数の基礎</div>
+        <div class="ch-meta">
+          <span class="ch-tag tag-blue">未着手</span>
+          <span class="ch-progress-pct">0%</span>
+        </div>
+        <div class="ch-bar">
+          <div class="ch-bar-fill fill-blue" style="width: 0%;"></div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+
+  <!-- ===================== Section ページ ===================== -->
+  <!--
+    【PHP実装メモ】
+    URLパラメータ ?chapter_id=1 を受け取り、
+    該当Chapter内のSectionを全取得して .section-box を繰り返し出力。
+    各Section内の問番号も同様にDBから取得して .q-btn を繰り返します。
+    .q-btn に done / wrong クラスを付与するかは、
+    ユーザーの解答履歴テーブルと突き合わせて判定してください。
+  -->
+  <div id="page-section" class="page">
+
+    <a href="index.php" class="section-back" onclick="switchTab('chapter'); return false;">
+      <i class="ti ti-arrow-left" aria-hidden="true"></i>
+      Chapter一覧に戻る
+    </a>
+
+    <div class="page-header">
+      <h2>Chapter 1　極限と連続性</h2>
+      <p>問題を選んで挑戦しましょう</p>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" style="width: 62%;"></div>
+      </div>
+    </div>
+
+    <!-- Section 1-1 -->
+    <div class="section-box">
+      <div class="section-header">
+        <span class="sec-label">Section 1-1　数列の極限</span>
+        <span class="sec-count">4問</span>
+      </div>
+      <div class="question-row-list">
+        <!-- 正解済み: done クラス -->
+        <a href="?chapter_id=1&section_id=1&question_id=1" class="q-btn done" onclick="switchTab('question'); return false;" aria-label="問1 正解済み">
+          <i class="ti ti-check" style="font-size: 14px;" aria-hidden="true"></i>
+        </a>
+        <a href="?chapter_id=1&section_id=1&question_id=2" class="q-btn done" onclick="switchTab('question'); return false;" aria-label="問2 正解済み">
+          <i class="ti ti-check" style="font-size: 14px;" aria-hidden="true"></i>
+        </a>
+        <!-- 未回答 -->
+        <a href="?chapter_id=1&section_id=1&question_id=3" class="q-btn" onclick="switchTab('question'); return false;">Q3</a>
+        <!-- 誤答: wrong クラス -->
+        <a href="?chapter_id=1&section_id=1&question_id=4" class="q-btn wrong" onclick="switchTab('question'); return false;" aria-label="問4 誤答">Q4</a>
+      </div>
+    </div>
+
+    <!-- Section 1-2 -->
+    <div class="section-box">
+      <div class="section-header">
+        <span class="sec-label">Section 1-2　関数の極限</span>
+        <span class="sec-count">4問</span>
+      </div>
+      <div class="question-row-list">
+        <a href="?chapter_id=1&section_id=2&question_id=1" class="q-btn done" onclick="switchTab('question'); return false;" aria-label="問1 正解済み">
+          <i class="ti ti-check" style="font-size: 14px;" aria-hidden="true"></i>
+        </a>
+        <a href="?chapter_id=1&section_id=2&question_id=2" class="q-btn done" onclick="switchTab('question'); return false;" aria-label="問2 正解済み">
+          <i class="ti ti-check" style="font-size: 14px;" aria-hidden="true"></i>
+        </a>
+        <a href="?chapter_id=1&section_id=2&question_id=3" class="q-btn done" onclick="switchTab('question'); return false;" aria-label="問3 正解済み">
+          <i class="ti ti-check" style="font-size: 14px;" aria-hidden="true"></i>
+        </a>
+        <a href="?chapter_id=1&section_id=2&question_id=4" class="q-btn" onclick="switchTab('question'); return false;">Q4</a>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- ===================== Question ページ ===================== -->
+  <!--
+    【PHP実装メモ】
+    URLパラメータ ?chapter_id=1&section_id=1&question_id=3 を受け取り、
+    DBから問題情報（画像パス・正解・解説画像パスなど）を取得して出力。
+    選択後の正誤フィードバック表示はPHP再レンダリング or JS で実装可能です。
+    画像は <img src="<?= $question->image_path ?>" alt="問題文"> のように差し込んでください。
+  -->
+  <div id="page-question" class="page">
+
+    <div class="q-page-header">
+      <a href="?chapter_id=1&section_id=1" class="q-back" onclick="switchTab('section'); return false;">
+        <i class="ti ti-arrow-left" aria-hidden="true"></i>
+        Section一覧
+      </a>
+      <span class="q-breadcrumb">Ch.1 / Sec.1-1 / Q3</span>
+    </div>
+
+    <div class="q-card">
+
+      <!-- 問題文・選択肢 画像エリア -->
+      <div class="q-image-area">
+
+        <div>
+          <div class="q-area-label">問題文</div>
+          <!--
+            実装時: <img src="<?= $question->problem_image ?>" alt="問題文">
+            に差し替えてください。
+          -->
+          <div class="q-image-placeholder">
+            <i class="ti ti-photo" aria-hidden="true"></i>
+            問題文の画像がここに表示されます
+          </div>
+        </div>
+
+        <div>
+          <div class="q-area-label">選択肢</div>
+          <!--
+            実装時: <img src="<?= $question->choices_image ?>" alt="選択肢">
+            に差し替えてください。
+          -->
+          <div class="q-image-placeholder">
+            <i class="ti ti-photo" aria-hidden="true"></i>
+            選択肢の画像がここに表示されます
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 〇✕ 回答ボタン -->
+      <!--
+        実装時: フォームでPOSTするか、JS + fetch で非同期送信してください。
+        正解なら .choice-btn に correct クラスを付与、
+        不正解なら wrong-ans クラスを付与してフィードバックを表示します。
+      -->
+      <div class="q-choices">
+
+        <button class="choice-btn correct" onclick="onChoiceClick(this, true)">
+          <div class="choice-icon icon-correct">
+            <i class="ti ti-circle" style="color: #27500A;" aria-hidden="true"></i>
+          </div>
+          正しい（〇）
+        </button>
+
+        <button class="choice-btn wrong-ans" onclick="onChoiceClick(this, false)">
+          <div class="choice-icon icon-wrong">
+            <i class="ti ti-x" style="color: #791F1F;" aria-hidden="true"></i>
+          </div>
+          誤り（✕）
+        </button>
+
+      </div>
+
+      <!-- 解説エリア（折りたたみ） -->
+      <div class="q-explanation">
+        <div class="explanation-toggle" onclick="toggleExplanation(this)" aria-expanded="false">
+          <span>
+            <i class="ti ti-book explanation-icon" aria-hidden="true"></i>
+            解説を見る
+          </span>
+          <i class="ti ti-chevron-down" aria-hidden="true"></i>
+        </div>
+        <div class="explanation-body" hidden>
+          <!--
+            実装時: <img src="<?= $question->explanation_image ?>" alt="解説">
+            に差し替えてください。
+          -->
+          <div class="explanation-img-placeholder">
+            <i class="ti ti-photo" aria-hidden="true"></i>
+            解説の画像がここに表示されます
+          </div>
+        </div>
+      </div>
+
+      <!-- 前後ナビゲーション -->
+      <div class="q-nav">
+        <a href="?chapter_id=1&section_id=1&question_id=2" class="nav-q-btn"
+           onclick="switchTab('question'); return false;">
+          <i class="ti ti-arrow-left" aria-hidden="true"></i>
+          前の問題
+        </a>
+        <span class="q-counter">3 / 4</span>
+        <a href="?chapter_id=1&section_id=1&question_id=4" class="nav-q-btn"
+           onclick="switchTab('question'); return false;">
+          次の問題
+          <i class="ti ti-arrow-right" aria-hidden="true"></i>
+        </a>
+      </div>
+
+    </div>
+
+    <!-- 正解済みバッジ（正解時のみ表示） -->
+    <div class="text-center">
+      <div class="answered-badge">
+        <i class="ti ti-circle-check" aria-hidden="true"></i>
+        この問題は正解済みです
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- ===================== JavaScript ===================== -->
+  <script>
+    /**
+     * タブ切り替え（モックアップ用）
+     * PHPで別ページに分ける場合は不要です。
+     */
+    function switchTab(name) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.getElementById('page-' + name).classList.add('active');
+      const idx = { chapter: 0, section: 1, question: 2 };
+      document.querySelectorAll('.tab')[idx[name]].classList.add('active');
+    }
+
+    /**
+     * 解説の折りたたみ開閉
+     */
+    function toggleExplanation(toggleEl) {
+      const body = toggleEl.nextElementSibling;
+      const isOpen = !body.hidden;
+      body.hidden = isOpen;
+      toggleEl.setAttribute('aria-expanded', String(!isOpen));
+      const chevron = toggleEl.querySelector('.ti-chevron-down, .ti-chevron-up');
+      if (chevron) {
+        chevron.classList.toggle('ti-chevron-down', isOpen);
+        chevron.classList.toggle('ti-chevron-up', !isOpen);
+      }
+    }
+
+    /**
+     * 回答クリック時のフィードバック（モックアップ用）
+     * PHPで実装する場合は form の submit に置き換えてください。
+     * @param {HTMLElement} btn - クリックされたボタン
+     * @param {boolean} isCorrect - 正解かどうか
+     */
+    function onChoiceClick(btn, isCorrect) {
+      const allBtns = btn.closest('.q-choices').querySelectorAll('.choice-btn');
+      allBtns.forEach(b => {
+        b.classList.remove('correct', 'wrong-ans');
+        b.querySelector('.choice-icon').className = 'choice-icon';
+      });
+      if (isCorrect) {
+        btn.classList.add('correct');
+        btn.querySelector('.choice-icon').classList.add('icon-correct');
+      } else {
+        btn.classList.add('wrong-ans');
+        btn.querySelector('.choice-icon').classList.add('icon-wrong');
+      }
+    }
+  </script>
+
+</body>
+</html>
