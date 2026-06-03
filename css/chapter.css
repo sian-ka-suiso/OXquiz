@@ -4,7 +4,7 @@
 
 /* ---------- CSS Variables ---------- */
 :root {
-    --primary:        #48ACF0;
+    --primary:        #185FA5;
     --primary-light:  #E6F1FB;
     --primary-mid:    #85B7EB;
 
@@ -71,8 +71,7 @@
     font-weight: 600;
     letter-spacing: 0.08em;
     color: var(--primary-light);
-    background-image: linear-gradient(90deg, var(--primary), var(--primary-mid));
-    /* background-color: var(--primary); */
+    background-color: #3b9aff;
     padding: 5px 12px;
     border-bottom: 1px solid #ddeeff;
     width: 100%;

@@ -172,44 +172,45 @@
 
 .section-item button {
     width: 3.2rem;
-    height: auto;
+    height: 3.2rem;
     padding: 2px 0;
     text-align: center;
     background: transparent;
     border: none;
-    border-bottom: 2px solid #e8e8e8;
-    border-radius: 0;
+    /* border: 2px solid #e8e8e8; */
+    border: 2px solid transparent;
+    border-radius: 30px;
     font-size: 18px;
     font-family: "Roboto", sans-serif;
     font-style: italic;
     cursor: pointer;
 }
 .section-item button:hover {
-    border-bottom-color: var(--primary);
+    border-color: var(--primary);
     background: transparent;
     transform: none;
 }
 
 /* 正解済み */
 .section-item button.done {
-    /* background-color: var(--success-light); */
-    border-color: var(--success-mid);
+    background-color: var(--success-light);
+    /* border-color: var(--success-mid); */
     color: var(--success);
 }
 
 .section-item button.done:hover {
-    /* background-color: #d4f0d4; */
+    background-color: #d4f0d4;
     border-color: var(--success);
 }
 
 /* 誤答 */
 .section-item button.wrong {
-    /* background-color: #fdecea; */
-    border-color: #f5b8b8;
+    background-color: #fdecea;
+    /* border-color: #f5b8b8; */
     color: #a33a3a;
 }
 
 .section-item button.wrong:hover {
-    /* background-color: #fad5d5; */
+    background-color: #fad5d5;
     border-color: #a33a3a;
 }
