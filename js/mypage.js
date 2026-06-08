@@ -1,4 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // 左側タブをクリックしたら右側のパネルを切り替える
+    const tabs = document.querySelectorAll('.mypage-tab');
+    const panels = document.querySelectorAll('.mypage-panel');
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const target = tab.dataset.tab;
+
+            tabs.forEach(t => t.classList.toggle('active', t === tab));
+            panels.forEach(p => p.classList.toggle('active', p.dataset.panel === target));
+        });
+    });
+
     const select = document.getElementById('bookmark_sort');
     const list = document.querySelector('.bookmark-list');
 

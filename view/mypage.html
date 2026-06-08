@@ -59,9 +59,19 @@
     </span>
     <?php endif; ?>
 
-    <div class="section-container">
+    <div class="mypage-layout">
+        <!-- 左側タブ -->
+        <nav class="mypage-tabs">
+            <button type="button" class="mypage-tab active" data-tab="user-info">ユーザー情報</button>
+            <button type="button" class="mypage-tab" data-tab="bookmarks">ブックマーク</button>
+            <button type="button" class="mypage-tab" data-tab="achievements">実績</button>
+        </nav>
+
+        <!-- 右側コンテンツ -->
+        <div class="mypage-panels">
+
         <!-- ユーザー情報カード -->
-        <section>
+        <section class="mypage-panel active" data-panel="user-info">
             <h3>ユーザー情報</h3>
 
             <!-- ユーザー名 -->
@@ -116,14 +126,14 @@
 
         </section>
 
-        <section>
+        <section class="mypage-panel" data-panel="bookmarks">
             <h3>ブックマークした問題</h3>
 
             <?php if (!empty($bookmarks)): ?>
             <div class="bookmark-sort-form">
                 <label for="bookmark_sort">並び替え</label>
                 <select id="bookmark_sort">
-                    <option value="chapter" selected>章→節→問 順</option>
+                    <option value="chapter" selected>番号順</option>
                     <option value="created_desc">日付の新しい順</option>
                     <option value="created_asc">日付の古い順</option>
                 </select>
@@ -158,9 +168,11 @@
             <?php endif; ?>
         </section>
 
-        <section>
+        <section class="mypage-panel" data-panel="achievements">
             <h3>獲得した実績</h3>
         </section>
+
+        </div>
     </div>
 
     <!-- 戻るリンク -->

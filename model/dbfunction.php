@@ -741,6 +741,33 @@ function insertFirstAnswer(int $user_id, int $question_id, bool $is_correct)
     }
 }
 
+//********************************************************************************************
+// 正答率の集計（first_answersから回答数と正解数を取得）
+//********************************************************************************************
+function getQuestionAccuracy(int $question_id)
+{
+    $result = ['answer_count' => 0, 'correct_count' => 0];
+    $pdo = db_connect();
+    try {
+        $sSql  = "SELECT COUNT(*) AS answer_count, COALESCE(SUM(is_correct), 0) AS correct_count ";
+        $sSql .= "FROM first_answers ";
+        $sSql .= "WHERE question_id = :question_id";
+
+        $stmh = $pdo->prepare($sSql);
+        $stmh->bindValue(':question_id', $question_id, PDO::PARAM_INT);
+        $stmh->execute();
+        $row = $stmh->fetch(PDO::FETCH_ASSOC);
+
+        $result['answer_count']  = (int)$row['answer_count'];
+        $result['correct_count'] = (int)$row['correct_count'];
+
+    } catch (PDOException $Exception) {
+        die('実行エラー :' . $Exception->getMessage() . "<br/>");
+    }
+
+    return $result;
+}
+
 ####################################################################################
 ### math_nav関連
 ####################################################################################

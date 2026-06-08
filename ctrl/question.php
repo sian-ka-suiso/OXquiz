@@ -45,6 +45,14 @@
     $explanation_ids = getExplanationIds($question_id);
     // 数学ナビのリンク名とURL
     $math_navs = getNavs($question_id);
+    // 正答率（一定数の回答データが集まるまでは「集計中」と表示する）
+    $ACCURACY_MIN_ANSWER_COUNT = 20;
+    $accuracy = getQuestionAccuracy((int)$question_id);
+    if ($accuracy['answer_count'] >= $ACCURACY_MIN_ANSWER_COUNT) {
+        $accuracy_text = round($accuracy['correct_count'] / $accuracy['answer_count'] * 100) . '％';
+    } else {
+        $accuracy_text = '集計中';
+    }
     // 解説の表示フラグ
     $show_explanation = false;
     // 結果判定

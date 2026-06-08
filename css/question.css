@@ -75,12 +75,34 @@ main {
     color: #888;
 }
 
+/* ---------- 正答率・正解済みバッジのまとまり ---------- */
+.question-badges {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: auto;
+}
+
+/* ---------- 正答率バッジ ---------- */
+.accuracy-badge {
+    display: inline-flex;
+    align-items: center;
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: #888;
+    background-color: #fafafa;
+    border: 1.5px solid #e8e8e8;
+    border-radius: 15px;
+    padding: 6px 12px;
+    white-space: nowrap;
+}
+
 /* ---------- ブックマークボタン ---------- */
 .bookmark-btn {
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    margin-left: auto;
     font-family: "Noto Sans JP", sans-serif;
     font-size: 12px;
     font-weight: 500;
@@ -250,7 +272,6 @@ main {
 .answered-badge {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
     font-family: "Noto Sans JP", sans-serif;
     font-size: 12px;
     font-weight: 500;
@@ -258,10 +279,8 @@ main {
     background-color: var(--success-light);
     border: 1.5px solid var(--success-mid);
     border-radius: 15px;
-    padding: 6px 10px;
-    margin: 8px 0 16px 0;
-    align-self: flex-start;
-    margin-left: 5%;
+    padding: 6px 12px;
+    white-space: nowrap;
 }
 
 /* ---------- Explanation Container ---------- */
