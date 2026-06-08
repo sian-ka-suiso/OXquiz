@@ -68,6 +68,18 @@
         }
     }
 
+    // ブックマークの登録／解除
+    if (isset($_POST['toggle_bookmark']) && !$is_guest) {
+        $bookmark_question_id = (int)$_POST['question_id'];
+        if (isBookmarked($user_id, $bookmark_question_id)) {
+            deleteBookmark($user_id, $bookmark_question_id);
+        } else {
+            insertBookmark($user_id, $bookmark_question_id);
+        }
+    }
+    // ブックマーク済みフラグ
+    $is_bookmarked = (!$is_guest) ? isBookmarked($user_id, (int)$question_id) : false;
+
     if (!$is_guest){
         $userData = getUserInfo($user_id);
         if ($userData) {

@@ -75,6 +75,39 @@ main {
     color: #888;
 }
 
+/* ---------- ブックマークボタン ---------- */
+.bookmark-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: auto;
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: #999;
+    background-color: #fafafa;
+    border: 1.5px solid #e8e8e8;
+    border-radius: 15px;
+    padding: 6px 12px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color var(--transition), color var(--transition), border-color var(--transition);
+}
+
+.bookmark-btn:hover {
+    background-color: #f4f4f1;
+}
+
+.bookmark-btn.active {
+    color: #b8860b;
+    background-color: #fff8e6;
+    border-color: #f0d98a;
+}
+
+.bookmark-btn.active:hover {
+    background-color: #fdeec1;
+}
+
 /* ---------- Question Container ---------- */
 .question-container {
     display: flex;

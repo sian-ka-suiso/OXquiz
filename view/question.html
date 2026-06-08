@@ -79,6 +79,17 @@
             </div>
             <?php endif; ?>
 
+            <?php if (!$is_guest): ?>
+            <!-- ブックマーク登録／解除（ボタンはパンくず内に配置し、form属性でこのフォームに紐付ける） -->
+            <form id="bookmarkForm" action="" method="post">
+                <input type="hidden" name="chapter_id" value="<?= $chapter_id ?>">
+                <input type="hidden" name="section_id" value="<?= $section_id ?>">
+                <input type="hidden" name="question_id" value="<?= $question_id ?>">
+                <input type="hidden" name="qn" value="<?= htmlspecialchars($question_number); ?>">
+                <input type="hidden" name="toggle_bookmark" value="1">
+            </form>
+            <?php endif; ?>
+
             <form id="quizForm" action="" method="post">
 
                 <!-- 問題内パンくず -->
@@ -88,6 +99,12 @@
                     <span><?= V2H($section_names["name"]) ?></span>
                     <span style="color:#ccc;">▸</span>
                     <span class="q-current">Q<?= V2H($question_number) ?></span>
+
+                    <?php if (!$is_guest): ?>
+                    <button type="submit" form="bookmarkForm" class="bookmark-btn <?= $is_bookmarked ? 'active' : '' ?>" aria-label="ブックマーク">
+                        <?= $is_bookmarked ? '★ ブックマーク済み' : '☆ ブックマークする' ?>
+                    </button>
+                    <?php endif; ?>
                 </div>
 
                 <div class="question-container">

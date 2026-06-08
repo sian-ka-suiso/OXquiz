@@ -47,6 +47,12 @@
 //**************************************************
 // 変数取得（更新後反映させるため、最後に取得）
 //**************************************************
+    $bookmarks = getUserBookmarks($user_id);
+    foreach ($bookmarks as &$bookmark) {
+        $bookmark['question_number'] = getQuestionNumberInSection((int)$bookmark['section_id'], (int)$bookmark['question_id']);
+    }
+    unset($bookmark);
+
     $userData = getUserInfo($user_id);
     if ($userData) {
         $user_name  = $userData['user_name'];

@@ -776,6 +776,112 @@ function getNavs(int $question_id)
     return $array_result;
 }
 ####################################################################################
+### ブックマーク関連
+####################################################################################
+//********************************************************************************************
+// ブックマーク済みかどうか判定
+//********************************************************************************************
+function isBookmarked(int $user_id, int $question_id)
+{
+    $pdo = db_connect();
+    try {
+        $sSql = "SELECT 1 FROM bookmark_table WHERE user_id = :user_id AND question_id = :question_id";
+
+        $stmh = $pdo->prepare($sSql);
+        $stmh->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+        $stmh->bindValue(':question_id', $question_id, PDO::PARAM_INT);
+        $stmh->execute();
+
+        return (bool)$stmh->fetchColumn();
+
+    } catch (PDOException $Exception) {
+        die('実行エラー :' . $Exception->getMessage() . "<br/>");
+    }
+}
+
+//********************************************************************************************
+// ブックマーク登録
+//********************************************************************************************
+function insertBookmark(int $user_id, int $question_id)
+{
+    $pdo = db_connect();
+    try {
+        $sSql  = "INSERT IGNORE INTO bookmark_table (user_id, question_id, created_at) ";
+        $sSql .= "VALUES (:user_id, :question_id, NOW())";
+
+        $stmh = $pdo->prepare($sSql);
+        $stmh->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+        $stmh->bindValue(':question_id', $question_id, PDO::PARAM_INT);
+        $stmh->execute();
+
+    } catch (PDOException $Exception) {
+        die('実行エラー :' . $Exception->getMessage() . "<br/>");
+    }
+}
+
+//********************************************************************************************
+// ブックマーク解除
+//********************************************************************************************
+function deleteBookmark(int $user_id, int $question_id)
+{
+    $pdo = db_connect();
+    try {
+        $sSql = "DELETE FROM bookmark_table WHERE user_id = :user_id AND question_id = :question_id";
+
+        $stmh = $pdo->prepare($sSql);
+        $stmh->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+        $stmh->bindValue(':question_id', $question_id, PDO::PARAM_INT);
+        $stmh->execute();
+
+    } catch (PDOException $Exception) {
+        die('実行エラー :' . $Exception->getMessage() . "<br/>");
+    }
+}
+
+//********************************************************************************************
+// ユーザーのブックマーク一覧（章・セクション情報付き）を取得
+//********************************************************************************************
+function getUserBookmarks(int $user_id)
+{
+    $array_result = array();
+    $pdo = db_connect();
+    try {
+        // 並び替えはクライアント側(JS)で行うため、各順序キーも一緒に取得しておく
+        $sSql  = "SELECT q.id AS question_id, q.section_id, q.order_number AS question_order, ";
+        $sSql .= "s.name AS section_name, s.order_number AS section_order, ";
+        $sSql .= "c.id AS chapter_id, c.name AS chapter_name, c.order_number AS chapter_order, ";
+        $sSql .= "b.created_at ";
+        $sSql .= "FROM bookmark_table b ";
+        $sSql .= "JOIN question_table q ON b.question_id = q.id ";
+        $sSql .= "JOIN section_table s ON q.section_id = s.id ";
+        $sSql .= "JOIN chapter_table c ON s.chapter_id = c.id ";
+        $sSql .= "WHERE b.user_id = :user_id ";
+        $sSql .= "ORDER BY c.order_number, s.order_number, q.order_number";
+
+        $stmh = $pdo->prepare($sSql);
+        $stmh->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+        $stmh->execute();
+        $array_result = $stmh->fetchAll(PDO::FETCH_ASSOC);
+
+    } catch (PDOException $Exception) {
+        die('実行エラー :' . $Exception->getMessage() . "<br/>");
+    }
+
+    return $array_result;
+}
+
+//********************************************************************************************
+// セクション内での問題の表示番号を取得（order_number順での並び位置）
+//********************************************************************************************
+function getQuestionNumberInSection(int $section_id, int $question_id)
+{
+    $question_ids = getQuestionIds($section_id);
+    $index = array_search($question_id, $question_ids);
+
+    return $index === false ? null : $index + 1;
+}
+
+####################################################################################
 ### その他
 ####################################################################################
 //********************************************************************************************
