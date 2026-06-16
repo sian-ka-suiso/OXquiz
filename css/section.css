@@ -12,6 +12,10 @@
     --success-light: #e8f7e8;
     --success-mid:   #a8d8a8;
 
+    --danger:        #a33a3a;
+    --danger-light:  #fdecea;
+    --danger-mid:    #f5b8b8;
+
     --warning:       #9a6800;
     --warning-light: #fff8e1;
     --warning-mid:   #ffd54f;
@@ -199,18 +203,18 @@
 }
 
 .section-item button.done:hover {
-    background-color: #d4f0d4;
+    background-color: var(--success-light);
     border-color: var(--success);
 }
 
 /* 誤答 */
 .section-item button.wrong {
-    background-color: #fdecea;
+    background-color: var(--danger-light);
     /* border-color: #f5b8b8; */
-    color: #a33a3a;
+    color: var(--danger);
 }
 
 .section-item button.wrong:hover {
-    background-color: #fad5d5;
-    border-color: #a33a3a;
+    background-color: var(--danger-light);
+    border-color: var(--danger);
 }
