@@ -179,7 +179,7 @@
     border: none;
     /* border: 2px solid #e8e8e8; */
     border: 2px solid transparent;
-    border-radius: 30px;
+    border-radius: var(--card-radius);
     font-size: 18px;
     font-family: "Roboto", sans-serif;
     font-style: italic;
