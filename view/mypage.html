@@ -64,113 +64,116 @@
         <nav class="mypage-tabs">
             <button type="button" class="mypage-tab active" data-tab="user-info">ユーザー情報</button>
             <button type="button" class="mypage-tab" data-tab="bookmarks">ブックマーク</button>
-            <button type="button" class="mypage-tab" data-tab="achievements">実績</button>
+            <button type="button" class="mypage-tab" data-tab="achievements" style="display: none;">実績</button>
         </nav>
 
         <!-- 右側コンテンツ -->
         <div class="mypage-panels">
 
-        <!-- ユーザー情報カード -->
-        <section class="mypage-panel active" data-panel="user-info">
-            <h3>ユーザー情報</h3>
+            <!-- ユーザー情報カード -->
+            <section class="mypage-panel active" data-panel="user-info">
+                <h3>ユーザー情報</h3>
 
-            <!-- ユーザー名 -->
-            <div class="info-category">
-                <div class="category-name">ユーザー名</div>
-                <div class="update-area">
+                <!-- ユーザー名 -->
+                <div class="info-category">
+                    <div class="category-name">ユーザー名</div>
+                    <div class="update-area">
+                        <span>
+                            <?= V2H($user_name); ?>
+                        </span>
+                        <form action="mypage.php" method="post">
+                            <input type="text" name="change_name" placeholder="新しいユーザー名">
+                            <button type="submit">変更</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- メールアドレス -->
+                <div class="info-category">
+                    <div class="category-name">メールアドレス</div>
                     <span>
-                        <?= V2H($user_name); ?>
+                        <?= V2H($email); ?>
                     </span>
-                    <form action="mypage.php" method="post">
-                        <input type="text" name="change_name" placeholder="新しいユーザー名">
-                        <button type="submit">変更</button>
-                    </form>
                 </div>
-            </div>
 
-            <!-- メールアドレス -->
-            <div class="info-category">
-                <div class="category-name">メールアドレス</div>
-                <span>
-                    <?= V2H($email); ?>
-                </span>
-            </div>
-
-            <!-- パスワード -->
-            <div class="info-category">
-                <div class="category-name">パスワード</div>
-                <div class="update-area">
-                    <span>••••••••••</span>
-                    <form action="mypage.php" method="post">
-                        <input type="password" name="reset_pass" placeholder="新しいパスワード">
-                        <button type="submit">再設定</button>
-                    </form>
+                <!-- パスワード -->
+                <div class="info-category">
+                    <div class="category-name">パスワード</div>
+                    <div class="update-area">
+                        <span>••••••••••</span>
+                        <form action="mypage.php" method="post">
+                            <input type="password" name="reset_pass" placeholder="新しいパスワード">
+                            <button type="submit">再設定</button>
+                        </form>
+                    </div>
                 </div>
-            </div>
 
-            <!-- 登録日 -->
-            <div class="info-category">
-                <div class="category-name">登録日</div>
-                <span>
-                    <?= V2H($created_at); ?>
-                </span>
-            </div>
+                <!-- 登録日 -->
+                <div class="info-category">
+                    <div class="category-name">登録日</div>
+                    <span>
+                        <?= V2H($created_at); ?>
+                    </span>
+                </div>
 
-            <!-- 最終更新日 -->
-            <div class="info-category">
-                <div class="category-name">最終更新日</div>
-                <span>
-                    <?= V2H($update_at); ?>
-                </span>
-            </div>
+                <!-- 最終更新日 -->
+                <div class="info-category">
+                    <div class="category-name">最終更新日</div>
+                    <span>
+                        <?= V2H($update_at); ?>
+                    </span>
+                </div>
 
-        </section>
+            </section>
 
-        <section class="mypage-panel" data-panel="bookmarks">
-            <h3>ブックマークした問題</h3>
+            <section class="mypage-panel" data-panel="bookmarks">
+                <h3>ブックマークした問題</h3>
 
-            <?php if (!empty($bookmarks)): ?>
-            <div class="bookmark-sort-form">
-                <label for="bookmark_sort">並び替え</label>
-                <select id="bookmark_sort">
-                    <option value="chapter" selected>番号順</option>
-                    <option value="created_desc">日付の新しい順</option>
-                    <option value="created_asc">日付の古い順</option>
-                </select>
-            </div>
-            <?php endif; ?>
+                <?php if (!empty($bookmarks)): ?>
+                <div class="bookmark-sort-form">
+                    <label for="bookmark_sort">並び替え</label>
+                    <select id="bookmark_sort">
+                        <option value="chapter" selected>番号順</option>
+                        <option value="created_desc">日付の新しい順</option>
+                        <option value="created_asc">日付の古い順</option>
+                    </select>
+                </div>
+                <?php endif; ?>
 
-            <?php if (empty($bookmarks)): ?>
-            <div class="empty-message">ブックマークした問題はまだありません</div>
-            <?php else: ?>
-            <ul class="bookmark-list">
-                <?php foreach ($bookmarks as $bookmark): ?>
-                <li class="bookmark-item"
-                    data-created-at="<?= V2H($bookmark['created_at']) ?>"
-                    data-chapter-order="<?= V2H($bookmark['chapter_order']) ?>"
-                    data-section-order="<?= V2H($bookmark['section_order']) ?>"
-                    data-question-order="<?= V2H($bookmark['question_order']) ?>">
-                    <form action="../ctrl/question.php" method="get" class="bookmark-link-form">
-                        <input type="hidden" name="chapter_id" value="<?= V2H($bookmark['chapter_id']) ?>">
-                        <input type="hidden" name="section_id" value="<?= V2H($bookmark['section_id']) ?>">
-                        <input type="hidden" name="question_id" value="<?= V2H($bookmark['question_id']) ?>">
-                        <input type="hidden" name="qn" value="<?= V2H($bookmark['question_number']) ?>">
-                        <button type="submit" class="bookmark-link">
-                            <span class="bookmark-path">
-                                <?= V2H($bookmark['chapter_name']) ?> ▸ <?= V2H($bookmark['section_name']) ?> ▸ Q<?= V2H($bookmark['question_number']) ?>
-                            </span>
-                            <span class="bookmark-date"><?= V2H($bookmark['created_at']) ?></span>
-                        </button>
-                    </form>
-                </li>
-                <?php endforeach; ?>
-            </ul>
-            <?php endif; ?>
-        </section>
+                <?php if (empty($bookmarks)): ?>
+                <div class="empty-message">ブックマークした問題はまだありません</div>
+                <?php else: ?>
+                <ul class="bookmark-list">
+                    <?php foreach ($bookmarks as $bookmark): ?>
+                    <li class="bookmark-item" data-created-at="<?= V2H($bookmark['created_at']) ?>"
+                        data-chapter-order="<?= V2H($bookmark['chapter_order']) ?>"
+                        data-section-order="<?= V2H($bookmark['section_order']) ?>"
+                        data-question-order="<?= V2H($bookmark['question_order']) ?>">
+                        <form action="../ctrl/question.php" method="get" class="bookmark-link-form">
+                            <input type="hidden" name="chapter_id" value="<?= V2H($bookmark['chapter_id']) ?>">
+                            <input type="hidden" name="section_id" value="<?= V2H($bookmark['section_id']) ?>">
+                            <input type="hidden" name="question_id" value="<?= V2H($bookmark['question_id']) ?>">
+                            <input type="hidden" name="qn" value="<?= V2H($bookmark['question_number']) ?>">
+                            <button type="submit" class="bookmark-link">
+                                <span class="bookmark-path">
+                                    <?= V2H($bookmark['chapter_name']) ?> ▸
+                                    <?= V2H($bookmark['section_name']) ?> ▸ Q
+                                    <?= V2H($bookmark['question_number']) ?>
+                                </span>
+                                <span class="bookmark-date">
+                                    <?= V2H($bookmark['created_at']) ?>
+                                </span>
+                            </button>
+                        </form>
+                    </li>
+                    <?php endforeach; ?>
+                </ul>
+                <?php endif; ?>
+            </section>
 
-        <section class="mypage-panel" data-panel="achievements">
-            <h3>獲得した実績</h3>
-        </section>
+            <section class="mypage-panel" data-panel="achievements" style="display: none;">
+                <h3>獲得した実績</h3>
+            </section>
 
         </div>
     </div>
