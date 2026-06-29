@@ -422,7 +422,8 @@ function getChapterProgressList(int $user_id)
     try {
         $sSql  = "SELECT c.id AS chapter_id, ";
         $sSql .= "COUNT(q.id) AS total, ";
-        $sSql .= "SUM(CASE WHEN uqs.status = 'correct' THEN 1 ELSE 0 END) AS correct_count ";
+        $sSql .= "SUM(CASE WHEN uqs.status = 'correct' THEN 1 ELSE 0 END) AS correct_count, ";
+        $sSql .= "SUM(CASE WHEN uqs.status = 'wrong'   THEN 1 ELSE 0 END) AS wrong_count ";
         $sSql .= "FROM chapter_table c ";
         $sSql .= "JOIN section_table s ON s.chapter_id = c.id ";
         $sSql .= "JOIN question_table q ON q.section_id = s.id ";
@@ -439,6 +440,7 @@ function getChapterProgressList(int $user_id)
             $result[$row['chapter_id']] = [
                 'total'         => (int)$row['total'],
                 'correct_count' => (int)$row['correct_count'],
+                'wrong_count'   => (int)$row['wrong_count'],
             ];
         }
 

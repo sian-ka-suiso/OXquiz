@@ -51,19 +51,22 @@
 
             <?php
                 // Chapterの進捗を計算（section.phpのCtrl側で $chapter_progress を渡す必要があります）
-                $ch_progress = $chapter_progress[$chapter_id] ?? ['total' => 0, 'correct_count' => 0];
-                $ch_total    = $ch_progress['total'];
-                $ch_correct  = $ch_progress['correct_count'];
-                $ch_percent  = ($ch_total > 0) ? (int)round($ch_correct / $ch_total * 100) : 0;
+                $ch_progress        = $chapter_progress[$chapter_id] ?? ['total' => 0, 'correct_count' => 0, 'wrong_count' => 0];
+                $ch_total           = $ch_progress['total'];
+                $ch_correct         = $ch_progress['correct_count'];
+                $ch_wrong           = $ch_progress['wrong_count'] ?? 0;
+                $ch_answered        = $ch_correct + $ch_wrong;
+                $ch_correct_percent = ($ch_total > 0) ? (int)round($ch_correct / $ch_total * 100) : 0;
+                $ch_wrong_percent   = ($ch_total > 0) ? (int)round($ch_wrong   / $ch_total * 100) : 0;
 
-                if ($ch_percent == 100) {
-                    $ch_label = '完了！';
+                if ($ch_correct === $ch_total && $ch_total > 0) {
+                    $ch_label = '全問正解！';
                     $ch_class = 'progress-done';
-                } elseif ($ch_correct === 0) {
+                } elseif ($ch_answered === 0) {
                     $ch_label = '未着手';
                     $ch_class = 'progress-none';
                 } else {
-                    $ch_label = $ch_correct . ' / ' . $ch_total . '　進行中';
+                    $ch_label = $ch_correct . ' / ' . $ch_total . '　正解';
                     $ch_class = 'progress-ongoing';
                 }
             ?>
@@ -76,7 +79,7 @@
             <!-- Chapter進捗バー -->
             <div class="chapter-progress-area">
                 <div class="chapter-progress-header">
-                    <span>
+                    <span class="chapter-name">
                         <?= V2H($chapter_names["name"]) ?>
                     </span>
                     <div class="chapter-progress-label <?= $ch_class ?>">
@@ -85,9 +88,10 @@
                 </div>
                 <div class="chapter-progress-bar-row">
                     <div class="chapter-progress-bar-wrap">
-                        <div class="chapter-progress-bar-fill <?= $ch_class ?>" style="width: <?= $ch_percent ?>%;"></div>
+                        <div class="chapter-progress-bar-correct" style="width: <?= $ch_correct_percent ?>%;"></div>
+                        <div class="chapter-progress-bar-wrong" style="width: <?= $ch_wrong_percent ?>%;"></div>
                     </div>
-                    <span class="chapter-progress-percent <?= $ch_class ?>"><?= $ch_percent ?>%</span>
+                    <span class="chapter-progress-percent <?= $ch_class ?>"><?= $ch_correct_percent ?>%</span>
                 </div>
             </div>
 
