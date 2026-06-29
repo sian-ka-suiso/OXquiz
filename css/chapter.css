@@ -75,7 +75,8 @@
     font-weight: 400;
     letter-spacing: 0.08em;
     color: #ffffff;
-    background-color: var(--primary-mid);
+    /* background-color: var(--primary-mid); */
+    background-color: #3b9aff;
     padding: 5px 12px;
     border-bottom: 1px solid #ddeeff;
     width: 100%;
