@@ -8,9 +8,13 @@
     --primary-light:  #E6F1FB;
     --primary-mid:    #85B7EB;
 
-    --success:        #3a8a3a;
-    --success-light:  #e8f7e8;
-    --success-mid:    #a8d8a8;
+    --success:       #3a8a3a;
+    --success-light: #e8f7e8;
+    --success-mid:   #a8d8a8;
+
+    --danger:        #a33a3a;
+    --danger-light:  #fdecea;
+    --danger-mid:    #f5b8b8;
 
     --warning:        #9a6800;
     --warning-light:  #fff8e1;
@@ -47,7 +51,7 @@
 }
 
 .chapter-card:hover {
-    border-color: var(--primary-mid);
+    border-color: var(--primary);
     box-shadow: 0 6px 20px rgba(24, 95, 165, 0.12);
     transform: translateY(-2px);
 }
@@ -68,10 +72,10 @@
 .chapter-number-badge {
     font-family: "Noto Sans JP", sans-serif;
     font-size: 11px;
-    font-weight: 600;
+    font-weight: 400;
     letter-spacing: 0.08em;
-    color: var(--primary-light);
-    background-color: #3b9aff;
+    color: #ffffff;
+    background-color: var(--primary-mid);
     padding: 5px 12px;
     border-bottom: 1px solid #ddeeff;
     width: 100%;
@@ -166,29 +170,25 @@
 /* ---------- Progress Bar ---------- */
 .progress-bar-wrap {
     flex: 1;
+    display: flex;
     background-color: #e8e8e8;
     border-radius: 4px;
     height: 5px;
     overflow: hidden;
 }
 
-.progress-bar-fill {
+.progress-bar-correct {
     height: 5px;
-    border-radius: 4px;
-    transition: width 0.4s ease;
-}
-
-.progress-bar-fill.progress-none {
-    background-color: var(--neutral-mid);
-    width: 0%;
-}
-
-.progress-bar-fill.progress-ongoing {
-    background-color: var(--warning-mid);
-}
-
-.progress-bar-fill.progress-done {
     background-color: var(--success-mid);
+    transition: width 0.4s ease;
+    flex-shrink: 0;
+}
+
+.progress-bar-wrong {
+    height: 5px;
+    background-color: var(--danger-mid);
+    transition: width 0.4s ease;
+    flex-shrink: 0;
 }
 
 .progress-percent {

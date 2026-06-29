@@ -58,19 +58,22 @@
                 $section_names = $chapter['sections'];
 
                 // 進捗計算
-                $progress     = $chapter_progress[$chapter_id] ?? ['total' => 0, 'correct_count' => 0];
-                $total        = $progress['total'];
-                $correct      = $progress['correct_count'];
-                $percent = ($total > 0) ? (int)round($correct / $total * 100) : 0;
+                $progress        = $chapter_progress[$chapter_id] ?? ['total' => 0, 'correct_count' => 0, 'wrong_count' => 0];
+                $total           = $progress['total'];
+                $correct         = $progress['correct_count'];
+                $wrong           = $progress['wrong_count'] ?? 0;
+                $answered        = $correct + $wrong;
+                $correct_percent = ($total > 0) ? (int)round($correct / $total * 100) : 0;
+                $wrong_percent   = ($total > 0) ? (int)round($wrong   / $total * 100) : 0;
 
-                if ($percent === 100) {
-                    $progress_label = $correct . ' / ' . $total . '　完了！';
+                if ($correct === $total && $total > 0) {
+                    $progress_label = '全問正解！';
                     $progress_class = 'progress-done';
-                } elseif ($correct === 0) {
+                } elseif ($answered === 0) {
                     $progress_label = '未着手';
                     $progress_class = 'progress-none';
                 } else {
-                    $progress_label = $correct . ' / ' . $total . '　進行中';
+                    $progress_label = $correct . ' / ' . $total . '　正解';
                     $progress_class = 'progress-ongoing';
                 }
             ?>
@@ -105,9 +108,10 @@
                             <!-- プログレスバー + パーセント -->
                             <div class="progress-bar-row">
                                 <div class="progress-bar-wrap">
-                                    <div class="progress-bar-fill <?= $progress_class ?>" style="width: <?= $percent ?>%;"></div>
+                                    <div class="progress-bar-correct" style="width: <?= $correct_percent ?>%;"></div>
+                                    <div class="progress-bar-wrong" style="width: <?= $wrong_percent ?>%;"></div>
                                 </div>
-                                <span class="progress-percent"><?= $percent ?>%</span>
+                                <span class="progress-percent"><?= $correct_percent ?>%</span>
                             </div>
                         </div>
                     </div>

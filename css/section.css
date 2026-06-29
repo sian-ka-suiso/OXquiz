@@ -60,6 +60,10 @@
     font-family: "Noto Sans JP", sans-serif;
 }
 
+.chapter-progress-header .chapter-name {
+    font-size: 20px;
+}
+
 .chapter-progress-label {
     font-family: "Noto Sans JP", sans-serif;
     font-size: 13px;
@@ -81,21 +85,26 @@
 
 .chapter-progress-bar-wrap {
     flex: 1;
+    display: flex;
     background-color: #e8e8e8;
     border-radius: 4px;
     height: 5px;
     overflow: hidden;
 }
 
-.chapter-progress-bar-fill {
+.chapter-progress-bar-correct {
     height: 5px;
-    border-radius: 4px;
+    background-color: var(--success-mid);
     transition: width 0.4s ease;
+    flex-shrink: 0;
 }
 
-.chapter-progress-bar-fill.progress-none    { background-color: var(--neutral-mid); }
-.chapter-progress-bar-fill.progress-ongoing { background-color: var(--warning-mid); }
-.chapter-progress-bar-fill.progress-done    { background-color: var(--success-mid); }
+.chapter-progress-bar-wrong {
+    height: 5px;
+    background-color: var(--danger-mid);
+    transition: width 0.4s ease;
+    flex-shrink: 0;
+}
 
 .chapter-progress-percent {
     font-size: 12px;
@@ -198,7 +207,6 @@
 /* 正解済み */
 .section-item button.done {
     background-color: var(--success-light);
-    /* border-color: var(--success-mid); */
     color: var(--success);
 }
 
@@ -210,7 +218,6 @@
 /* 誤答 */
 .section-item button.wrong {
     background-color: var(--danger-light);
-    /* border-color: #f5b8b8; */
     color: var(--danger);
 }
 
