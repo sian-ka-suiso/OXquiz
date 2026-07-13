@@ -369,7 +369,7 @@ function getChaptersWithSections()
 
     try {
         // SQLは完璧です！
-        $sSql  = "SELECT c.id, c.name AS chapter_name, c.is_published AS c_is_pub, s.name AS section_name, s.is_published AS s_is_pub ";
+        $sSql  = "SELECT c.id, c.name AS chapter_name, c.is_published AS c_is_pub, s.id AS section_id, s.name AS section_name, s.is_published AS s_is_pub ";
         $sSql .= "FROM chapter_table c ";
         $sSql .= "JOIN section_table s ON c.id = s.chapter_id ";
         $sSql .= "ORDER BY c.order_number, s.order_number";
@@ -393,6 +393,7 @@ function getChaptersWithSections()
             }
             // セクション名を追加（'sections' キーの配列に追加する）
             $array_result[$chapter_id]['sections'][] = [
+                'id'     => $row['section_id'],
                 'name'   => $row['section_name'],
                 'section_published' => $row['s_is_pub']
             ];
@@ -551,6 +552,28 @@ function getSectionsWithQuestions(int $chapter_id)
     }
 
     return $array_result;
+}
+
+//**************************************************
+// 数理カテゴリー（section_category）を全件取得
+// 戻り値: [section_id => [suuri, ...], ...]
+//**************************************************
+function getSectionCategories()
+{
+    $result = [];
+    $pdo = db_connect();
+    try {
+        $sSql = "SELECT section_id, suuri FROM section_category ORDER BY id";
+        $stmh = $pdo->prepare($sSql);
+        $stmh->execute();
+        $rows = $stmh->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($rows as $row) {
+            $result[(int)$row['section_id']][] = $row['suuri'];
+        }
+    } catch (PDOException $Exception) {
+        die('実行エラー :' . $Exception->getMessage() . "<br/>");
+    }
+    return $result;
 }
 
 //**************************************************

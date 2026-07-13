@@ -43,6 +43,7 @@
 
     //チャプター名をセクション名も合わせて取得
     $chapters = getChaptersWithSections();
+    $section_categories = getSectionCategories();
     $chapter_progress = (!$is_guest) ? getChapterProgressList($user_id) : [];
 
 //**************************************************

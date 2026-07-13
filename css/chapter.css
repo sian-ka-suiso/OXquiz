@@ -72,7 +72,7 @@
 .chapter-number-badge {
     font-family: "Noto Sans JP", sans-serif;
     font-size: 11px;
-    font-weight: 400;
+    font-weight: 500;
     letter-spacing: 0.08em;
     color: #ffffff;
     /* background-color: var(--primary-mid); */
@@ -88,8 +88,8 @@
     padding: 16px 24px 16px 16px;
     letter-spacing: 1.5px;
     font-family: "Noto Sans JP", sans-serif;
-    font-size: 24px;
-    font-weight: 600;
+    font-size: 26px;
+    font-weight: 700;
     color: #2a2a2a;
     line-height: 1.3;
     flex-shrink: 0;
@@ -121,11 +121,35 @@
 }
 
 .section-name-container > span {
-    font-size: 11.5px;
+    font-size: 12px;
     color: #5a5a5a;
     word-break: break-all;
     line-height: 1.6;
     padding: 0 2px;
+}
+
+/* ---------- 数理カテゴリータグ ---------- */
+.section-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.suuri-tag {
+    display: inline-block;
+    font-size: 9px;
+    font-family: "Noto Sans JP", sans-serif;
+    font-weight: 600;
+    color: var(--neutral);
+    background-color: var(--neutral-light);
+    border: 1px solid var(--neutral-mid);
+    border-radius: 3px;
+    padding: 1px 5px;
+    vertical-align: middle;
+    line-height: 1.5;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 /* ---------- Progress Label ---------- */
@@ -143,7 +167,7 @@
 }
 
 .chapter-progress {
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 600;
     font-family: "Noto Sans JP", sans-serif;
     margin-top: 10px;
@@ -159,8 +183,8 @@
 }
 
 .progress-ongoing {
-    background-color: var(--warning-light);
-    color: var(--warning);
+    background-color: var(--primary-light);
+    color: var(--primary);
 }
 
 .progress-done {
@@ -174,7 +198,7 @@
     display: flex;
     background-color: #e8e8e8;
     border-radius: 4px;
-    height: 5px;
+    height: 4px;
     overflow: hidden;
 }
 

@@ -96,7 +96,12 @@
                         <?php $section_index = 1; ?>
                         <?php foreach ($section_names as $section): ?>
                             <?php if ($section['section_published'] || $is_admin): ?>
-                                <span class="font-Noto"><?= V2H($section_index) ?>. <?= V2H($section['name']); ?></span>
+                                <span class="font-Noto section-row">
+                                    <?= V2H($section_index) ?>. <?= V2H($section['name']); ?>
+                                    <?php foreach ($section_categories[$section['id']] ?? [] as $suuri): ?>
+                                        <span class="suuri-tag"><?= V2H($suuri) ?></span>
+                                    <?php endforeach; ?>
+                                </span>
                             <?php endif; ?>
                             <?php $section_index++; ?>
                         <?php endforeach; ?>

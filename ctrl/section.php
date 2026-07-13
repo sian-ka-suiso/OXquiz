@@ -28,6 +28,7 @@
     $chapter_names = getChapterNames($chapter_id);
     // セクションid、セクション名、クエスチョンid配列
     $sections = getSectionsWithQuestions($chapter_id);
+    $section_categories = getSectionCategories();
 
     if (!$is_guest){
         $all_question_ids = [];
