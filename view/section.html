@@ -104,7 +104,12 @@
                 $question_ids = $section['question_ids'];
             ?>
                 <div class="section-item">
-                    <p class="section-name"><?= V2H($section_index + 1) ?>. <?= V2H($section_name) ?></p>
+                    <p class="section-name">
+                        <?= V2H($section_index + 1) ?>. <?= V2H($section_name) ?>
+                        <?php foreach ($section_categories[$section_id] ?? [] as $suuri): ?>
+                            <span class="suuri-tag"><?= V2H($suuri) ?></span>
+                        <?php endforeach; ?>
+                    </p>
                     <div class="question-button-container">
                         <?php foreach($question_ids as $question_index => $question): ?>
                         <?php
