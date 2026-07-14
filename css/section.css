@@ -177,9 +177,9 @@
     font-size: 11px;
     font-family: "Noto Sans JP", sans-serif;
     font-weight: 600;
-    color: var(--primary);
-    background-color: var(--primary-light);
-    border: 1px solid var(--primary-mid);
+    color: var(--neutral);
+    background-color: var(--neutral-light);
+    border: 1px solid var(--neutral-mid);
     border-radius: 3px;
     padding: 1px 6px;
     vertical-align: middle;
