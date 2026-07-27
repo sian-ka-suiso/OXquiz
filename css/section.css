@@ -213,11 +213,7 @@
     border: none;
     /* border: 2px solid #e8e8e8; */
     border: 2px solid transparent;
-<<<<<<< HEAD
     border-radius: var(--card-radius);
-=======
-    border-radius: 12px;
->>>>>>> feature/ui-update
     font-size: 18px;
     font-family: "Roboto", sans-serif;
     font-style: italic;
