@@ -26,7 +26,8 @@ form {
     width: 300px;
 }
 
-.form-group input {
+.form-group input,
+.form-group select {
     padding: 4px;
 }
 
