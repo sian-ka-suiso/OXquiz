@@ -82,6 +82,25 @@ function getUsers(){
     return $result;
 }
 //**************************************************
+// 全チャプターの情報取得
+//**************************************************
+function getChapterData(){
+    $result = [];
+    $pdo = db_connect();
+
+    try {
+        $sSql = "SELECT id, name, folder_name, order_number, is_published FROM chapter_table";
+        $stmh = $pdo->prepare($sSql);
+        $stmh->execute();
+        $rows = $stmh->fetchAll(PDO::FETCH_ASSOC);
+        $result = $rows;
+    } catch (PDOException $Exception) {
+        error_log("PDO Error in " . __FUNCTION__ . ": " . $Exception->getMessage());
+        return [];
+    }
+    return $result;
+}
+//**************************************************
 // ユーザー情報（ユーザー名、登録日、更新日、管理者フラグ）取得
 //**************************************************
 function getUserInfo(int $id) {
@@ -234,6 +253,112 @@ function deleteUser(int $id){
 	}
 }
 //**************************************************
+//**************************************************
+// チャプター更新（管理ページ用）
+//**************************************************
+function updateChapter($id, $name, $folder_name, $order_number, $is_published) {
+	$pdo = db_connect();
+	try {
+		//データ検索の条件
+		$sql = "UPDATE chapter_table SET name = :name, folder_name = :folder_name, order_number = :order_number, is_published = :is_published WHERE id = :id";
+		//ステートメントハンドラを作成
+		$stmh = $pdo->prepare($sql);
+		//バインドの実行
+		$stmh->bindValue(':id', $id, PDO::PARAM_STR);
+        $stmh->bindValue(':name', $name, PDO::PARAM_STR);
+        $stmh->bindValue(':folder_name', $folder_name, PDO::PARAM_STR);
+        $stmh->bindValue(':order_number', $order_number, PDO::PARAM_STR);
+        $stmh->bindValue(':is_published', $is_published, PDO::PARAM_STR);
+		//SQL文の実行
+		$stmh->execute();
+		//登録成功を返却
+		return true;
+	} catch (PDOException $Exception) {
+		//例外が発生したらエラーを出力
+		die('実行エラー :' . $Exception->getMessage()."<br />");
+		//登録失敗を返却
+		return false;
+	}
+}
+//**************************************************
+// チャプター削除（管理ページ用）
+//**************************************************
+function deleteChapter($id){
+	$pdo = db_connect();
+	try {
+		$sql = "DELETE FROM chapter_table WHERE id = :id";
+		$stmh = $pdo->prepare($sql);
+		$stmh->bindValue(':id', $id,  PDO::PARAM_INT);
+		$stmh->execute();
+		return true;
+	} catch (PDOException $Exception) {
+        error_log("PDO Error in " . __FUNCTION__ . ": " . $Exception->getMessage());
+		return false;
+	}
+}
+//**************************************************
+// チャプター追加
+//**************************************************
+function insertChapter($id, $name, $folder_name, $order_number, $is_published) {
+
+	//データベース接続関数の呼び出し
+	$pdo = db_connect();
+
+	try {
+		//データ検索の条件
+		$sql = "INSERT INTO chapter_table (id, name, folder_name, order_number, is_published) VALUES (:id, :name, :folder_name, :order_number, :is_published)";
+		//ステートメントハンドラを作成
+		$stmh = $pdo->prepare($sql);
+		//バインドの実行
+		$stmh->bindValue(':id', $id, PDO::PARAM_STR);
+        $stmh->bindValue(':name',  $name,  PDO::PARAM_STR);
+        $stmh->bindValue(':folder_name',  $folder_name,  PDO::PARAM_STR);
+        $stmh->bindValue(':order_number',  $order_number,  PDO::PARAM_STR);
+        $stmh->bindValue(':is_published',  $is_published,  PDO::PARAM_STR);
+		//SQL文の実行
+		$stmh->execute();
+		//登録成功を返却
+		return true;
+	} catch (PDOException $Exception) {
+		//例外が発生したらエラーを出力
+		die('実行エラー :' . $Exception->getMessage()."<br />");
+		//登録失敗を返却
+		return false;
+	}
+}
+//**************************************************
+// チャプター名重複確認
+//**************************************************
+function checkChapterName($name) {
+    $pdo = db_connect();  // ここで接続を確保
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM chapter_table WHERE name = :name");
+    $stmt->bindValue(':name', $name, PDO::PARAM_STR);
+    $stmt->execute();
+    $count = $stmt->fetchColumn();
+    return $count > 0; // true = 存在する
+}
+//**************************************************
+// フォルダーー名重複確認
+//**************************************************
+function checkFolder($folder_name) {
+    $pdo = db_connect();  // ここで接続を確保
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM chapter_table WHERE folder_name = :folder_name");
+    $stmt->bindValue(':folder_name', $folder_name, PDO::PARAM_STR);
+    $stmt->execute();
+    $count = $stmt->fetchColumn();
+    return $count > 0; // true = 存在する
+}
+//**************************************************
+// オーダー番号重複確認
+//**************************************************
+function checkOrder($order_number) {
+    $pdo = db_connect();  // ここで接続を確保
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM chapter_table WHERE order_number = :order_number");
+    $stmt->bindValue(':order_number', $order_number, PDO::PARAM_STR);
+    $stmt->execute();
+    $count = $stmt->fetchColumn();
+    return $count > 0; // true = 存在する
+}
 // 管理者ログインチェック
 //**************************************************
 function admLoginCheck($email = "", $login_pass = ""){
