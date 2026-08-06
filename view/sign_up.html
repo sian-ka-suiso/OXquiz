@@ -41,7 +41,7 @@
             <label for="class_id">クラス</label>
             <select name="class_id" id="class_id">
                 <option value="">選択してください</option>
-                <option value="0" <?= ($class_id === "0" || $class_id === 0) ? 'selected' : '' ?>>所属無し</option>
+                <option value="0" <?= ($class_id === "0" || $class_id === 0) ? 'selected' : '' ?>>所属なし</option>
                 <?php foreach ($arrClasses as $class): ?>
                 <option value="<?= $class['id'] ?>" <?= ($class_id == $class['id']) ? 'selected' : '' ?>><?= $class['class_name'] ?></option>
                 <?php endforeach; ?>
