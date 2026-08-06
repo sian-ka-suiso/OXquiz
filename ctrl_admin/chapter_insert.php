@@ -39,6 +39,8 @@ if ($step == 1) {
 
     if ($order_number == "") {
         $arrErr['order_number'] = "order番号を入力してください";
+    } elseif (!ctype_digit($order_number)) {
+        $arrErr['order_number'] = "order番号は半角数字で入力してください";
     } elseif (checkOrder($order_number)) {
         // checkChapterName() が true なら既存order番号あり
         $arrErr['order_number'] = "このorder番号は既に存在します";
