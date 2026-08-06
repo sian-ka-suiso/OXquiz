@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>以下のユーザーを編集します</h2>
+    <div class="tables">
+        <table border="1">
+            <h3>変更前</h3>
+            <tr>
+                <th>ID</th>
+                <th>チャプター名</th>
+                <th>フォルダー名</th>
+                <th>order</th>
+                <th>公開状況</th>
+            </tr>
+            <tr>
+                <td><?php echo htmlspecialchars($id); ?></td>
+                <td><?php echo htmlspecialchars($name); ?></td>
+                <td><?php echo htmlspecialchars($folder_name); ?></td>
+                <td><?php echo htmlspecialchars($order_number); ?></td>
+                <td><?php echo htmlspecialchars($is_published); ?></td>
+            </tr>
+        </table>
+        <form action="../ctrl/chapter_update.php" method="post">
+            <table border="1">
+                <h3>変更後</h3>
+                        <tr>
+                    <th>ID</th>
+                    <th>チャプター名</th>
+                    <th>フォルダー名</th>
+                    <th>order</th>
+                    <th>公開状況</th>
+                </tr>
+                <tr>
+                    <td><?php echo htmlspecialchars($id); ?></td>
+                    <td>
+                        <input type="text" name="name" value="<?= $name ?>">
+                    </td>
+                    <td>
+                        <input type="text" name="folder_name" value="<?= $folder_name ?>">
+                    </td>
+                    <td>
+                        <input type="text" name="order_number" value="<?= $order_number ?>">
+                    </td>
+                    <td>
+                        <select name="is_published" id="">
+                            <option value="0" <?= $is_published == 0 ? 'selected' : '' ?>>０</option>
+                            <option value="1" <?= $is_published == 1 ? 'selected' : '' ?>>１</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+            <input type="hidden" name="step" value="2">
+            <input type="hidden" name="id" value="<?php echo htmlspecialchars($id); ?>">
+            <button type="submit">変更する</button>
+        </form>
+    </div>
+    <form action="../ctrl_admin/chapter.php" method="post">
+        <input type="hidden" name="step" value="">
+        <button type="submit">戻る</button>
+    </form>
+</body>
+</html>
