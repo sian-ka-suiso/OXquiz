@@ -21,6 +21,16 @@
     $email = isset($_SESSION['email']) ? $_SESSION['email'] : "";
     //ゲスト
     $is_guest = !empty($_SESSION['guest']);
+//**************************************************
+// ログインチェック
+//**************************************************
+    if(!isset($_SESSION['is_login']) || $_SESSION['is_login'] !== true){
+        header("location: ./"); // ログイン画面に戻す
+        exit();
+    }
+//**************************************************
+// 変数取得（続き）
+//**************************************************
     //ユーザー情報（ユーザー名、登録日、更新日、管理者フラグ）取得
     if (!$is_guest){
         $userData = getUserInfo($user_id);
@@ -47,15 +57,8 @@
     $chapter_progress = (!$is_guest) ? getChapterProgressList($user_id) : [];
 
 //**************************************************
-// ログインチェック
-//**************************************************
-    if(!isset($_SESSION['is_login']) || $_SESSION['is_login'] !== true){
-        header("location: index.php"); // ログイン画面に戻す
-        exit();
-    }
-//**************************************************
 // HTMLを出力
 //**************************************************
     //画面へ表示
-    require_once('../view/chapter.html');
+    require_once('../view/chapter.php');
 ?>

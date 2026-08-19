@@ -13,21 +13,20 @@
 //**************************************************
 // 変数取得
 //**************************************************
-    $email = isset($_SESSION['email']) ? $_SESSION['email'] : "";
-    $pw = isset($_SESSION['pw']) ? $_SESSION['pw'] : "";
-    $chapterSectionQuestions = getAll();
-    $loginOk = admLoginCheck($email, $pw);
 //**************************************************
 // ログインチェック
 //**************************************************
-    if(!isset($_SESSION['is_login']) || $_SESSION['is_login'] !== true){
-        header("location: adm_login.php"); // ログイン画面に戻す
+    if(!isset($_SESSION['admin_is_login']) || $_SESSION['admin_is_login'] !== true){
+        header("location: login"); // 管理者ログイン画面に戻す
         exit();
     }
+    // 管理者としてログイン中か、教員としてログイン中か（今後、権限ごとにUIを出し分ける想定）
+    $admin_role = isset($_SESSION['admin_role']) ? $_SESSION['admin_role'] : "";
+    $chapterSectionQuestions = getAll();
 //**************************************************
 // HTMLを出力
 //**************************************************
     //画面へ表示
-    require_once('../view_admin/admin.html');
+    require_once('../view_admin/admin.php');
 
 ?>

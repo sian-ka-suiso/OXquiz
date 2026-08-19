@@ -11,6 +11,13 @@
     //データベース操作関数の定義ファイルを読み込み
     require_once('../model/dbfunction.php');
 //**************************************************
+// ログインチェック
+//**************************************************
+    if(!isset($_SESSION['admin_is_login']) || $_SESSION['admin_is_login'] !== true){
+        header("location: login"); // 管理者ログイン画面に戻す
+        exit();
+    }
+//**************************************************
 // 変数取得
 //**************************************************
     $users = getUsers();
@@ -33,12 +40,12 @@
 //**************************************************
 // HTMLを出力
 //**************************************************
-    require_once('../view_admin/user.html');
+    require_once('../view_admin/user.php');
     // //画面へ表示
     // if($step == ""){
-    //     require_once('../view_admin/user.html');
+    //     require_once('../view_admin/user.php');
     // }
     // if($step == 1){
-    //     require_once('../view_admin/user_delete.html');
+    //     require_once('../view_admin/user_delete.php');
     // }
 ?>

@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>よくある間違い〇✕クイズ マイページ</title>
-    <link rel="stylesheet" type="text/css" href="../css/common.css">
-    <link rel="stylesheet" type="text/css" href="../css/mypage.css">
+    <link rel="stylesheet" type="text/css" href="css/common.css">
+    <link rel="stylesheet" type="text/css" href="css/mypage.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=RocknRoll+One&display=swap"
@@ -17,8 +17,8 @@
 
     <!-- ヘッダー（ロゴのみ） -->
     <header>
-        <a href="../ctrl/chapter.php" class="site-logo">
-            <img src="../images/other/logo.png" alt="よくある間違い〇✕クイズ">
+        <a href="chapter" class="site-logo">
+            <img src="images/other/logo.png" alt="よくある間違い〇✕クイズ">
         </a>
         <nav>
             <div class="breadcrumb">
@@ -30,13 +30,13 @@
             </div>
             <div class="links-area">
                 <span class="user-name">
-                    <a href="../ctrl/mypage.php" class="nav-link">
+                    <a href="mypage" class="nav-link">
                         <?= V2H($user_name); ?>
                     </a> さん
                 </span>
                 <a href="https://w3e.kanazawa-it.ac.jp/math/" target="_blank" rel="noopener noreferrer"
                     class="nav-link">KIT数学ナビゲーション</a>
-                <form action="../ctrl/" method="post" class="logoutBtn">
+                <form action="./" method="post" class="logoutBtn">
                     <input type="hidden" name="sign_out" value="true">
                     <button type="submit" class="nav-link">ログアウト</button>
                 </form>
@@ -81,7 +81,7 @@
                         <span>
                             <?= V2H($user_name); ?>
                         </span>
-                        <form action="mypage.php" method="post">
+                        <form action="mypage" method="post">
                             <input type="text" name="change_name" placeholder="新しいユーザー名">
                             <button type="submit">変更</button>
                         </form>
@@ -101,7 +101,7 @@
                     <div class="category-name">パスワード</div>
                     <div class="update-area">
                         <span>••••••••••</span>
-                        <form action="mypage.php" method="post">
+                        <form action="mypage" method="post">
                             <input type="password" name="reset_pass" placeholder="新しいパスワード">
                             <button type="submit">再設定</button>
                         </form>
@@ -149,7 +149,7 @@
                         data-chapter-order="<?= V2H($bookmark['chapter_order']) ?>"
                         data-section-order="<?= V2H($bookmark['section_order']) ?>"
                         data-question-order="<?= V2H($bookmark['question_order']) ?>">
-                        <form action="../ctrl/question.php" method="get" class="bookmark-link-form">
+                        <form action="question" method="get" class="bookmark-link-form">
                             <input type="hidden" name="chapter_id" value="<?= V2H($bookmark['chapter_id']) ?>">
                             <input type="hidden" name="section_id" value="<?= V2H($bookmark['section_id']) ?>">
                             <input type="hidden" name="question_id" value="<?= V2H($bookmark['question_id']) ?>">
@@ -179,9 +179,9 @@
     </div>
 
     <!-- 戻るリンク -->
-    <a href="../ctrl/chapter.php" class="back-link">Chapter一覧に戻る</a>
+    <a href="chapter" class="back-link">Chapter一覧に戻る</a>
 
-    <script src="../js/mypage.js"></script>
+    <script src="js/mypage.js"></script>
 </body>
 
 </html>

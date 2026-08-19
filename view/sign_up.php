@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="../css/sign_up.css">
-    <link rel="stylesheet" type="text/css" href="../css/common.css">
+    <link rel="stylesheet" type="text/css" href="css/sign_up.css">
+    <link rel="stylesheet" type="text/css" href="css/common.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=RocknRoll+One&family=WDXL+Lubrifont+JP+N&display=swap" rel="stylesheet">
     <title>よくある間違いOXクイズ　新規登録</title>
 </head>
 <body>
-    <a href="../ctrl/index.php">
-        <img src="../images/other/logo.png" alt="よくある間違い〇✕クイズ">
+    <a href="./">
+        <img src="images/other/logo.png" alt="よくある間違い〇✕クイズ">
     </a>
     <div style="font-size: 22px; font-weight: bold;">新規登録</div>
-    <form action="../ctrl/sign_up.php" method="post">
+    <form action="sign_up" method="post">
         <div class="form-group">
             <label for="email">メールアドレス<span style="font-size: 14px; color: #353535;">（大学のアドレス）</span></label>
             <input type="email" name="email" value="<?= $email ?>" placeholder="例 : c1234567@st.kanazawa-it.ac.jp">
@@ -38,7 +38,7 @@
             </div>
         </div>
         <div class="btn-area">
-            <a href="../ctrl/">戻る</a>
+            <a href="./">戻る</a>
             <div>
                 <button type="submit">入力確認</button>
                 <input type="hidden" name="step" value="1">

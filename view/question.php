@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>よくある間違いOXクイズ QuestionPage</title>
-    <link rel="stylesheet" type="text/css" href="../css/common.css">
-    <link rel="stylesheet" type="text/css" href="../css/question.css">
+    <link rel="stylesheet" type="text/css" href="css/common.css">
+    <link rel="stylesheet" type="text/css" href="css/question.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=RocknRoll+One&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -17,19 +17,19 @@
 
         <!-- ヘッダー -->
         <header>
-            <a href="../ctrl/chapter.php" class="site-logo">
-                <img src="../images/other/logo.png" alt="よくある間違い〇✕クイズ">
+            <a href="chapter" class="site-logo">
+                <img src="images/other/logo.png" alt="よくある間違い〇✕クイズ">
             </a>
             <nav>
                 <div class="breadcrumb">
-                    <button class="visited-location font-Noto" onclick="location.href='../ctrl/chapter.php'">Chapter</button>
+                    <button class="visited-location font-Noto" onclick="location.href='chapter'">Chapter</button>
                     <span>▸</span>
-                    <form action="../ctrl/section.php" method="get" style="display:inline;">
+                    <form action="section" method="get" style="display:inline;">
                         <button class="visited-location font-Noto" type="submit">Section</button>
                         <input type="hidden" name="chapter_id" value="<?= $chapter_id ?>">
                     </form>
                     <span>▸</span>
-                    <form action="../ctrl/question.php" method="get" style="display:inline;">
+                    <form action="question" method="get" style="display:inline;">
                         <button class="current-location font-Noto" type="submit">Question</button>
                         <input type="hidden" name="chapter_id" value="<?= $chapter_id ?>">
                         <input type="hidden" name="section_id" value="<?= $section_id ?>">
@@ -42,11 +42,11 @@
                         <?php if ($is_guest): ?>
                             <?= V2H($user_name) ?> さん
                         <?php else: ?>
-                            <a href="../ctrl/mypage.php" class="nav-link"><?= V2H($user_name); ?></a> さん
+                            <a href="mypage" class="nav-link"><?= V2H($user_name); ?></a> さん
                         <?php endif; ?>
                     </span>
                     <a href="https://w3e.kanazawa-it.ac.jp/math/" target="_blank" rel="noopener noreferrer" class="nav-link">KIT数学ナビゲーション</a>
-                    <form action="../ctrl/" method="post" class="logoutBtn">
+                    <form action="./" method="post" class="logoutBtn">
                         <input type="hidden" name="sign_out" value="true">
                         <button type="submit" class="nav-link">ログアウト</button>
                     </form>
@@ -59,7 +59,7 @@
         <main>
 
             <!-- Section一覧に戻るボタン -->
-            <form action="../ctrl/section.php" method="get" style="width:90%; margin-bottom:4px;">
+            <form action="section" method="get" style="width:90%; margin-bottom:4px;">
                 <input type="hidden" name="chapter_id" value="<?= $chapter_id ?>">
                 <button type="submit" class="back-to-section">← Section一覧に戻る</button>
             </form>
@@ -208,14 +208,14 @@
 
         <!-- 前後ナビゲーション -->
         <div class="question-nav-button">
-            <form action="../ctrl/question.php" method="get" class="<?= $question_number == 1 ? 'hidden' : '' ?>">
+            <form action="question" method="get" class="<?= $question_number == 1 ? 'hidden' : '' ?>">
                 <input type="hidden" name="chapter_id" value="<?= $chapter_id ?>">
                 <input type="hidden" name="section_id" value="<?= $section_id ?>">
                 <input type="hidden" name="question_id" value="<?= $question_ids[$question_number - 2] ?>">
                 <input type="hidden" name="qn" value="<?= htmlspecialchars($question_number - 1); ?>">
                 <button class="prev" type="submit">← 前の問題</button>
             </form>
-            <form action="../ctrl/question.php" method="get" class="<?= $question_number == $question_count ? 'hidden' : '' ?>">
+            <form action="question" method="get" class="<?= $question_number == $question_count ? 'hidden' : '' ?>">
                 <input type="hidden" name="chapter_id" value="<?= $chapter_id; ?>">
                 <input type="hidden" name="section_id" value="<?= $section_id; ?>">
                 <input type="hidden" name="question_id" value="<?= $question_ids[$question_number] ?>">
@@ -229,6 +229,6 @@
     <script>
         const explanationPath = <?= json_encode(array_values($explanationPath)) ?>;
     </script>
-    <script src="../js/question.js"></script>
+    <script src="js/question.js"></script>
 </body>
 </html>

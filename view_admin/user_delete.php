@@ -19,12 +19,12 @@
             <td><?php echo htmlspecialchars($user_name); ?></td>
         </tr>
     </table>
-    <form action="../ctrl/user_delete.php" method="post">
+    <form action="user_delete" method="post">
         <input type="hidden" name="id" value="<?php echo htmlspecialchars($id); ?>">
         <input type="hidden" name="step" value="2">
         <button type="submit">削除</button>
     </form>
-    <form action="../ctrl/user.php" method="post">
+    <form action="user" method="post">
         <input type="hidden" name="step" value="">
         <button type="submit">戻る</button>
     </form>

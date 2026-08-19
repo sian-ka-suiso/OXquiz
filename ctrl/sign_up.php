@@ -53,7 +53,7 @@ if ($step == 1) {
     if (empty($arrErr)) {
         $_SESSION['email'] = $email;
         $_SESSION['login_pass'] = $login_pass;
-        header("Location: sign_up_confirm.php");
+        header("Location: sign_up_confirm");
         exit();
     }
 }
@@ -61,5 +61,5 @@ if ($step == 1) {
 // HTMLを出力
 //**************************************************
     //画面へ表示
-    require_once('../view/sign_up.html');
+    require_once('../view/sign_up.php');
 ?>

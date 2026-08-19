@@ -9,13 +9,13 @@
 <body>
     <h2>データベース 一覧</h2>
     <ul>
-        <li><a href="../ctrl/user.php">ユーザー</a></li>
-        <li><a href="../ctrl_admin/chapter.php">章（Chapter）</a></li>
+        <li><a href="user">ユーザー</a></li>
+        <li><a href="chapter">章（Chapter）</a></li>
         <li><a href="">節（Section）</a></li>
         <li><a href="">問題・解説</a></li>
         <li><a href="">数学ナビ</a></li>
     </ul>
-    <form action="../ctrl/adm_login.php" method="post">
+    <form action="login" method="post">
         <input type="hidden" name="sign_out" value="true">
         <button type="submit">ログアウト</button>
     </form>

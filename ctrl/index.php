@@ -28,7 +28,7 @@
         $_SESSION = array(); 
         session_destroy();
         // ログアウト後は再読み込み
-        header("Location: index.php");
+        header("Location: ./");
         exit();
     }
 //**************************************************
@@ -61,7 +61,7 @@
                 $_SESSION['user_id']  = $id;
                 $_SESSION['email']    = $email;
 
-                header("location: chapter.php");
+                header("location: chapter");
                 exit();
             } else if ($email != "" || $login_pass != "") {
                 $arrErr['common'] = "メールアドレスもしくはパスワードが間違っています。";
@@ -83,13 +83,13 @@
     if(isset($_POST['guest'])){
         $_SESSION['is_login'] = true; // ゲストもログイン済み扱いにする
         $_SESSION['guest'] = true;
-        header("location: chapter.php");
+        header("location: chapter");
         exit();
     }
 //**************************************************
 // HTMLを出力
 //**************************************************
     //画面へ表示
-    require_once('../view/index.html');
+    require_once('../view/index.php');
 
 ?>

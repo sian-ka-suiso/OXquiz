@@ -6,36 +6,45 @@
     <title>Document</title>
 </head>
 <body>
-    <h2>以下のチャプターを追加します</h2>
+    <h2>以下のユーザーを編集します</h2>
     <div class="tables">
-
-        <form action="../ctrl_admin/chapter_insert.php" method="post">
+        <table border="1">
+            <h3>変更前</h3>
+            <tr>
+                <th>ID</th>
+                <th>チャプター名</th>
+                <th>フォルダー名</th>
+                <th>order</th>
+                <th>公開状況</th>
+            </tr>
+            <tr>
+                <td><?php echo htmlspecialchars($id); ?></td>
+                <td><?php echo htmlspecialchars($name); ?></td>
+                <td><?php echo htmlspecialchars($folder_name); ?></td>
+                <td><?php echo htmlspecialchars($order_number); ?></td>
+                <td><?php echo htmlspecialchars($is_published); ?></td>
+            </tr>
+        </table>
+        <form action="chapter_update" method="post">
             <table border="1">
-                <h3>追加内容</h3>
-                <tr>
+                <h3>変更後</h3>
+                        <tr>
+                    <th>ID</th>
                     <th>チャプター名</th>
                     <th>フォルダー名</th>
                     <th>order</th>
                     <th>公開状況</th>
                 </tr>
                 <tr>
+                    <td><?php echo htmlspecialchars($id); ?></td>
                     <td>
                         <input type="text" name="name" value="<?= $name ?>">
-                        <div class="err">
-                            <?= isset($arrErr['name']) ? $arrErr['name'] : "" ?>
-                        </div>
                     </td>
                     <td>
                         <input type="text" name="folder_name" value="<?= $folder_name ?>">
-                        <div class="err">
-                            <?= isset($arrErr['folder_name']) ? $arrErr['folder_name'] : "" ?>
-                        </div>
                     </td>
                     <td>
                         <input type="text" name="order_number" value="<?= $order_number ?>">
-                        <div class="err">
-                            <?= isset($arrErr['order_number']) ? $arrErr['order_number'] : "" ?>
-                        </div>
                     </td>
                     <td>
                         <select name="is_published" id="">
@@ -45,12 +54,12 @@
                     </td>
                 </tr>
             </table>
+            <input type="hidden" name="step" value="2">
             <input type="hidden" name="id" value="<?php echo htmlspecialchars($id); ?>">
-            <button type="submit">追加する</button>
-            <input type="hidden" name="step" value="1">
+            <button type="submit">変更する</button>
         </form>
     </div>
-    <form action="../ctrl_admin/chapter.php" method="post">
+    <form action="chapter" method="post">
         <input type="hidden" name="step" value="">
         <button type="submit">戻る</button>
     </form>

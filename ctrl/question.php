@@ -22,7 +22,16 @@
     $email = isset($_SESSION['email']) ? $_SESSION['email'] : "";
     //ゲスト
     $is_guest = !empty($_SESSION['guest']);
-
+//**************************************************
+// ログインチェック
+//**************************************************
+    if(!isset($_SESSION['is_login']) || $_SESSION['is_login'] !== true){
+        header("location: ./"); // ログイン画面に戻す
+        exit();
+    }
+//**************************************************
+// 変数取得（続き）
+//**************************************************
     // チャプターid
     $chapter_id = isset($_GET['chapter_id']) ? $_GET['chapter_id'] : "";
     // セクションid
@@ -115,20 +124,21 @@
     $section_fname = $section_names["folder_name"];
     $question_fname = sprintf("%05d", $question_id);
 
-    // 問題画像
-    $questionPath = "../images/".$chapter_fname."/".$section_fname."/".$question_fname."/q.png";
-    $qPathmtime = filemtime($questionPath);
-    $questionPath = "".$questionPath . "?v=" . $qPathmtime;
+    // 問題画像（filemtime()用はファイルシステム上の相対パス、画面表示用はURL上の相対パス）
+    $questionFsPath = "../images/".$chapter_fname."/".$section_fname."/".$question_fname."/q.png";
+    $qPathmtime = filemtime($questionFsPath);
+    $questionPath = "images/".$chapter_fname."/".$section_fname."/".$question_fname."/q.png" . "?v=" . $qPathmtime;
 
     // 選択肢画像
     // --- 選択肢の配列作成 ---
     $options = [];
     for($i=1; $i<=$questions["options"]; $i++){
-        $path = "../images/".$chapter_fname."/".$section_fname."/".$question_fname."/opt".$i.".png";
-        $mtime = filemtime($path);
+        $fsPath = "../images/".$chapter_fname."/".$section_fname."/".$question_fname."/opt".$i.".png";
+        $mtime = filemtime($fsPath);
+        $urlPath = "images/".$chapter_fname."/".$section_fname."/".$question_fname."/opt".$i.".png";
         $options[$i] = [ // キーをIDにしておくと復元が楽です
-            'id'   => $i, 
-            'path' => $path . "?v=" . $mtime
+            'id'   => $i,
+            'path' => $urlPath . "?v=" . $mtime
         ];
     }
     // --- 並び順の決定ロジック ---
@@ -148,20 +158,13 @@
     // 解説画像
     $explanationPath = [];
     for($j=1; $j<=count($explanation_ids); $j++){
-        $explanationPath[$j] = "../images/".$chapter_fname."/".$section_fname."/".$question_fname."/exp".$j.".png";
-        $ePathmtime = filemtime($explanationPath[$j]);
-        $explanationPath[$j] = "".$explanationPath[$j] . "?v=" . $ePathmtime;
-    }
-//**************************************************
-// ログインチェック
-//**************************************************
-    if(!isset($_SESSION['is_login']) || $_SESSION['is_login'] !== true){
-        header("location: index.php"); // ログイン画面に戻す
-        exit();
+        $explanationFsPath = "../images/".$chapter_fname."/".$section_fname."/".$question_fname."/exp".$j.".png";
+        $ePathmtime = filemtime($explanationFsPath);
+        $explanationPath[$j] = "images/".$chapter_fname."/".$section_fname."/".$question_fname."/exp".$j.".png" . "?v=" . $ePathmtime;
     }
 //**************************************************
 // HTMLを出力
 //**************************************************
-    require_once('../view/question.html');
+    require_once('../view/question.php');
 
 ?>
