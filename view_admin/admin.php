@@ -8,6 +8,7 @@
 </head>
 <body>
     <h2>データベース 一覧</h2>
+    <p>ログイン権限（admin_role）：<strong><?= htmlspecialchars($admin_role) ?></strong></p>
     <ul>
         <li><a href="user">ユーザー</a></li>
         <li><a href="chapter">章（Chapter）</a></li>
