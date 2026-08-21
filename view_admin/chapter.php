@@ -30,7 +30,7 @@
             <td><?php echo V2H($chap['folder_name']); ?></td>
             <td><?php echo V2H($chap['order_number']); ?></td>
             <td><?php echo V2H($chap['is_published']); ?></td>
-            <form action="../ctrl/chapter_update.php" method="post">
+            <form action="../ctrl_admin/chapter_update.php" method="post">
                 <td><button type="submit" name="step" value="1">編集</button></td>
                 <input type="hidden" name="id" value="<?php echo V2H($chap['id']); ?>">
                 <input type="hidden" name="name" value="<?php echo V2H($chap['name']); ?>">
@@ -49,7 +49,7 @@
         </tr>
     <?php endforeach; ?>
     </table>
-    <form action="../ctrl/admin.php" method="post">
+    <form action="../ctrl_admin/admin.php" method="post">
         <button type="submit">戻る</button>
     </form>
 </body>

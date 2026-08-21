@@ -11,6 +11,13 @@
     //データベース操作関数の定義ファイルを読み込み
     require_once('../model/dbfunction.php');
 //**************************************************
+// ログインチェック
+//**************************************************
+    if(!isset($_SESSION['admin_is_login']) || $_SESSION['admin_is_login'] !== true){
+        header("location: adm_login.php"); // 管理者ログイン画面に戻す
+        exit();
+    }
+//**************************************************
 // 変数取得
 //**************************************************
     $id = isset($_POST['id']) ? $_POST['id'] : "";
@@ -61,5 +68,5 @@ if ($step == 1) {
 // HTMLを出力
 //**************************************************
     //画面へ表示
-    require_once('../view_admin/chapter_insert.html');
+    require_once('../view_admin/chapter_insert.php');
 ?>

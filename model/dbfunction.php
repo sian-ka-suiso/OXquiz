@@ -444,6 +444,53 @@ function admLoginCheck($email = "", $login_pass = ""){
     return false; // ユーザーがいない、またはパスワード不一致
 }
 //**************************************************
+// 教員ログインチェック
+//**************************************************
+function teacherLoginCheck($email = "", $login_pass = ""){
+    // データベース接続関数の呼び出し
+    $pdo = db_connect();
+
+    try {
+        // 1. メールアドレスのみでユーザーを特定する
+        $sSql = "SELECT id, login_pass FROM user_table WHERE email = :email AND is_teacher = 1";
+
+        $stmh = $pdo->prepare($sSql);
+        $stmh->bindValue(':email', $email, PDO::PARAM_STR);
+        $stmh->execute();
+
+        // ユーザー情報を取得
+        $user = $stmh->fetch(PDO::FETCH_ASSOC);
+
+        // ユーザーが存在する場合の判定
+        if ($user !== false) {
+            // A. すでにハッシュ化されている場合の照合
+            if (password_verify($login_pass, $user['login_pass'])) {
+                return $user['id']; // ログイン成功
+            }
+
+            // B. ハッシュ照合に失敗した場合、平文として比較（移行期間用）
+            if ($login_pass === $user['login_pass']) {
+                // 平文で一致した場合、セキュリティ向上のためハッシュ化してDBを更新する
+                $newHash = password_hash($login_pass, PASSWORD_DEFAULT);
+
+                $updateSql = "UPDATE user_table SET login_pass = :new_pass WHERE id = :id";
+                $updateStmh = $pdo->prepare($updateSql);
+                $updateStmh->bindValue(':new_pass', $newHash, PDO::PARAM_STR);
+                $updateStmh->bindValue(':id', $user['id'], PDO::PARAM_INT);
+                $updateStmh->execute();
+
+                // 更新後、ログイン成功としてIDを返す
+                return $user['id'];
+            }
+        }
+
+    } catch (PDOException $Exception) {
+        die('実行エラー（' . __FUNCTION__."）：".$Exception->getMessage()."<br />");
+    }
+
+    return false; // ユーザーがいない、またはパスワード不一致
+}
+//**************************************************
 // 章、節、問の全情報を取り出す
 //**************************************************
 function getAll(){

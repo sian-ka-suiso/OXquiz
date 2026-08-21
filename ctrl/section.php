@@ -21,7 +21,16 @@
     $email = isset($_SESSION['email']) ? $_SESSION['email'] : "";
     //ゲスト
     $is_guest = !empty($_SESSION['guest']);
-    
+//**************************************************
+// ログインチェック処理
+//**************************************************
+    if(!isset($_SESSION['is_login']) || $_SESSION['is_login'] !== true){
+        header("location: index.php"); // ログイン画面に戻す
+        exit();
+    }
+//**************************************************
+// 変数取得（続き）
+//**************************************************
     // チャプター番号
     $chapter_id = isset($_GET['chapter_id']) ? $_GET['chapter_id'] : "";
     // チャプター名取得を追加
@@ -58,14 +67,7 @@
     
     $chapter_progress = (!$is_guest) ? getChapterProgressList($user_id) : [];
 //**************************************************
-// ログインチェック処理
-//**************************************************
-    if(!isset($_SESSION['is_login']) || $_SESSION['is_login'] !== true){
-        header("location: index.php"); // ログイン画面に戻す
-        exit();
-    }
-//**************************************************
 // HTMLを出力
 //**************************************************
-    require_once('../view/section.html');
+    require_once('../view/section.php');
 ?>

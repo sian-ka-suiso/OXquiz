@@ -22,7 +22,16 @@
     $email = isset($_SESSION['email']) ? $_SESSION['email'] : "";
     //ゲスト
     $is_guest = !empty($_SESSION['guest']);
-
+//**************************************************
+// ログインチェック
+//**************************************************
+    if(!isset($_SESSION['is_login']) || $_SESSION['is_login'] !== true){
+        header("location: index.php"); // ログイン画面に戻す
+        exit();
+    }
+//**************************************************
+// 変数取得（続き）
+//**************************************************
     // チャプターid
     $chapter_id = isset($_GET['chapter_id']) ? $_GET['chapter_id'] : "";
     // セクションid
@@ -127,7 +136,7 @@
         $path = "../images/".$chapter_fname."/".$section_fname."/".$question_fname."/opt".$i.".png";
         $mtime = filemtime($path);
         $options[$i] = [ // キーをIDにしておくと復元が楽です
-            'id'   => $i, 
+            'id'   => $i,
             'path' => $path . "?v=" . $mtime
         ];
     }
@@ -153,15 +162,8 @@
         $explanationPath[$j] = "".$explanationPath[$j] . "?v=" . $ePathmtime;
     }
 //**************************************************
-// ログインチェック
-//**************************************************
-    if(!isset($_SESSION['is_login']) || $_SESSION['is_login'] !== true){
-        header("location: index.php"); // ログイン画面に戻す
-        exit();
-    }
-//**************************************************
 // HTMLを出力
 //**************************************************
-    require_once('../view/question.html');
+    require_once('../view/question.php');
 
 ?>

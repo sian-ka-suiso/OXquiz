@@ -35,16 +35,33 @@
         if(empty($arrErr)){
             //**************************************************
             // ログインチェック
+            // 管理者・教員の両方の権限を持つ場合は、上位の管理者としてログインさせる
             //**************************************************
-            $id = admloginCheck($email, $pw);
+            $id = "";
+            $admin_role = "";
+            $adminId = admLoginCheck($email, $pw);
+            if ($adminId) {
+                $id = $adminId;
+                $admin_role = "admin";
+            } else {
+                $teacherId = teacherLoginCheck($email, $pw);
+                if ($teacherId) {
+                    $id = $teacherId;
+                    $admin_role = "teacher";
+                }
+            }
+
             if ($id) {
                 // ログイン成功！セッションハイジャック対策を実行
                 session_regenerate_id(true);
 
-                // セッションに「ログイン済みフラグ」と「ユーザー情報」を保存
-                $_SESSION['is_login'] = true;
-                $_SESSION['user_id']  = $id;
-                $_SESSION['email']    = $email;
+                // セッションに「管理者ログイン済みフラグ」と「ユーザー情報」を保存
+                // ※一般ユーザー側のセッション（is_login等）とは別名で管理し、
+                //   一般ユーザーのログイン状態のまま管理者ページへ直接アクセスできてしまう問題を防ぐ
+                $_SESSION['admin_is_login'] = true;
+                $_SESSION['admin_user_id']  = $id;
+                $_SESSION['admin_email']    = $email;
+                $_SESSION['admin_role']     = $admin_role; // 'admin' または 'teacher'
 
                 header("location: admin.php");
                 exit();
@@ -58,12 +75,14 @@
 // サインアウト処理
 //**************************************************
     if($sign_out){
-        unset($_SESSION['email']);
-        unset($_SESSION['pw']);
+        unset($_SESSION['admin_is_login']);
+        unset($_SESSION['admin_user_id']);
+        unset($_SESSION['admin_email']);
+        unset($_SESSION['admin_role']);
     }
 //**************************************************
 // HTMLを出力
 //**************************************************
     //画面へ表示
-    require_once('../view_admin/adm_login.html');
+    require_once('../view_admin/adm_login.php');
 ?>

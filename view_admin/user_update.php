@@ -23,7 +23,7 @@
                 <td><?php echo htmlspecialchars($is_admin); ?></td>
             </tr>
         </table>
-        <form action="../ctrl/user_update.php" method="post">
+        <form action="../ctrl_admin/user_update.php" method="post">
             <table border="1">
                 <h3>変更後</h3>
                         <tr>
@@ -49,7 +49,7 @@
             <button type="submit">変更する</button>
         </form>
     </div>
-    <form action="../ctrl/user.php" method="post">
+    <form action="../ctrl_admin/user.php" method="post">
         <input type="hidden" name="step" value="">
         <button type="submit">戻る</button>
     </form>

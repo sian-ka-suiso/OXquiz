@@ -25,7 +25,7 @@
                 <td><?php echo htmlspecialchars($is_published); ?></td>
             </tr>
         </table>
-        <form action="../ctrl/chapter_update.php" method="post">
+        <form action="../ctrl_admin/chapter_update.php" method="post">
             <table border="1">
                 <h3>変更後</h3>
                         <tr>

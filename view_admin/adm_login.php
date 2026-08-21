@@ -7,11 +7,11 @@
     <title>よくある間違いOXクイズ　管理者ログイン</title>
 </head>
 <body>
-    <a class="title" href="../ctrl/adm_login.php">
+    <a class="title" href="../ctrl_admin/adm_login.php">
         <img src="../images/other/logo.png" alt="よくある間違い〇✕クイズ">
     </a>
     <div style="font-size: 24px; font-weight: bold;">管理者ログイン</div>
-    <form action="../ctrl/adm_login.php" method="post">
+    <form action="../ctrl_admin/adm_login.php" method="post">
         <div class="form-group">
             <span>メールアドレス</span>
             <input type="email" name="email" value="">

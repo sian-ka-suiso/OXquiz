@@ -70,5 +70,5 @@ if ($step == 1) {
 // HTMLを出力
 //**************************************************
     //画面へ表示
-    require_once('../view/sign_up.html');
+    require_once('../view/sign_up.php');
 ?>

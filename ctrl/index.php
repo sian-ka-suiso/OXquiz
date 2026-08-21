@@ -91,6 +91,6 @@
 // HTMLを出力
 //**************************************************
     //画面へ表示
-    require_once('../view/index.html');
+    require_once('../view/index.php');
 
 ?>

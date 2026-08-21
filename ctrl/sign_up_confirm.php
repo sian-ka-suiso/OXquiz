@@ -31,6 +31,6 @@
 // HTMLを出力
 //**************************************************
     //画面へ表示
-    require_once('../view/sign_up_confirm.html');
+    require_once('../view/sign_up_confirm.php');
 
 ?>
