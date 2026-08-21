@@ -19,9 +19,13 @@
     $login_pass = isset($_POST['login_pass']) ? $_POST['login_pass'] : "";
     //ログインパスワード（確認）
     $login_pass2 = isset($_POST['login_pass2']) ? $_POST['login_pass2'] : "";
+    //クラスID
+    $class_id = isset($_POST['class_id']) ? $_POST['class_id'] : "";
     //処理ステップ
     $step = isset($_POST['step']) ? $_POST['step'] : "";
     $arrErr = array();
+    //選択可能なクラス一覧を取得
+    $arrClasses = getActiveClasses();
 //**************************************************
 // STEP1（入力）
 //**************************************************
@@ -49,10 +53,15 @@ if ($step == 1) {
         $arrErr['login_pass2'] = "確認用パスワードが一致しません";
     }
 
+    if ($class_id == "") {
+        $arrErr['class_id'] = "クラスを選択してください";
+    }
+
     // エラーがなければセッションにデータを保存し、ステップ2へ
     if (empty($arrErr)) {
         $_SESSION['email'] = $email;
         $_SESSION['login_pass'] = $login_pass;
+        $_SESSION['class_id'] = $class_id;
         header("Location: sign_up_confirm.php");
         exit();
     }

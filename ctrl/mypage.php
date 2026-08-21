@@ -59,13 +59,17 @@
         $created_at = $userData['created_at'];
         $update_at  = $userData['update_at'];
         $is_admin   = $userData['is_admin'];
+        $class_id   = $userData['class_id'];
     } else {
         // ユーザーが見つからなかった場合の予備処理
         $user_name = "ゲスト";
         $created_at = 0000;
         $update_at = 0000;
         $is_admin = 0;
+        $class_id = 0;
     }
+    //所属クラス名の取得
+    $class_name = (empty($class_id)) ? "なし" : getClassName((int)$class_id);
 //**************************************************
 // HTMLを出力
 //**************************************************

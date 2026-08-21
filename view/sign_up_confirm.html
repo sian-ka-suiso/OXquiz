@@ -25,6 +25,11 @@
             <span>パスワード</span>
             <input type="password" id="password" name="login_pass" value="<?= $_SESSION['login_pass']; ?>" readonly>
         </div>
+        <div class="form-group">
+            <span>クラス</span>
+            <input type="text" value="<?= $class_name ?>" readonly>
+            <input type="hidden" name="class_id" value="<?= $_SESSION['class_id'] ?>">
+        </div>
         <div class="btn-area">
             <a href="../ctrl/sign_up.php">戻る</a>
             <button type="submit">登録する</button>

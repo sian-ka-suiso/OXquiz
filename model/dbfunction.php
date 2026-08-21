@@ -106,7 +106,7 @@ function getChapterData(){
 function getUserInfo(int $id) {
     $pdo = db_connect();
     try {
-        $sSql = "SELECT user_name, created_at, update_at, is_admin ";
+        $sSql = "SELECT user_name, created_at, update_at, is_admin, class_id ";
         $sSql .= "FROM user_table ";
         $sSql .= "WHERE id = :id";
 
@@ -135,7 +135,7 @@ function checkEmail(string $email) {
 //**************************************************
 // 新規登録
 //**************************************************
-function insertUser(string $email, string $login_pass) {
+function insertUser(string $email, string $login_pass, ?int $class_id = null) {
 
 	//データベース接続関数の呼び出し
 	$pdo = db_connect();
@@ -144,12 +144,13 @@ function insertUser(string $email, string $login_pass) {
         // PASSWORD_DEFAULT を指定すると、その時点のPHPバージョンで最も安全なアルゴリズムが自動選択されます
         $hashed_pass = password_hash($login_pass, PASSWORD_DEFAULT);
 		//データ検索の条件
-		$sql = "INSERT INTO user_table (email, login_pass) VALUES (:email, :login_pass)";
+		$sql = "INSERT INTO user_table (email, login_pass, class_id) VALUES (:email, :login_pass, :class_id)";
 		//ステートメントハンドラを作成
 		$stmh = $pdo->prepare($sql);
 		//バインドの実行
 		$stmh->bindValue(':email', $email, PDO::PARAM_STR);
         $stmh->bindValue(':login_pass',  $hashed_pass,  PDO::PARAM_STR);
+        $stmh->bindValue(':class_id', $class_id, PDO::PARAM_INT);
 		//SQL文の実行
 		$stmh->execute();
 		//登録成功を返却
@@ -206,6 +207,43 @@ function ResetLoginPass(int $id, string $reset_pass) {
     } catch (PDOException $Exception) {
         die('実行エラー :' . $Exception->getMessage()."<br />");
         return false;
+    }
+}
+
+####################################################################################
+### クラス関連
+####################################################################################
+//**************************************************
+// 有効なクラス（is_active = 1）を全件取得
+//**************************************************
+function getActiveClasses(){
+    $array_result = array();
+    $pdo = db_connect();
+    try {
+        $sSql = "SELECT id, class_name FROM class_table WHERE is_active = 1";
+        $stmh = $pdo->prepare($sSql);
+        $stmh->execute();
+        $array_result = $stmh->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $Exception) {
+        die('実行エラー :' . $Exception->getMessage() . "<br/>");
+    }
+
+    return $array_result;
+}
+//**************************************************
+// クラス名を取得
+//**************************************************
+function getClassName(int $class_id){
+    $pdo = db_connect();
+    try {
+        $sSql = "SELECT class_name FROM class_table WHERE id = :class_id";
+        $stmh = $pdo->prepare($sSql);
+        $stmh->bindValue(':class_id', $class_id, PDO::PARAM_INT);
+        $stmh->execute();
+
+        return $stmh->fetchColumn();
+    } catch (PDOException $Exception) {
+        die('実行エラー :' . $Exception->getMessage() . "<br/>");
     }
 }
 

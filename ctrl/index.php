@@ -18,6 +18,7 @@
     $sign_out = isset($_POST['sign_out']) ? $_POST['sign_out'] : "";
     $email = isset($_POST['email']) ? $_POST['email'] : "";
     $login_pass = isset($_POST['login_pass']) ? $_POST['login_pass'] : "";
+    $class_id = isset($_POST['class_id']) ? $_POST['class_id'] : "";
     $step = isset($_POST['step']) ? $_POST['step'] : "";
     $arrErr = array();
 //**************************************************
@@ -74,7 +75,7 @@
 // 新規登録チェック
 //**************************************************
     if($sign_up == true && $email != "" && $login_pass != ""){
-        $result = insertUser($email, $login_pass);
+        $result = insertUser($email, $login_pass, $class_id !== "" ? (int)$class_id : null);
     }
 //**************************************************
 // ゲストログインチェック
