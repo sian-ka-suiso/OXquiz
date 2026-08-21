@@ -17,7 +17,7 @@
 // ログインチェック
 //**************************************************
     if(!isset($_SESSION['admin_is_login']) || $_SESSION['admin_is_login'] !== true){
-        header("location: login"); // 管理者ログイン画面に戻す
+        header("location: adm_login.php"); // 管理者ログイン画面に戻す
         exit();
     }
     // 管理者としてログイン中か、教員としてログイン中か（今後、権限ごとにUIを出し分ける想定）

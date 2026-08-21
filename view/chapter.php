@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>よくある間違いOXクイズ Chapter Page</title>
-    <link rel="stylesheet" type="text/css" href="css/common.css">
-    <link rel="stylesheet" type="text/css" href="css/chapter.css">
+    <link rel="stylesheet" type="text/css" href="../css/common.css">
+    <link rel="stylesheet" type="text/css" href="../css/chapter.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -17,8 +17,8 @@
 
         <!-- ヘッダー -->
         <header>
-            <a href="chapter" class="site-logo">
-                <img src="images/other/logo.png" alt="よくある間違い〇✕クイズ">
+            <a href="../ctrl/chapter.php" class="site-logo">
+                <img src="../images/other/logo.png" alt="よくある間違い〇✕クイズ">
             </a>
             <nav>
                 <div class="breadcrumb">
@@ -33,11 +33,11 @@
                         <?php if ($is_guest): ?>
                             <?= V2H($user_name) ?> さん
                         <?php else: ?>
-                            <a href="mypage" class="nav-link"><?= V2H($user_name); ?></a> さん
+                            <a href="../ctrl/mypage.php" class="nav-link"><?= V2H($user_name); ?></a> さん
                         <?php endif; ?>
                     </span>
                     <a href="https://w3e.kanazawa-it.ac.jp/math/" target="_blank" rel="noopener noreferrer" class="nav-link">KIT数学ナビゲーション</a>
-                        <form action="./" method="post" class="logoutBtn">
+                        <form action="../ctrl/" method="post" class="logoutBtn">
                         <input type="hidden" name="sign_out" value="true">
                         <button type="submit" class="nav-link">ログアウト</button>
                     </form>
@@ -77,7 +77,7 @@
                     $progress_class = 'progress-ongoing';
                 }
             ?>
-            <form action="section" method="get" class="chapter-card">
+            <form action="section.php" method="get" class="chapter-card">
                 <input type="hidden" name="chapter_id" value="<?= V2H($chapter_id); ?>">
                 <button type="submit">
 
@@ -130,6 +130,6 @@
         </div>
 
     </div>
-    <script src="js/chapter.js"></script>
+    <script src="../js/chapter.js"></script>
 </body>
 </html>

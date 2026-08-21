@@ -53,7 +53,7 @@ if ($step == 1) {
     if (empty($arrErr)) {
         $_SESSION['email'] = $email;
         $_SESSION['login_pass'] = $login_pass;
-        header("Location: sign_up_confirm");
+        header("Location: sign_up_confirm.php");
         exit();
     }
 }

@@ -26,7 +26,7 @@
 // ログインチェック
 //**************************************************
     if(!isset($_SESSION['is_login']) || $_SESSION['is_login'] !== true){
-        header("location: ./"); // ログイン画面に戻す
+        header("location: index.php"); // ログイン画面に戻す
         exit();
     }
 //**************************************************
@@ -124,21 +124,20 @@
     $section_fname = $section_names["folder_name"];
     $question_fname = sprintf("%05d", $question_id);
 
-    // 問題画像（filemtime()用はファイルシステム上の相対パス、画面表示用はURL上の相対パス）
-    $questionFsPath = "../images/".$chapter_fname."/".$section_fname."/".$question_fname."/q.png";
-    $qPathmtime = filemtime($questionFsPath);
-    $questionPath = "images/".$chapter_fname."/".$section_fname."/".$question_fname."/q.png" . "?v=" . $qPathmtime;
+    // 問題画像
+    $questionPath = "../images/".$chapter_fname."/".$section_fname."/".$question_fname."/q.png";
+    $qPathmtime = filemtime($questionPath);
+    $questionPath = "".$questionPath . "?v=" . $qPathmtime;
 
     // 選択肢画像
     // --- 選択肢の配列作成 ---
     $options = [];
     for($i=1; $i<=$questions["options"]; $i++){
-        $fsPath = "../images/".$chapter_fname."/".$section_fname."/".$question_fname."/opt".$i.".png";
-        $mtime = filemtime($fsPath);
-        $urlPath = "images/".$chapter_fname."/".$section_fname."/".$question_fname."/opt".$i.".png";
+        $path = "../images/".$chapter_fname."/".$section_fname."/".$question_fname."/opt".$i.".png";
+        $mtime = filemtime($path);
         $options[$i] = [ // キーをIDにしておくと復元が楽です
             'id'   => $i,
-            'path' => $urlPath . "?v=" . $mtime
+            'path' => $path . "?v=" . $mtime
         ];
     }
     // --- 並び順の決定ロジック ---
@@ -158,9 +157,9 @@
     // 解説画像
     $explanationPath = [];
     for($j=1; $j<=count($explanation_ids); $j++){
-        $explanationFsPath = "../images/".$chapter_fname."/".$section_fname."/".$question_fname."/exp".$j.".png";
-        $ePathmtime = filemtime($explanationFsPath);
-        $explanationPath[$j] = "images/".$chapter_fname."/".$section_fname."/".$question_fname."/exp".$j.".png" . "?v=" . $ePathmtime;
+        $explanationPath[$j] = "../images/".$chapter_fname."/".$section_fname."/".$question_fname."/exp".$j.".png";
+        $ePathmtime = filemtime($explanationPath[$j]);
+        $explanationPath[$j] = "".$explanationPath[$j] . "?v=" . $ePathmtime;
     }
 //**************************************************
 // HTMLを出力

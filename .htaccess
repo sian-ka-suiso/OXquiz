@@ -1,30 +1,3 @@
 # ローカル(XAMPP)ではエラーになるためコメントアウト
 # AddHandler application/x-httpd-php8 .php
 # SetHandler "proxy:unix:/usr/local/php8/php-fpm.sock|fcgi://localhost/"
-
-# ==================================================
-# きれいなURL化（拡張子・ctrl/ctrl_adminを隠すルーティング）
-# ==================================================
-RewriteEngine On
-
-# --- 管理者用ルート（/admin/xxx -> ctrl_admin/xxx.php） ---
-RewriteRule ^admin/?$ ctrl_admin/admin.php [L,QSA]
-RewriteRule ^admin/login/?$ ctrl_admin/adm_login.php [L,QSA]
-RewriteRule ^admin/chapter_insert_confirm/?$ ctrl_admin/chapter_insert_confirm.php [L,QSA]
-RewriteRule ^admin/chapter_insert/?$ ctrl_admin/chapter_insert.php [L,QSA]
-RewriteRule ^admin/chapter_update/?$ ctrl_admin/chapter_update.php [L,QSA]
-RewriteRule ^admin/chapter_delete/?$ ctrl_admin/chapter_delete.php [L,QSA]
-RewriteRule ^admin/chapter/?$ ctrl_admin/chapter.php [L,QSA]
-RewriteRule ^admin/user_update/?$ ctrl_admin/user_update.php [L,QSA]
-RewriteRule ^admin/user_delete/?$ ctrl_admin/user_delete.php [L,QSA]
-RewriteRule ^admin/temp_pass/?$ ctrl_admin/temp_pass.php [L,QSA]
-RewriteRule ^admin/user/?$ ctrl_admin/user.php [L,QSA]
-
-# --- 一般ユーザー用ルート（/xxx -> ctrl/xxx.php） ---
-RewriteRule ^chapter/?$ ctrl/chapter.php [L,QSA]
-RewriteRule ^section/?$ ctrl/section.php [L,QSA]
-RewriteRule ^question/?$ ctrl/question.php [L,QSA]
-RewriteRule ^mypage/?$ ctrl/mypage.php [L,QSA]
-RewriteRule ^sign_up_confirm/?$ ctrl/sign_up_confirm.php [L,QSA]
-RewriteRule ^sign_up/?$ ctrl/sign_up.php [L,QSA]
-RewriteRule ^$ ctrl/index.php [L,QSA]

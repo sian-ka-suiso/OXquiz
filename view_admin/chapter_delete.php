@@ -23,12 +23,12 @@
             <td><?php echo htmlspecialchars($is_published); ?></td>
         </tr>
     </table>
-    <form action="chapter_delete" method="post">
+    <form action="../ctrl_admin/chapter_delete.php" method="post">
         <input type="hidden" name="id" value="<?php echo htmlspecialchars($id); ?>">
         <input type="hidden" name="step" value="2">
         <button type="submit">削除</button>
     </form>
-    <form action="chapter" method="post">
+    <form action="../ctrl_admin/chapter.php" method="post">
         <input type="hidden" name="step" value="">
         <button type="submit">戻る</button>
     </form>

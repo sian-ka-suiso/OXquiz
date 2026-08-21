@@ -14,7 +14,7 @@
 // ログインチェック
 //**************************************************
     if(!isset($_SESSION['admin_is_login']) || $_SESSION['admin_is_login'] !== true){
-        header("location: login"); // 管理者ログイン画面に戻す
+        header("location: adm_login.php"); // 管理者ログイン画面に戻す
         exit();
     }
 //**************************************************
@@ -42,8 +42,8 @@
     if($step == 1){
         require_once('../view_admin/chapter_delete.php');
     }elseif($step == "3"){
-        header('Location: chapter');
+        header('Location: ../ctrl_admin/chapter.php');
     }else{
-        header('Location: chapter');
+        header('Location: ../ctrl_admin/chapter.php');
     }
 ?>

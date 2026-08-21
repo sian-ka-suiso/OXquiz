@@ -23,7 +23,7 @@
                 <td><?php echo htmlspecialchars($is_published); ?></td>
             </tr>
         </table>
-        <form action="chapter" method="post">
+        <form action="../ctrl_admin/chapter.php" method="post">
             <input type="hidden" name="id" value="<?php echo htmlspecialchars($id); ?>">
             <input type="hidden" name="name" value="<?php echo htmlspecialchars($name); ?>">
             <input type="hidden" name="folder_name" value="<?php echo htmlspecialchars($folder_name); ?>">
@@ -33,7 +33,7 @@
             <input type="hidden" name="chapter_insert" value="true">
         </form>
     </div>
-    <form action="chapter" method="post">
+    <form action="../ctrl_admin/chapter.php" method="post">
         <input type="hidden" name="step" value="">
         <button type="submit">戻る</button>
     </form>

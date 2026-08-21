@@ -7,7 +7,7 @@
 </head>
 <body>
     <h2>ユーザーDB</h2>
-    <form action="user" method="post">
+    <form action="../ctrl_admin/user.php" method="post">
         <button type="submit">更新</button>
     </form>
     <table border="1">
@@ -32,20 +32,20 @@
             <td><?php echo V2H($user['created_at']); ?></td>
             <td><?php echo V2H($user['update_at']); ?></td>
             <td><?php echo V2H($user['is_admin']); ?></td>
-            <form action="user_update" method="post">
+            <form action="../ctrl_admin/user_update.php" method="post">
                 <td><button type="submit" name="step" value="1">編集</button></td>
                 <input type="hidden" name="id" value="<?php echo V2H($user['id']); ?>">
                 <input type="hidden" name="email" value="<?php echo V2H($user['email']); ?>">
                 <input type="hidden" name="user_name" value="<?php echo V2H($user['user_name']); ?>">
                 <input type="hidden" name="is_admin" value="<?php echo V2H($user['is_admin']); ?>">
             </form>
-            <form action="user_delete" method="post">
+            <form action="../ctrl_admin/user_delete.php" method="post">
                 <td><button type="submit" name="step" value="1">削除</button></td>
                 <input type="hidden" name="id" value="<?php echo V2H($user['id']); ?>">
                 <input type="hidden" name="email" value="<?php echo V2H($user['email']); ?>">
                 <input type="hidden" name="user_name" value="<?php echo V2H($user['user_name']); ?>">
             </form>
-            <form action="temp_pass" method="post">
+            <form action="../ctrl_admin/temp_pass.php" method="post">
                 <td><button type="submit" name="step" value="1">発行</button></td>
                 <input type="hidden" name="id" value="<?php echo V2H($user['id']); ?>">
                 <input type="hidden" name="email" value="<?php echo V2H($user['email']); ?>">
@@ -54,7 +54,7 @@
         </tr>
     <?php endforeach; ?>
     </table>
-    <form action="./" method="post">
+    <form action="../ctrl_admin/admin.php" method="post">
         <button type="submit">戻る</button>
     </form>
 </body>

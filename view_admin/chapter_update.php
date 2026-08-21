@@ -25,7 +25,7 @@
                 <td><?php echo htmlspecialchars($is_published); ?></td>
             </tr>
         </table>
-        <form action="chapter_update" method="post">
+        <form action="../ctrl_admin/chapter_update.php" method="post">
             <table border="1">
                 <h3>変更後</h3>
                         <tr>
@@ -59,7 +59,7 @@
             <button type="submit">変更する</button>
         </form>
     </div>
-    <form action="chapter" method="post">
+    <form action="../ctrl_admin/chapter.php" method="post">
         <input type="hidden" name="step" value="">
         <button type="submit">戻る</button>
     </form>

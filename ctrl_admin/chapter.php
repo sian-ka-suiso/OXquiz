@@ -14,7 +14,7 @@
 // ログインチェック
 //**************************************************
     if(!isset($_SESSION['admin_is_login']) || $_SESSION['admin_is_login'] !== true){
-        header("location: login"); // 管理者ログイン画面に戻す
+        header("location: adm_login.php"); // 管理者ログイン画面に戻す
         exit();
     }
 //**************************************************
@@ -40,7 +40,7 @@
             unset($_SESSION['order_number']);
             unset($_SESSION['is_published']);
         }
-        header("Location: chapter");
+        header("Location:../ctrl_admin/chapter.php");
         exit();
     }
 //**************************************************

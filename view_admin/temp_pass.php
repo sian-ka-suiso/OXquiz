@@ -21,13 +21,13 @@
             <td><?php echo V2H($user_name); ?></td>
         </tr>
     </table>
-    <form action="temp_pass" method="post">
+    <form action="../ctrl_admin/temp_pass.php" method="post">
         <input type="hidden" name="id" value="<?php echo V2H($id); ?>">
         <input type="hidden" name="step" value="2">
         <input type="hidden" name="temp_pass" value="<?php echo V2H($temp_pass) ?>">
         <button type="submit">仮パスワードを設定</button>
     </form>
-    <form action="user" method="post">
+    <form action="../ctrl_admin/user.php" method="post">
         <button type="submit">戻る</button>
     </form>
 </body>

@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="css/index.css">
-    <link rel="stylesheet" type="text/css" href="css/common.css">
+    <link rel="stylesheet" type="text/css" href="../css/index.css">
+    <link rel="stylesheet" type="text/css" href="../css/common.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=RocknRoll+One&family=WDXL+Lubrifont+JP+N&display=swap" rel="stylesheet">
@@ -20,11 +20,11 @@
         <?php if(isset($sign_out) && $sign_out){ ?>
             <span>ログアウトしました。</span>
         <?php } ?>
-        <a class="title" href="./">
-            <img src="images/other/logo.png" alt="よくある間違い〇✕クイズ">
+        <a class="title" href="../ctrl/">
+            <img src="../images/other/logo.png" alt="よくある間違い〇✕クイズ">
         </a>
         <div class="form-container">
-            <form action="./" method="post" class="login-form">
+            <form action="../ctrl/index.php" method="post" class="login-form">
                 <div>
                     メールアドレス<input type="email" name="email" value="">
                     <span class="err"><?= isset($arrErr['email']) ? $arrErr['email'] : "" ?></span>
@@ -45,11 +45,11 @@
                 <div style="height: 0.5px; width: 125px; background-color: #c2c2c2;"></div>
             </div>
             <div class="other-form">
-                <form action="./" method="post">
+                <form action="../ctrl/" method="post">
                     <button type="submit">ゲストログイン</button>
                     <input type="hidden" name="guest" value="1">
                 </form>
-                <form action="sign_up" method="post">
+                <form action="../ctrl/sign_up.php" method="post">
                     <button type="submit">新規登録</button>
                 </form>
             </div>

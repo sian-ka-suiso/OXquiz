@@ -7,10 +7,10 @@
 </head>
 <body>
     <h2>ユーザーDB</h2>
-    <form action="chapter" method="post">
+    <form action="../ctrl_admin/chapter.php" method="post">
         <button type="submit">更新</button>
     </form>
-    <form action="chapter_insert" method="post">
+    <form action="../ctrl_admin/chapter_insert.php" method="post">
         <button type="submit">追加</button>
     </form>
     <table border="1">
@@ -30,7 +30,7 @@
             <td><?php echo V2H($chap['folder_name']); ?></td>
             <td><?php echo V2H($chap['order_number']); ?></td>
             <td><?php echo V2H($chap['is_published']); ?></td>
-            <form action="chapter_update" method="post">
+            <form action="../ctrl_admin/chapter_update.php" method="post">
                 <td><button type="submit" name="step" value="1">編集</button></td>
                 <input type="hidden" name="id" value="<?php echo V2H($chap['id']); ?>">
                 <input type="hidden" name="name" value="<?php echo V2H($chap['name']); ?>">
@@ -38,7 +38,7 @@
                 <input type="hidden" name="order_number" value="<?php echo V2H($chap['order_number']); ?>">
                 <input type="hidden" name="is_published" value="<?php echo V2H($chap['is_published']); ?>">
             </form>
-            <form action="chapter_delete" method="post">
+            <form action="../ctrl_admin/chapter_delete.php" method="post">
                 <td><button type="submit" name="step" value="1">削除</button></td>
                 <input type="hidden" name="id" value="<?php echo V2H($chap['id']); ?>">
                 <input type="hidden" name="name" value="<?php echo V2H($chap['name']); ?>">
@@ -49,7 +49,7 @@
         </tr>
     <?php endforeach; ?>
     </table>
-    <form action="./" method="post">
+    <form action="../ctrl_admin/admin.php" method="post">
         <button type="submit">戻る</button>
     </form>
 </body>

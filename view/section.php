@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= isset($chapter_number) ? "Chapter $chapter_number - セクション一覧" : "Chapter"; ?></title>
-    <link rel="stylesheet" type="text/css" href="css/common.css">
-    <link rel="stylesheet" type="text/css" href="css/section.css">
+    <link rel="stylesheet" type="text/css" href="../css/common.css">
+    <link rel="stylesheet" type="text/css" href="../css/section.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -17,12 +17,12 @@
 
         <!-- ヘッダー -->
         <header>
-            <a href="chapter" class="site-logo">
-                <img src="images/other/logo.png" alt="よくある間違い〇✕クイズ">
+            <a href="../ctrl/chapter.php" class="site-logo">
+                <img src="../images/other/logo.png" alt="よくある間違い〇✕クイズ">
             </a>
             <nav>
                 <div class="breadcrumb">
-                    <button class="visited-location font-Noto" onclick="location.href='chapter'">Chapter</button>
+                    <button class="visited-location font-Noto" onclick="location.href='../ctrl/chapter.php'">Chapter</button>
                     <span>▸</span>
                     <button class="current-location font-Noto" onclick="location.reload()">Section</button>
                     <span>▸</span>
@@ -33,11 +33,11 @@
                         <?php if ($is_guest): ?>
                             <?= V2H($user_name) ?> さん
                         <?php else: ?>
-                            <a href="mypage" class="nav-link"><?= V2H($user_name); ?></a> さん
+                            <a href="../ctrl/mypage.php" class="nav-link"><?= V2H($user_name); ?></a> さん
                         <?php endif; ?>
                     </span>
                     <a href="https://w3e.kanazawa-it.ac.jp/math/" target="_blank" rel="noopener noreferrer" class="nav-link">KIT数学ナビゲーション</a>
-                    <form action="./" method="post" class="logoutBtn">
+                    <form action="../ctrl/" method="post" class="logoutBtn">
                         <input type="hidden" name="sign_out" value="true">
                         <button type="submit" class="nav-link">ログアウト</button>
                     </form>
@@ -72,7 +72,7 @@
             ?>
 
             <!-- Chapterに戻るボタン -->
-            <button class="back-to-chapter" onclick="location.href='chapter'">
+            <button class="back-to-chapter" onclick="location.href='../ctrl/chapter.php'">
                 <span class="back-arrow">←</span> Chapter一覧に戻る
             </button>
 
@@ -122,7 +122,7 @@
                                 default   => 'font-Rock',
                             };
                         ?>
-                        <form action="question" method="get">
+                        <form action="../ctrl/question.php" method="get">
                             <input type="hidden" name="chapter_id" value="<?= V2H($chapter_id); ?>">
                             <input type="hidden" name="section_id" value="<?= V2H($section_id); ?>">
                             <input type="hidden" name="question_id" value="<?= V2H($question); ?>">
@@ -139,6 +139,6 @@
 
         </div>
     </div>
-    <script src="js/section.js"></script>
+    <script src="../js/section.js"></script>
 </body>
 </html>

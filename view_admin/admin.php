@@ -10,13 +10,13 @@
     <h2>データベース 一覧</h2>
     <p>ログイン権限（admin_role）：<strong><?= htmlspecialchars($admin_role) ?></strong></p>
     <ul>
-        <li><a href="user">ユーザー</a></li>
-        <li><a href="chapter">章（Chapter）</a></li>
+        <li><a href="../ctrl_admin/user.php">ユーザー</a></li>
+        <li><a href="../ctrl_admin/chapter.php">章（Chapter）</a></li>
         <li><a href="">節（Section）</a></li>
         <li><a href="">問題・解説</a></li>
         <li><a href="">数学ナビ</a></li>
     </ul>
-    <form action="login" method="post">
+    <form action="../ctrl_admin/adm_login.php" method="post">
         <input type="hidden" name="sign_out" value="true">
         <button type="submit">ログアウト</button>
     </form>

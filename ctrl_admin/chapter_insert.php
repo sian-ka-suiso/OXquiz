@@ -14,7 +14,7 @@
 // ログインチェック
 //**************************************************
     if(!isset($_SESSION['admin_is_login']) || $_SESSION['admin_is_login'] !== true){
-        header("location: login"); // 管理者ログイン画面に戻す
+        header("location: adm_login.php"); // 管理者ログイン画面に戻す
         exit();
     }
 //**************************************************
@@ -60,7 +60,7 @@ if ($step == 1) {
         $_SESSION['folder_name'] = $folder_name;
         $_SESSION['order_number'] = $order_number;
         $_SESSION['is_published'] = $is_published;
-        header("Location: chapter_insert_confirm");
+        header("Location: chapter_insert_confirm.php");
         exit();
     }
 }

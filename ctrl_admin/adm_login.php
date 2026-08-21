@@ -63,7 +63,7 @@
                 $_SESSION['admin_email']    = $email;
                 $_SESSION['admin_role']     = $admin_role; // 'admin' または 'teacher'
 
-                header("location: ./");
+                header("location: admin.php");
                 exit();
             } else if ($email != "" || $pw != "") {
                 $arrErr['common'] = "メールアドレスもしくはパスワードが間違っています。";

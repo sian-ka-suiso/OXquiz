@@ -9,7 +9,7 @@
     <h2>以下のチャプターを追加します</h2>
     <div class="tables">
 
-        <form action="chapter_insert" method="post">
+        <form action="../ctrl_admin/chapter_insert.php" method="post">
             <table border="1">
                 <h3>追加内容</h3>
                 <tr>
@@ -50,7 +50,7 @@
             <input type="hidden" name="step" value="1">
         </form>
     </div>
-    <form action="chapter" method="post">
+    <form action="../ctrl_admin/chapter.php" method="post">
         <input type="hidden" name="step" value="">
         <button type="submit">戻る</button>
     </form>
