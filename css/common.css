@@ -223,8 +223,8 @@ header nav {
     flex: none;
     font-family: var(--font-body);
     font-size: 13px;
-    font-weight: 700;
-    color: var(--color-accent-deep);
+    font-weight: 400;
+    color: var(--color-ink);
     text-decoration: none;
     border: 1.5px solid var(--color-line-strong);
     border-radius: 999px;
@@ -235,8 +235,8 @@ header nav {
 }
 
 .back-link:hover {
-    background: var(--color-accent-soft);
-    border-color: var(--color-accent);
+    /* background: var(--color-accent-soft); */
+    border-color: var(--color-accent-deep);
 }
 
 /* ---------- ツールバー（件数 + 凡例） ---------- */

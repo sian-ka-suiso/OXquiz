@@ -26,7 +26,7 @@
                     <span class="chev">›</span>
                     <button type="button" class="crumb-current" onclick="location.reload()"><?= V2H($chapter_names["name"]) ?></button>
                 </nav>
-                <a href="../ctrl/chapter.php" class="back-link">&lt; 章一覧にもどる</a>
+                <a href="../ctrl/chapter.php" class="back-link">章一覧にもどる</a>
             </div>
             <div class="guid-text">問題を選択してください.</div>
         </div>
