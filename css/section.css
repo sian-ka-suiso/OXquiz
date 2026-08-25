@@ -2,247 +2,142 @@
    Section Page Styles
    ============================================= */
 
-/* ---------- CSS Variables (chapter.cssと統一) ---------- */
-:root {
-    --primary:       #2E7BC6;
-    --primary-light: #EAF3FD;
-    --primary-mid:   #8FC3FA;
-
-    --success:       #3a8a3a;
-    --success-light: #e8f7e8;
-    --success-mid:   #a8d8a8;
-
-    --danger:        #a33a3a;
-    --danger-light:  #fdecea;
-    --danger-mid:    #f5b8b8;
-
-    --warning:       #9a6800;
-    --warning-light: #fff8e1;
-    --warning-mid:   #ffd54f;
-
-    --neutral:       #888;
-    --neutral-light: #f0f0f0;
-    --neutral-mid:   #c8c8c8;
-
-    --card-radius:   12px;
-    --transition:    0.22s ease;
-}
-
-/* ---------- Section Container ---------- */
+/* ---------- Section Container (カードの縦積みグリッド) ---------- */
 .section-container {
     display: flex;
     flex-direction: column;
-    align-items: center;
     width: 100%;
-    gap: 14px;
+    gap: 22px;
     padding-bottom: 40px;
 }
 
-/* ---------- Chapter進捗バーエリア ---------- */
-.chapter-progress-area {
+/* ---------- Section Card ---------- */
+.section-card {
+    position: relative;
     width: 100%;
-    background-color: #ffffff;
-    /* border: 1.5px solid #e8e8e8; */
-    /* border-radius: var(--card-radius); */
-    /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); */
-    padding: 14px 20px;
     box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+    background: var(--color-card);
+    border: 1.5px solid var(--color-line);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    padding: 26px 26px 24px;
 }
 
-.chapter-progress-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-weight: 600;
-    font-family: "Noto Sans JP", sans-serif;
-}
-
-.chapter-progress-header .chapter-name {
-    font-size: 20px;
-}
-
-.chapter-progress-label {
-    font-family: "Noto Sans JP", sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    padding: 3px 10px;
-    border-radius: 20px;
-    display: inline-block;
-}
-
-.chapter-progress-label.progress-none    { background-color: var(--neutral-light); color: var(--neutral); }
-.chapter-progress-label.progress-ongoing { background-color: var(--primary-light); color: var(--primary); }
-.chapter-progress-label.progress-done    { background-color: var(--success-light); color: var(--success); }
-
-.chapter-progress-bar-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.chapter-progress-bar-wrap {
-    flex: 1;
-    display: flex;
-    background-color: #e8e8e8;
-    border-radius: 4px;
-    height: 5px;
-    overflow: hidden;
-}
-
-.chapter-progress-bar-correct {
-    height: 5px;
-    background-color: var(--success-mid);
-    transition: width 0.4s ease;
-    flex-shrink: 0;
-}
-
-.chapter-progress-bar-wrong {
-    height: 5px;
-    background-color: var(--danger-mid);
-    transition: width 0.4s ease;
-    flex-shrink: 0;
-}
-
-.chapter-progress-percent {
-    font-size: 12px;
-    font-weight: 600;
-    font-family: "Noto Sans JP", sans-serif;
-    white-space: nowrap;
-    flex-shrink: 0;
-}
-
-.chapter-progress-percent.progress-none    { color: var(--neutral); }
-.chapter-progress-percent.progress-ongoing { color: var(--primary); }
-.chapter-progress-percent.progress-done    { color: var(--success); }
-
-/* ---------- Chapterに戻るボタン ---------- */
-.back-to-chapter {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-family: "Noto Sans JP", sans-serif;
-    font-size: 13px;
-    color: var(--primary);
-    background: transparent;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    opacity: 0.85;
-    transition: opacity var(--transition);
-    align-self: flex-start;
-}
-
-.back-to-chapter:hover {
-    opacity: 0.5;
-}
-
-.back-arrow {
-    font-size: 16px;
-    line-height: 1;
-}
-
-/* ---------- Section Item ---------- */
-.section-item {
-    width: 100%;
-    background-color: #ffffff;
-    border: 1.5px solid #e8e8e8;
-    border-radius: var(--card-radius);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    overflow: hidden;
-    transition: border-color var(--transition), box-shadow var(--transition);
-}
-
-/* ---------- Section Name ---------- */
-.section-name {
+.section-card-head {
     margin: 0;
-    padding: 13px 18px;
-    color: #2a2a2a;
-    font-size: 15px;
-    font-family: "Noto Sans JP", sans-serif;
-    font-weight: 400;
-    border-bottom: 1px solid #ebebeb;
-    background-color: #fafafa;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed var(--color-line);
+}
+
+.section-card-eyebrow {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 6px;
+    gap: 0;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--color-ink-faint);
+    margin: 0 0 9px;
+}
+
+.section-card-eyebrow .sep {
+    color: var(--color-line-strong);
+    margin: 0 7px;
+}
+
+.section-card-title {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 25px;
+    margin: 0;
+    padding: 6px 0 10px;
+    color: var(--color-ink);
+    line-height: 1.28;
 }
 
 /* ---------- 数理カテゴリータグ ---------- */
 .suuri-tag {
-    display: inline-block;
-    font-size: 11px;
-    font-family: "Noto Sans JP", sans-serif;
-    font-weight: 600;
-    color: var(--neutral);
-    background-color: var(--neutral-light);
-    border: 1px solid var(--neutral-mid);
-    border-radius: 3px;
-    padding: 1px 6px;
-    vertical-align: middle;
-    line-height: 1.5;
+    display: inline-flex;
+    align-items: center;
+    flex: none;
     white-space: nowrap;
-    flex-shrink: 0;
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: .02em;
+    padding: 2.5px 7px;
+    border-radius: 5px;
+    background: var(--cat1-bg);
+    color: var(--cat1-text);
 }
 
-/* ---------- Question Button Container ---------- */
-.question-button-container {
+.suuri-tag.cat-2 { background: var(--cat2-bg); color: var(--cat2-text); }
+.suuri-tag.cat-3 { background: var(--cat3-bg); color: var(--cat3-text); }
+
+/* ---------- 問題チップのグリッド ---------- */
+.question-grid {
     display: flex;
-    flex-direction: row;
     flex-wrap: wrap;
-    gap: 12px;
-    padding: 24px 16px;
+    gap: 16px;
+    margin-top: 20px;
 }
 
-/* ---------- Question Buttons ---------- */
-.question-button-container form {
-    display: inline;
-    margin: 0;
+.q-chip {
+    position: relative;
+    min-width: 76px;
+    height: 56px;
     padding: 0;
-}
-
-.section-item button {
-    width: 3.2rem;
-    height: 3.2rem;
-    padding: 2px 0;
-    text-align: center;
-    background: transparent;
-    border: none;
-    /* border: 2px solid #e8e8e8; */
-    border: 2px solid transparent;
-    border-radius: var(--card-radius);
-    font-size: 18px;
-    font-family: "Roboto", sans-serif;
-    font-style: italic;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    border-radius: 12px;
+    font-family: var(--font-mono);
+    font-size: 15px;
+    font-weight: 700;
+    border: 2px solid var(--color-line-strong);
+    background: var(--color-card);
+    color: var(--color-ink-soft);
+    text-decoration: none;
     cursor: pointer;
-}
-.section-item button:hover {
-    border-color: var(--primary);
-    background: transparent;
-    transform: none;
+    transition: transform .15s ease, box-shadow .15s ease;
 }
 
-/* 正解済み */
-.section-item button.done {
-    background-color: var(--success-light);
-    color: var(--success);
+.q-chip:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px -10px rgba(20, 26, 38, .35);
 }
 
-.section-item button.done:hover {
-    background-color: var(--success-light);
-    border-color: var(--success);
+.q-chip.blank {
+    border-style: dashed;
+    border-color: var(--color-line-strong);
+    color: var(--color-ink-faint);
 }
 
-/* 誤答 */
-.section-item button.wrong {
-    background-color: var(--danger-light);
-    color: var(--danger);
+.q-status {
+    position: absolute;
+    top: -7px;
+    right: -7px;
+    width: 19px;
+    height: 19px;
+    border-radius: 50%;
+    border: 2px solid var(--color-card);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-body);
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1;
 }
 
-.section-item button.wrong:hover {
-    background-color: var(--danger-light);
-    border-color: var(--danger);
+.q-status.correct   { background: var(--color-correct); color: #fff; }
+.q-status.incorrect { background: var(--color-incorrect); color: #fff; }
+
+@media (prefers-reduced-motion: reduce) {
+    .q-chip { transition: none; }
+    .q-chip:hover { transform: none; }
 }

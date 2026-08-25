@@ -24,7 +24,7 @@
 
         <div class="page-heading">
             <nav class="top-breadcrumb" aria-label="パンくずリスト">
-                <span class="crumb-current">章一覧</span>
+                <button type="button" class="crumb-current" onclick="location.reload()">章一覧</button>
             </nav>
             <div class="guid-text">単元を選択してください.</div>
         </div>

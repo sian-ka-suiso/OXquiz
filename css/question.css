@@ -28,27 +28,6 @@ main {
     width: 100%;
 }
 
-/* ---------- Section一覧に戻る ---------- */
-.back-to-section {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-family: "Noto Sans JP", sans-serif;
-    font-size: 13px;
-    color: var(--primary);
-    background: transparent;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    transition: opacity var(--transition);
-    align-self: flex-start;
-    margin-bottom: 12px;
-}
-
-.back-to-section:hover {
-    opacity: 0.5;
-}
-
 /* ---------- Quiz Form ---------- */
 #quizForm {
     display: flex;
@@ -58,9 +37,9 @@ main {
     width: 100%;
 }
 
-/* ---------- パンくず（問題内） ---------- */
+/* ---------- 正答率・ブックマークなどのステータス表示 ---------- */
 .question-breadcrumb {
-    width: 90%;
+    width: 100%;
     font-family: "Roboto", sans-serif;
     font-size: 14px;
     color: #888;
@@ -68,11 +47,6 @@ main {
     display: flex;
     align-items: center;
     gap: 6px;
-}
-
-.question-breadcrumb .q-current {
-    /* color: #2a2a2a; */
-    color: #888;
 }
 
 /* ---------- 正答率・正解済みバッジのまとまり ---------- */
@@ -136,7 +110,8 @@ main {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 90%;
+    width: 100%;
+    box-sizing: border-box;
     background: #ffffff;
     border: 1.5px solid #e8e8e8;
     border-radius: var(--card-radius);
@@ -241,7 +216,7 @@ main {
 
 /* ---------- Feedback Banner ---------- */
 .feedback {
-    width: 90%;
+    width: 100%;
     border-radius: var(--card-radius);
     padding: 14px 20px;
     margin: 12px 0;
@@ -290,7 +265,7 @@ main {
 
 .explanation-container.show {
     display: flex;
-    width: 90%;
+    width: 100%;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -372,7 +347,7 @@ main {
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    width: 90%;
+    width: 100%;
     background: #ffffff;
     border: 1.5px solid #e8e8e8;
     border-radius: var(--card-radius);
@@ -403,7 +378,7 @@ main {
 
 /* ---------- 前後ナビゲーション ---------- */
 .question-nav-button {
-    width: 90%;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;

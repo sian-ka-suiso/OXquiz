@@ -197,15 +197,97 @@ header nav {
     margin-top: 5.5rem;
 }
 
+.breadcrumb-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    width: 100%;
+    margin: 0 0 10px;
+}
+
 .top-breadcrumb {
     display: flex;
     align-items: center;
     gap: 8px;
-    margin: 0 0 10px;
     font-family: var(--font-mono);
-    font-size: 13px;
+    font-size: 17px;
     color: var(--color-ink-faint);
+    padding: 20px 0;
 }
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    flex: none;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--color-accent-deep);
+    text-decoration: none;
+    border: 1.5px solid var(--color-line-strong);
+    border-radius: 999px;
+    background: var(--color-card);
+    padding: 9px 16px;
+    white-space: nowrap;
+    transition: background .15s ease, border-color .15s ease;
+}
+
+.back-link:hover {
+    background: var(--color-accent-soft);
+    border-color: var(--color-accent);
+}
+
+/* ---------- ツールバー（件数 + 凡例） ---------- */
+.grid-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 14px;
+    width: 100%;
+    margin: 0 0 22px;
+    padding-bottom: 16px;
+    border-bottom: 1px dashed var(--color-line-strong);
+}
+
+.grid-count {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--color-ink-faint);
+    letter-spacing: .04em;
+    margin: 0;
+}
+
+.legend {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    width: 100%;
+    margin: 0 0 18px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--color-ink-soft);
+    letter-spacing: .02em;
+}
+
+.legend-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    flex: none;
+}
+
+.legend-dot.correct   { background: var(--color-correct); }
+.legend-dot.incorrect { background: var(--color-incorrect); }
+.legend-dot.blank     { background: var(--color-track); border: 1px solid var(--color-line-strong); }
 
 .top-breadcrumb a,
 .top-breadcrumb span {
@@ -226,8 +308,19 @@ header nav {
 }
 
 .top-breadcrumb .crumb-current {
+    font: inherit;
     color: var(--color-ink);
     font-weight: 700;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    transition: color .15s ease;
+}
+
+.top-breadcrumb .crumb-current:hover {
+    color: var(--color-accent-deep);
 }
 
 .page-heading .guid-text {

@@ -20,61 +20,36 @@
         <?php require_once __DIR__ . '/parts/header.php'; ?>
 
         <div class="page-heading">
-            <nav class="top-breadcrumb" aria-label="パンくずリスト">
-                <a href="../ctrl/chapter.php">章一覧</a>
-                <span class="chev">›</span>
-                <span class="crumb-current"><?= V2H($chapter_names["name"]) ?></span>
-            </nav>
+            <div class="breadcrumb-row">
+                <nav class="top-breadcrumb" aria-label="パンくずリスト">
+                    <a href="../ctrl/chapter.php">章一覧</a>
+                    <span class="chev">›</span>
+                    <button type="button" class="crumb-current" onclick="location.reload()"><?= V2H($chapter_names["name"]) ?></button>
+                </nav>
+                <a href="../ctrl/chapter.php" class="back-link">&lt; 章一覧にもどる</a>
+            </div>
             <div class="guid-text">問題を選択してください.</div>
         </div>
 
-        <div class="section-container">
+        <?php
+            // 表示対象セクション数（ツールバーの件数表示用）
+            $visible_sections = array_values(array_filter($sections, function ($s) use ($is_admin) {
+                return $s['is_published'] || $is_admin;
+            }));
+            $visible_section_count = count($visible_sections);
+        ?>
 
-            <?php
-                // Chapterの進捗を計算（section.phpのCtrl側で $chapter_progress を渡す必要があります）
-                $ch_progress        = $chapter_progress[$chapter_id] ?? ['total' => 0, 'correct_count' => 0, 'wrong_count' => 0];
-                $ch_total           = $ch_progress['total'];
-                $ch_correct         = $ch_progress['correct_count'];
-                $ch_wrong           = $ch_progress['wrong_count'] ?? 0;
-                $ch_answered        = $ch_correct + $ch_wrong;
-                $ch_correct_percent = ($ch_total > 0) ? (int)round($ch_correct / $ch_total * 100) : 0;
-                $ch_wrong_percent   = ($ch_total > 0) ? (int)round($ch_wrong   / $ch_total * 100) : 0;
-
-                if ($ch_correct === $ch_total && $ch_total > 0) {
-                    $ch_label = '全問正解！';
-                    $ch_class = 'progress-done';
-                } elseif ($ch_answered === 0) {
-                    $ch_label = '未着手';
-                    $ch_class = 'progress-none';
-                } else {
-                    $ch_label = $ch_correct . ' / ' . $ch_total . '　正解';
-                    $ch_class = 'progress-ongoing';
-                }
-            ?>
-
-            <!-- Chapterに戻るボタン -->
-            <button class="back-to-chapter" onclick="location.href='../ctrl/chapter.php'">
-                <span class="back-arrow">←</span> Chapter一覧に戻る
-            </button>
-
-            <!-- Chapter進捗バー -->
-            <div class="chapter-progress-area">
-                <div class="chapter-progress-header">
-                    <span class="chapter-name">
-                        <?= V2H($chapter_names["name"]) ?>
-                    </span>
-                    <div class="chapter-progress-label <?= $ch_class ?>">
-                        <?= $ch_label ?>
-                    </div>
-                </div>
-                <div class="chapter-progress-bar-row">
-                    <div class="chapter-progress-bar-wrap">
-                        <div class="chapter-progress-bar-correct" style="width: <?= $ch_correct_percent ?>%;"></div>
-                        <div class="chapter-progress-bar-wrong" style="width: <?= $ch_wrong_percent ?>%;"></div>
-                    </div>
-                    <span class="chapter-progress-percent <?= $ch_class ?>"><?= $ch_correct_percent ?>%</span>
-                </div>
+        <!-- 件数 + 凡例 -->
+        <div class="grid-toolbar">
+            <p class="grid-count">全<?= $visible_section_count ?>節</p>
+            <div class="legend">
+                <span class="legend-item"><span class="legend-dot correct"></span>正解</span>
+                <span class="legend-item"><span class="legend-dot incorrect"></span>不正解</span>
+                <span class="legend-item"><span class="legend-dot blank"></span>未回答</span>
             </div>
+        </div>
+
+        <div class="section-container">
 
             <!-- Section一覧 -->
             <?php foreach($sections as $section_index => $section): ?>
@@ -84,37 +59,47 @@
                 $section_name = $section['name'];
                 $question_ids = $section['question_ids'];
             ?>
-                <div class="section-item">
-                    <p class="section-name">
-                        <?= V2H($section_index + 1) ?>. <?= V2H($section_name) ?>
-                        <?php foreach ($section_categories[$section_id] ?? [] as $suuri): ?>
-                            <span class="suuri-tag"><?= V2H($suuri) ?></span>
-                        <?php endforeach; ?>
-                    </p>
-                    <div class="question-button-container">
+                <article class="section-card">
+                    <div class="section-card-head">
+                        <p class="section-card-eyebrow">
+                            <?= V2H($section_index + 1) ?><span class="sep">・</span>全<?= V2H(count($question_ids)) ?>問
+                            <?php foreach ($section_categories[$section_id] ?? [] as $suuri): ?>
+                                <?php
+                                    $cat_class = 'cat-1';
+                                    if (mb_strpos($suuri, 'Ⅱ') !== false) {
+                                        $cat_class = 'cat-2';
+                                    } elseif (mb_strpos($suuri, 'Ⅲ') !== false) {
+                                        $cat_class = 'cat-3';
+                                    }
+                                ?>
+                                <span class="sep">・</span><span class="suuri-tag <?= $cat_class ?>"><?= V2H($suuri) ?></span>
+                            <?php endforeach; ?>
+                        </p>
+                        <h2 class="section-card-title"><?= V2H($section_name) ?></h2>
+                    </div>
+                    <div class="question-grid">
                         <?php foreach($question_ids as $question_index => $question): ?>
                         <?php
                             $status = (!$is_guest)
                                 ? ($question_statuses[$question] ?? 'unanswered')
                                 : 'unanswered';
-                            $btn_class = match($status) {
-                                'correct' => 'font-Rock done',
-                                'wrong'   => 'font-Rock wrong',
-                                default   => 'font-Rock',
+                            $chip_class = match($status) {
+                                'correct' => 'q-chip correct',
+                                'wrong'   => 'q-chip incorrect',
+                                default   => 'q-chip blank',
                             };
                         ?>
-                        <form action="../ctrl/question.php" method="get">
-                            <input type="hidden" name="chapter_id" value="<?= V2H($chapter_id); ?>">
-                            <input type="hidden" name="section_id" value="<?= V2H($section_id); ?>">
-                            <input type="hidden" name="question_id" value="<?= V2H($question); ?>">
-                            <input type="hidden" name="qn" value="<?= V2H($question_index + 1); ?>">
-                            <button type="submit" class="<?= $btn_class ?>">
-                                Q<?= V2H($question_index + 1); ?>
-                            </button>
-                        </form>
+                        <a class="<?= $chip_class ?>" href="../ctrl/question.php?chapter_id=<?= V2H($chapter_id) ?>&section_id=<?= V2H($section_id) ?>&question_id=<?= V2H($question) ?>&qn=<?= V2H($question_index + 1) ?>">
+                            Q<?= V2H($question_index + 1); ?>
+                            <?php if ($status === 'correct'): ?>
+                                <span class="q-status correct">✓</span>
+                            <?php elseif ($status === 'wrong'): ?>
+                                <span class="q-status incorrect">✕</span>
+                            <?php endif; ?>
+                        </a>
                         <?php endforeach; ?>
                     </div>
-                </div>
+                </article>
             <?php endif; ?>
             <?php endforeach; ?>
 

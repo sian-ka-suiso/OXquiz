@@ -19,24 +19,30 @@
 
         <?php require_once __DIR__ . '/parts/header.php'; ?>
 
+        <form id="reloadQuestionForm" action="../ctrl/question.php" method="get">
+            <input type="hidden" name="chapter_id" value="<?= V2H($chapter_id) ?>">
+            <input type="hidden" name="section_id" value="<?= V2H($section_id) ?>">
+            <input type="hidden" name="question_id" value="<?= V2H($question_id) ?>">
+            <input type="hidden" name="qn" value="<?= V2H($question_number) ?>">
+        </form>
+
         <div class="page-heading">
-            <nav class="top-breadcrumb" aria-label="パンくずリスト">
-                <a href="../ctrl/chapter.php">章一覧</a>
-                <span class="chev">›</span>
-                <a href="../ctrl/section.php?chapter_id=<?= V2H($chapter_id) ?>"><?= V2H($chapter_names["name"]) ?></a>
-                <span class="chev">›</span>
-                <span class="crumb-current"><?= V2H($section_names["name"]) ?></span>
-            </nav>
+            <div class="breadcrumb-row">
+                <nav class="top-breadcrumb" aria-label="パンくずリスト">
+                    <a href="../ctrl/chapter.php">章一覧</a>
+                    <span class="chev">›</span>
+                    <a href="../ctrl/section.php?chapter_id=<?= V2H($chapter_id) ?>"><?= V2H($chapter_names["name"]) ?></a>
+                    <span class="chev">›</span>
+                    <a href="../ctrl/section.php?chapter_id=<?= V2H($chapter_id) ?>"><?= V2H($section_names["name"]) ?></a>
+                    <span class="chev">›</span>
+                    <button type="submit" form="reloadQuestionForm" class="crumb-current">Q<?= V2H($question_number) ?></button>
+                </nav>
+                <a href="../ctrl/section.php?chapter_id=<?= V2H($chapter_id) ?>" class="back-link">&lt; 節一覧に戻る</a>
+            </div>
             <div class="guid-text">正しいと思う解答を選択してください.</div>
         </div>
 
         <main>
-
-            <!-- Section一覧に戻るボタン -->
-            <form action="../ctrl/section.php" method="get" style="width:90%; margin-bottom:4px;">
-                <input type="hidden" name="chapter_id" value="<?= $chapter_id ?>">
-                <button type="submit" class="back-to-section">← Section一覧に戻る</button>
-            </form>
 
             <?php
                 // user_question_statusから現在の問題のステータスを取得
@@ -60,14 +66,8 @@
 
             <form id="quizForm" action="" method="post">
 
-                <!-- 問題内パンくず -->
+                <!-- 正答率・ブックマークなどのステータス表示 -->
                 <div class="question-breadcrumb">
-                    <span><?= V2H($chapter_names["name"]) ?></span>
-                    <span style="color:#ccc;">▸</span>
-                    <span><?= V2H($section_names["name"]) ?></span>
-                    <span style="color:#ccc;">▸</span>
-                    <span class="q-current">Q<?= V2H($question_number) ?></span>
-
                     <div class="question-badges">
                         <?php if ($current_status === 'correct' && !$show_explanation): ?>
                         <span class="answered-badge">正解済み</span>
