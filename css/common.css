@@ -7,15 +7,10 @@
     font-family: "Noto Sans JP", sans-serif;
 }
 
-.font-Rock {
-    font-family: "RocknRoll One";
-    color: #333;
-}
-
 /* ---------- Base ---------- */
 html {
     height: auto;
-    background-color: #ffffff;
+    background-color: #FFFFFF;
     object-fit: fill;
     object-position: center;
     background-attachment: fixed;
@@ -41,34 +36,40 @@ body {
 /* ---------- Header ---------- */
 header {
     display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    gap: 5px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
     position: fixed;
     top: 0;
     z-index: 1000;
     width: 100%;
     box-sizing: border-box;
     margin-top: 0;
-    padding: 16px 5% 8px 5%;
+    padding: 14px 5%;
     border-bottom: 1px solid #e2e2e2;
-    background-color: #ffffff;
-    backdrop-filter: blur(8px);
+    background-color: rgba(255, 255, 255, .88);
+    backdrop-filter: blur(10px) saturate(1.15);
+    -webkit-backdrop-filter: blur(10px) saturate(1.15);
     overflow-x: auto;
     scrollbar-width: thin;
     scrollbar-color: #adadad #efefef;
 }
 
 header nav {
-    width: 100%;
+    flex: 1 1 auto;
+    min-width: 0;
     display: flex;
+    align-items: center;
     justify-content: space-between;
 }
 
 /* ---------- Site Logo ---------- */
 .site-logo {
     white-space: nowrap;
-    width: 100%;
+    flex: none;
+    display: flex;
+    align-items: center;
 }
 
 .site-logo img {
@@ -97,7 +98,7 @@ header nav {
 
 .breadcrumb .current-location {
     font-size: 18px;
-    color: #185FA5;
+    color: #2E7BC6;
     position: relative;
     border: none;
     background: transparent;
@@ -105,24 +106,26 @@ header nav {
     padding: 0 5px 3px 5px;
     appearance: none;
     cursor: pointer;
-    border-bottom: 2px solid #185FA5;
+    border-bottom: 2px solid #2E7BC6;
     transition: color 0.18s, border-color 0.18s;
 }
 
 .breadcrumb .visited-location {
     font-size: 18px;
-    color: #185FA5;
+    color: #2E7BC6;
     border: none;
     background: transparent;
     outline: none;
     padding: 0 5px 3px 5px;
+    border-radius: 6px;
     appearance: none;
     cursor: pointer;
-    transition: color 0.18s;
+    transition: background 0.18s, color 0.18s;
 }
 
 .breadcrumb .visited-location:hover {
-    color: #3a85cc;
+    background: #EAF3FD;
+    color: #2E7BC6;
 }
 
 /* ---------- Links Area ---------- */
@@ -134,6 +137,7 @@ header nav {
     gap: 1.4vw;
     margin-bottom: 0;
     margin-right: 0;
+    margin-left: auto;
 }
 
 .links-area .user-name {
@@ -141,54 +145,103 @@ header nav {
 }
 
 .nav-link {
-    font-family: "Noto Sans JP", sans-serif;
+    font-family: "Zen Kaku Gothic New", sans-serif;
     font-size: 0.88rem;
-    color: #185FA5;
+    color: #2E7BC6;
     text-decoration: none;
     white-space: nowrap;
     background: transparent;
     border: none;
-    padding: 0 0 2px 0;
-    margin: 0;
+    padding: 5px 12px;
+    margin: -3px 0;
+    border-radius: 6px;
     cursor: pointer;
-    position: relative;
-    transition: color 0.18s;
-}
-
-.nav-link {
-    font-family: "Noto Sans JP", sans-serif;
-    font-size: 0.88rem;
-    color: #185FA5;
-    text-decoration: none;
-    white-space: nowrap;
-    background: transparent;
-    border: none;
-    padding: 0;
-    margin: 0;
-    cursor: pointer;
-    transition: opacity 0.18s;
+    transition: background 0.15s ease, color 0.15s ease;
 }
 
 .nav-link:hover {
-    opacity: 0.5;
+    background: #EAF3FD;
+    color: #2E7BC6;
+}
+
+.nav-link.logout:hover {
+    background: #FAEAE7;
+    color: #CF4A40;
+}
+
+.ext-icon {
+    font-size: 10px;
+    opacity: .65;
+    margin-left: 1px;
+}
+
+.nav-divider {
+    width: 1px;
+    height: 16px;
+    background: #d5d5d5;
+    flex: none;
 }
 
 /* ---------- Guid Text ---------- */
 .guid-text {
-    margin-top: 8.5rem;
+    margin-top: 5.5rem;
     margin-bottom: 25px;
     font-size: 18px;
     font-weight: 400;
     color: #3a3a3a;
 }
 
+/* ---------- ページ見出し（パンくず + ガイド文） ---------- */
+.page-heading {
+    width: 100%;
+    margin-top: 5.5rem;
+}
+
+.top-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 10px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--color-ink-faint);
+}
+
+.top-breadcrumb a,
+.top-breadcrumb span {
+    color: var(--color-ink-faint);
+}
+
+.top-breadcrumb a {
+    text-decoration: none;
+    transition: color .15s ease;
+}
+
+.top-breadcrumb a:hover {
+    color: var(--color-accent-deep);
+}
+
+.top-breadcrumb .chev {
+    color: var(--color-line-strong);
+}
+
+.top-breadcrumb .crumb-current {
+    color: var(--color-ink);
+    font-weight: 700;
+}
+
+.page-heading .guid-text {
+    margin: 0 0 25px;
+    text-align: center;
+}
+
 /* ---------- Math Nav ---------- */
 .math_nav-container a {
-    color: #185FA5;
+    color: #2E7BC6;
 }
 
 .math_nav-container a:hover {
-    color: #3a85cc;
+    color: #4A94DA;
 }
 
 /* ---------- Utilities ---------- */

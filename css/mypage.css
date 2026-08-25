@@ -3,9 +3,9 @@
    ============================================= */
 
 :root {
-    --primary:       #185FA5;
-    --primary-light: #E6F1FB;
-    --primary-mid:   #85B7EB;
+    --primary:       #2E7BC6;
+    --primary-light: #EAF3FD;
+    --primary-mid:   #8FC3FA;
 
     --success:       #3a8a3a;
     --success-light: #e8f7e8;
@@ -33,7 +33,7 @@ body {
 
 /* ---------- Page Title ---------- */
 .page-title {
-    margin-top: 7.5rem;
+    margin-top: 5.5rem;
     margin-bottom: 12px;
     font-size: 22px;
     font-family: "Noto Sans JP", sans-serif;

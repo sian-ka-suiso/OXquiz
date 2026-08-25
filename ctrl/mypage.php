@@ -16,6 +16,7 @@
     $is_login = isset($_SESSION['is_login']) ? $_SESSION['is_login'] : "";
     $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : "";
     $email = isset($_SESSION['email']) ? $_SESSION['email'] : "";
+    $is_guest = !empty($_SESSION['guest']);
     $pre_page_link = isset($_POST['pre_page_link']) ? $_POST['pre_page_link'] : "";
 //**************************************************
 // ログインチェック

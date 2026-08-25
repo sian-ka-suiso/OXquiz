@@ -6,49 +6,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>よくある間違いOXクイズ Chapter Page</title>
     <link rel="stylesheet" type="text/css" href="../css/common.css">
+    <link rel="stylesheet" type="text/css" href="../css/variables.css">
     <link rel="stylesheet" type="text/css" href="../css/chapter.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Noto+Serif+JP:wght@200..900&family=Zen+Kaku+Gothic+New&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=RocknRoll+One&display=swap" rel="stylesheet">
 </head>
 
 <body>
     <div class="top-container">
 
-        <!-- ヘッダー -->
-        <header>
-            <a href="../ctrl/chapter.php" class="site-logo">
-                <img src="../images/other/logo.png" alt="よくある間違い〇✕クイズ">
-            </a>
-            <nav>
-                <div class="breadcrumb">
-                    <button class="current-location font-Noto" onclick="location.reload()">Chapter</button>
-                    <span>▸</span>
-                    <div class="location">Section</div>
-                    <span>▸</span>
-                    <div class="location">Question</div>
-                </div>
-                <div class="links-area">
-                    <span class="user-name">
-                        <?php if ($is_guest): ?>
-                            <?= V2H($user_name) ?> さん
-                        <?php else: ?>
-                            <a href="../ctrl/mypage.php" class="nav-link"><?= V2H($user_name); ?></a> さん
-                        <?php endif; ?>
-                    </span>
-                    <a href="https://w3e.kanazawa-it.ac.jp/math/" target="_blank" rel="noopener noreferrer" class="nav-link">KIT数学ナビゲーション</a>
-                        <form action="../ctrl/" method="post" class="logoutBtn">
-                        <input type="hidden" name="sign_out" value="true">
-                        <button type="submit" class="nav-link">ログアウト</button>
-                    </form>
-                </div>
-            </nav>
-        </header>
+        <?php require_once __DIR__ . '/parts/header.php'; ?>
 
-        <div class="guid-text">単元を選択してください.</div>
+        <div class="page-heading">
+            <nav class="top-breadcrumb" aria-label="パンくずリスト">
+                <span class="crumb-current">章一覧</span>
+            </nav>
+            <div class="guid-text">単元を選択してください.</div>
+        </div>
+
+        <?php
+            // 表示対象チャプター数（トップバーの件数表示用）
+            $visible_chapters = array_values(array_filter($chapters, function ($c) use ($is_admin) {
+                return $c['chapter_published'] || $is_admin;
+            }));
+            $visible_chapter_count = count($visible_chapters);
+
+            $circle_r = 25;
+            $circumference = round(2 * M_PI * $circle_r, 2);
+        ?>
+
+        <!-- 表示モード切り替え + 件数 -->
+        <div class="grid-toolbar">
+            <p class="grid-count">全<?= $visible_chapter_count ?>章</p>
+            <div class="mode-switch" role="group" aria-label="表示モード切り替え">
+                <button type="button" class="mode-btn active" data-mode-value="simple">通常モード</button>
+                <button type="button" class="mode-btn" data-mode-value="detail">詳細モード</button>
+            </div>
+        </div>
+
+        <!-- 凡例（詳細モードのみ表示） -->
+        <div class="legend">
+            <span class="legend-item"><span class="legend-dot correct"></span>正解</span>
+            <span class="legend-item"><span class="legend-dot incorrect"></span>不正解</span>
+            <span class="legend-item"><span class="legend-dot blank"></span>未回答</span>
+        </div>
 
         <!-- チャプター一覧（Grid） -->
-        <div class="chapter-container">
+        <div class="chapter-container" id="chapterContainer" data-mode="simple">
             <?php $chapter_index = 1; ?>
             <?php foreach ($chapters as $chapter): ?>
             <?php if ($chapter['chapter_published'] || $is_admin): ?>
@@ -57,27 +66,20 @@
                 $chapter_name = $chapter['chapter_name'];
                 $section_names = $chapter['sections'];
 
-                // 進捗計算
+                // 章全体の進捗計算
                 $progress        = $chapter_progress[$chapter_id] ?? ['total' => 0, 'correct_count' => 0, 'wrong_count' => 0];
                 $total           = $progress['total'];
                 $correct         = $progress['correct_count'];
                 $wrong           = $progress['wrong_count'] ?? 0;
                 $answered        = $correct + $wrong;
                 $correct_percent = ($total > 0) ? (int)round($correct / $total * 100) : 0;
-                $wrong_percent   = ($total > 0) ? (int)round($wrong   / $total * 100) : 0;
 
-                if ($correct === $total && $total > 0) {
-                    $progress_label = '全問正解！';
-                    $progress_class = 'progress-done';
-                } elseif ($answered === 0) {
-                    $progress_label = '未着手';
-                    $progress_class = 'progress-none';
-                } else {
-                    $progress_label = $correct . ' / ' . $total . '　正解';
-                    $progress_class = 'progress-ongoing';
-                }
+                // 進捗リング（詳細モード用）
+                $card_state    = ($answered === 0) ? 'new' : 'active';
+                $correct_len   = round(($total > 0 ? $correct / $total : 0) * $circumference, 2);
+                $wrong_len     = round(($total > 0 ? $wrong   / $total : 0) * $circumference, 2);
             ?>
-            <form action="section.php" method="get" class="chapter-card">
+            <form action="section.php" method="get" class="chapter-card" data-state="<?= $card_state ?>">
                 <input type="hidden" name="chapter_id" value="<?= V2H($chapter_id); ?>">
                 <button type="submit">
 
@@ -86,41 +88,68 @@
                         Chapter <?= $chapter_index ?>
                     </div>
 
-                    <!-- 章名 -->
-                    <div class="chapter-name-container">
-                        <span><?= V2H($chapter_name); ?></span>
-                    </div>
+                    <div class="card-body">
 
-                    <!-- セクション名リスト + 進捗 -->
-                    <div class="section-name-container">
-                        <?php $section_index = 1; ?>
-                        <?php foreach ($section_names as $section): ?>
-                            <?php if ($section['section_published'] || $is_admin): ?>
-                                <span class="font-Noto section-row">
-                                    <?= V2H($section_index) ?>. <?= V2H($section['name']); ?>
-                                    <?php foreach ($section_categories[$section['id']] ?? [] as $suuri): ?>
-                                        <span class="suuri-tag"><?= V2H($suuri) ?></span>
-                                    <?php endforeach; ?>
-                                </span>
-                            <?php endif; ?>
-                            <?php $section_index++; ?>
-                        <?php endforeach; ?>
-                        <div class="progress-area">
-                            <!-- 進捗ラベル -->
-                            <div class="chapter-progress <?= $progress_class ?>">
-                                <?= $progress_label ?>
+                        <!-- 章名 + 進捗リング（詳細モードのみ表示） -->
+                        <div class="chapter-line">
+                            <div class="chapter-name-container">
+                                <span><?= V2H($chapter_name); ?></span>
                             </div>
-                            <!-- プログレスバー + パーセント -->
-                            <div class="progress-bar-row">
-                                <div class="progress-bar-wrap">
-                                    <div class="progress-bar-correct" style="width: <?= $correct_percent ?>%;"></div>
-                                    <div class="progress-bar-wrong" style="width: <?= $wrong_percent ?>%;"></div>
-                                </div>
-                                <span class="progress-percent"><?= $correct_percent ?>%</span>
+                            <div class="progress-ring">
+                                <svg viewBox="0 0 56 56">
+                                    <circle class="ring-track" cx="28" cy="28" r="25" transform="rotate(-90 28 28)"/>
+                                    <?php if ($card_state !== 'new'): ?>
+                                    <circle class="ring-seg" cx="28" cy="28" r="25" stroke="var(--color-correct)" stroke-dasharray="<?= $correct_len ?> <?= $circumference ?>" stroke-dashoffset="0" transform="rotate(-90 28 28)"/>
+                                    <circle class="ring-seg" cx="28" cy="28" r="25" stroke="var(--color-incorrect)" stroke-dasharray="<?= $wrong_len ?> <?= $circumference ?>" stroke-dashoffset="-<?= $correct_len ?>" transform="rotate(-90 28 28)"/>
+                                    <?php endif; ?>
+                                </svg>
+                                <span class="ring-pct"><?= $card_state === 'new' ? 'ー' : $correct_percent . '%' ?></span>
                             </div>
                         </div>
+
+                        <hr class="divider" />
+
+                        <!-- セクション名リスト -->
+                        <div class="section-name-container">
+                            <?php $section_index = 1; ?>
+                            <?php foreach ($section_names as $section): ?>
+                                <?php if ($section['section_published'] || $is_admin): ?>
+                                    <?php
+                                        $section_id  = $section['id'];
+                                        $sec_progress = $section_progress[$section_id] ?? ['total' => 0, 'correct_count' => 0, 'wrong_count' => 0];
+                                        $sec_total    = $sec_progress['total'];
+                                        $sec_correct  = $sec_progress['correct_count'];
+                                        $sec_wrong    = $sec_progress['wrong_count'] ?? 0;
+                                        $sec_correct_pct = ($sec_total > 0) ? round($sec_correct / $sec_total * 100, 2) : 0;
+                                        $sec_wrong_pct   = ($sec_total > 0) ? round($sec_wrong   / $sec_total * 100, 2) : 0;
+                                    ?>
+                                    <div class="section-row">
+                                        <span class="sec-num"><?= V2H($section_index) ?></span>
+                                        <span class="sec-name font-Noto"><?= V2H($section['name']); ?></span>
+                                        <?php foreach ($section_categories[$section_id] ?? [] as $suuri): ?>
+                                            <?php
+                                                $cat_class = 'cat-1';
+                                                if (mb_strpos($suuri, 'Ⅱ') !== false) {
+                                                    $cat_class = 'cat-2';
+                                                } elseif (mb_strpos($suuri, 'Ⅲ') !== false) {
+                                                    $cat_class = 'cat-3';
+                                                }
+                                            ?>
+                                            <span class="suuri-tag <?= $cat_class ?>"><?= V2H($suuri) ?></span>
+                                        <?php endforeach; ?>
+                                        <span class="sec-bar">
+                                            <span class="b-correct" style="width: <?= $sec_correct_pct ?>%;"></span>
+                                            <span class="b-incorrect" style="width: <?= $sec_wrong_pct ?>%;"></span>
+                                        </span>
+                                        <span class="sec-frac"><?= $sec_correct ?>/<?= $sec_total ?></span>
+                                    </div>
+                                <?php endif; ?>
+                                <?php $section_index++; ?>
+                            <?php endforeach; ?>
+                        </div>
+
                     </div>
-                    
+
                 </button>
             </form>
             <?php $chapter_index++; ?>

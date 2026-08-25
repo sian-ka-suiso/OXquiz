@@ -787,6 +787,48 @@ function getSectionCategories()
 }
 
 //**************************************************
+// セクションごとの進捗状況取得
+//**************************************************
+function getSectionProgressList(int $user_id)
+{
+    $result = array();
+    if (empty($user_id)) {
+        return $result;
+    }
+
+    $pdo = db_connect();
+    try {
+        $sSql  = "SELECT s.id AS section_id, ";
+        $sSql .= "COUNT(q.id) AS total, ";
+        $sSql .= "SUM(CASE WHEN uqs.status = 'correct' THEN 1 ELSE 0 END) AS correct_count, ";
+        $sSql .= "SUM(CASE WHEN uqs.status = 'wrong'   THEN 1 ELSE 0 END) AS wrong_count ";
+        $sSql .= "FROM section_table s ";
+        $sSql .= "JOIN question_table q ON q.section_id = s.id ";
+        $sSql .= "LEFT JOIN user_question_status uqs ";
+        $sSql .= "  ON uqs.question_id = q.id AND uqs.user_id = :user_id ";
+        $sSql .= "GROUP BY s.id";
+
+        $stmh = $pdo->prepare($sSql);
+        $stmh->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+        $stmh->execute();
+
+        // section_id をキーにした連想配列で返す
+        foreach ($stmh->fetchAll(PDO::FETCH_ASSOC) as $row) {
+            $result[$row['section_id']] = [
+                'total'         => (int)$row['total'],
+                'correct_count' => (int)$row['correct_count'],
+                'wrong_count'   => (int)$row['wrong_count'],
+            ];
+        }
+
+    } catch (PDOException $Exception) {
+        die('実行エラー :' . $Exception->getMessage() . "<br/>");
+    }
+
+    return $result;
+}
+
+//**************************************************
 // 回答状況(done/wrong)を取得
 //**************************************************
 function getQuestionStatuses(int $user_id, array $question_ids)

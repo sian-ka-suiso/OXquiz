@@ -11,38 +11,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=RocknRoll+One&display=swap"
         rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
-    <!-- ヘッダー（ロゴのみ） -->
-    <header>
-        <a href="../ctrl/chapter.php" class="site-logo">
-            <img src="../images/other/logo.png" alt="よくある間違い〇✕クイズ">
-        </a>
-        <nav>
-            <div class="breadcrumb">
-                <div class="location">Chapter</div>
-                <span>▸</span>
-                <div class="location">Section</div>
-                <span>▸</span>
-                <div class="location">Question</div>
-            </div>
-            <div class="links-area">
-                <span class="user-name">
-                    <a href="../ctrl/mypage.php" class="nav-link">
-                        <?= V2H($user_name); ?>
-                    </a> さん
-                </span>
-                <a href="https://w3e.kanazawa-it.ac.jp/math/" target="_blank" rel="noopener noreferrer"
-                    class="nav-link">KIT数学ナビゲーション</a>
-                <form action="../ctrl/" method="post" class="logoutBtn">
-                    <input type="hidden" name="sign_out" value="true">
-                    <button type="submit" class="nav-link">ログアウト</button>
-                </form>
-            </div>
-        </nav>
-    </header>
+    <?php require_once __DIR__ . '/parts/header.php'; ?>
 
     <!-- ページタイトル -->
     <h2 class="page-title">マイページ</h2>

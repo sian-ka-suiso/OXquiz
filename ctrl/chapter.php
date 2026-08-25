@@ -55,6 +55,7 @@
     $chapters = getChaptersWithSections();
     $section_categories = getSectionCategories();
     $chapter_progress = (!$is_guest) ? getChapterProgressList($user_id) : [];
+    $section_progress = (!$is_guest) ? getSectionProgressList($user_id) : [];
 
 //**************************************************
 // HTMLを出力

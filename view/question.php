@@ -6,55 +6,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>よくある間違いOXクイズ QuestionPage</title>
     <link rel="stylesheet" type="text/css" href="../css/common.css">
+    <link rel="stylesheet" type="text/css" href="../css/variables.css">
     <link rel="stylesheet" type="text/css" href="../css/question.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=RocknRoll+One&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Zen+Kaku+Gothic+New&display=swap" rel="stylesheet">
 </head>
 
 <body>
     <div class="top-container">
 
-        <!-- ヘッダー -->
-        <header>
-            <a href="../ctrl/chapter.php" class="site-logo">
-                <img src="../images/other/logo.png" alt="よくある間違い〇✕クイズ">
-            </a>
-            <nav>
-                <div class="breadcrumb">
-                    <button class="visited-location font-Noto" onclick="location.href='../ctrl/chapter.php'">Chapter</button>
-                    <span>▸</span>
-                    <form action="../ctrl/section.php" method="get" style="display:inline;">
-                        <button class="visited-location font-Noto" type="submit">Section</button>
-                        <input type="hidden" name="chapter_id" value="<?= $chapter_id ?>">
-                    </form>
-                    <span>▸</span>
-                    <form action="../ctrl/question.php" method="get" style="display:inline;">
-                        <button class="current-location font-Noto" type="submit">Question</button>
-                        <input type="hidden" name="chapter_id" value="<?= $chapter_id ?>">
-                        <input type="hidden" name="section_id" value="<?= $section_id ?>">
-                        <input type="hidden" name="question_id" value="<?= $question_id ?>">
-                        <input type="hidden" name="qn" value="<?= htmlspecialchars($question_number); ?>">
-                    </form>
-                </div>
-                <div class="links-area">
-                    <span class="user-name">
-                        <?php if ($is_guest): ?>
-                            <?= V2H($user_name) ?> さん
-                        <?php else: ?>
-                            <a href="../ctrl/mypage.php" class="nav-link"><?= V2H($user_name); ?></a> さん
-                        <?php endif; ?>
-                    </span>
-                    <a href="https://w3e.kanazawa-it.ac.jp/math/" target="_blank" rel="noopener noreferrer" class="nav-link">KIT数学ナビゲーション</a>
-                    <form action="../ctrl/" method="post" class="logoutBtn">
-                        <input type="hidden" name="sign_out" value="true">
-                        <button type="submit" class="nav-link">ログアウト</button>
-                    </form>
-                </div>
-            </nav>
-        </header>
+        <?php require_once __DIR__ . '/parts/header.php'; ?>
 
-        <div class="guid-text">正しいと思う解答を選択してください.</div>
+        <div class="page-heading">
+            <nav class="top-breadcrumb" aria-label="パンくずリスト">
+                <a href="../ctrl/chapter.php">章一覧</a>
+                <span class="chev">›</span>
+                <a href="../ctrl/section.php?chapter_id=<?= V2H($chapter_id) ?>"><?= V2H($chapter_names["name"]) ?></a>
+                <span class="chev">›</span>
+                <span class="crumb-current"><?= V2H($section_names["name"]) ?></span>
+            </nav>
+            <div class="guid-text">正しいと思う解答を選択してください.</div>
+        </div>
 
         <main>
 
