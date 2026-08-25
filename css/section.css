@@ -117,6 +117,9 @@
     color: var(--color-ink-faint);
 }
 
+.q-chip.correct   { border-color: var(--color-correct); }
+.q-chip.incorrect { border-color: var(--color-incorrect); }
+
 .q-status {
     position: absolute;
     top: -7px;
