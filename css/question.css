@@ -3,20 +3,7 @@
    ============================================= */
 
 :root {
-    --primary:       #2E7BC6;
-    --primary-light: #EAF3FD;
-    --primary-mid:   #8FC3FA;
-
-    --success:       #3a8a3a;
-    --success-light: #e8f7e8;
-    --success-mid:   #a8d8a8;
-
-    --danger:        #a33a3a;
-    --danger-light:  #fdecea;
-    --danger-mid:    #f5b8b8;
-
-    --card-radius:   12px;
-    --transition:    0.22s ease;
+    --transition: 0.22s ease;
 }
 
 /* ---------- Main Layout ---------- */
@@ -40,20 +27,20 @@ main {
 /* ---------- 正答率・ブックマークなどのステータス表示 ---------- */
 .question-breadcrumb {
     width: 100%;
-    font-family: "Roboto", sans-serif;
-    font-size: 14px;
-    color: #888;
-    margin-bottom: 10px;
     display: flex;
     align-items: center;
-    gap: 6px;
+    justify-content: space-between;
+    gap: 14px;
+    margin: 0 0 22px;
+    padding-bottom: 16px;
+    border-bottom: 1px dashed var(--color-line-strong);
 }
 
 /* ---------- 正答率・正解済みバッジのまとまり ---------- */
 .question-badges {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     margin-left: auto;
 }
 
@@ -61,14 +48,31 @@ main {
 .accuracy-badge {
     display: inline-flex;
     align-items: center;
-    font-family: "Noto Sans JP", sans-serif;
+    font-family: var(--font-mono);
     font-size: 12px;
-    font-weight: 500;
-    color: #888;
-    background-color: #fafafa;
-    border: 1.5px solid #e8e8e8;
-    border-radius: 15px;
-    padding: 6px 12px;
+    font-weight: 600;
+    letter-spacing: .02em;
+    color: var(--color-ink-soft);
+    background-color: var(--color-card);
+    border: 1.5px solid var(--color-line-strong);
+    border-radius: 999px;
+    padding: 6px 13px;
+    white-space: nowrap;
+}
+
+/* ---------- 正解済みバッジ ---------- */
+.answered-badge {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .02em;
+    color: var(--color-correct);
+    background-color: var(--color-correct-soft);
+    border: 1.5px solid var(--color-correct);
+    border-radius: 999px;
+    padding: 6px 13px;
     white-space: nowrap;
 }
 
@@ -76,32 +80,35 @@ main {
 .bookmark-btn {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
-    font-family: "Noto Sans JP", sans-serif;
-    font-size: 12px;
+    gap: 5px;
+    font-family: var(--font-body);
+    font-size: 12.5px;
     font-weight: 500;
-    color: #999;
-    background-color: #fafafa;
-    border: 1.5px solid #e8e8e8;
-    border-radius: 15px;
-    padding: 6px 12px;
+    color: var(--color-ink-soft);
+    background-color: var(--color-card);
+    border: 1.5px solid var(--color-line-strong);
+    border-radius: 999px;
+    padding: 8px 16px;
     cursor: pointer;
     white-space: nowrap;
     transition: background-color var(--transition), color var(--transition), border-color var(--transition);
 }
 
 .bookmark-btn:hover {
-    background-color: #f4f4f1;
+    border-color: var(--color-accent-deep);
+    color: var(--color-accent-deep);
 }
 
 .bookmark-btn.active {
-    color: #b8860b;
+    color: #a3760b;
     background-color: #fff8e6;
     border-color: #f0d98a;
 }
 
 .bookmark-btn.active:hover {
     background-color: #fdeec1;
+    border-color: #f0d98a;
+    color: #a3760b;
 }
 
 /* ---------- Question Container ---------- */
@@ -112,12 +119,12 @@ main {
     align-items: center;
     width: 100%;
     box-sizing: border-box;
-    background: #ffffff;
-    border: 1.5px solid #e8e8e8;
-    border-radius: var(--card-radius);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    background: var(--color-card);
+    border: 1.5px solid var(--color-line);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
     overflow: hidden;
-    margin-bottom: 16px;
+    margin-bottom: 18px;
 }
 
 /* ---------- Question Image ---------- */
@@ -126,10 +133,10 @@ main {
     flex-direction: column;
     align-items: center;
     width: 100%;
-    padding: 20px 20px 10px 20px;
+    padding: 22px 22px 12px;
     box-sizing: border-box;
-    border-bottom: 1px solid #ebebeb;
-    background-color: #fafafa;
+    border-bottom: 1px dashed var(--color-line);
+    background-color: var(--color-card);
 }
 
 .question-area img {
@@ -146,40 +153,32 @@ main {
     flex-wrap: wrap;
     gap: 12px;
     width: 100%;
-    padding: 16px 20px;
+    padding: 18px 22px 22px;
     box-sizing: border-box;
 }
 
 /* ---------- Option Labels ---------- */
-.option-label {
-    flex: 1;
-    min-width: 40%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #ffffff;
-    border: 1.5px solid #e8e8e8;
-    border-radius: var(--card-radius);
-    box-sizing: border-box;
-    transition: border-color var(--transition), background-color var(--transition), transform 0.1s ease;
-    cursor: pointer;
-}
-
-.option-label:hover {
-    border-color: var(--primary-mid);
-    background-color: var(--primary-light);
-}
-
+.option-label,
 .option-selected {
     flex: 1;
     min-width: 40%;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #ffffff;
-    border: 1.5px solid #e8e8e8;
-    border-radius: var(--card-radius);
+    background-color: var(--color-card);
+    border: 1.5px solid var(--color-line);
+    border-radius: var(--radius-card);
     box-sizing: border-box;
+    transition: border-color var(--transition), background-color var(--transition), transform 0.1s ease;
+}
+
+.option-label {
+    cursor: pointer;
+}
+
+.option-label:hover {
+    border-color: var(--color-accent);
+    background-color: var(--color-accent-soft);
 }
 
 /* 選択肢画像 */
@@ -195,68 +194,50 @@ main {
 }
 
 /* ---------- 回答後フィードバック ---------- */
-.correct-selected {
-    background-color: var(--success-light) !important;
-    border-color: var(--success-mid) !important;
+.correct-selected,
+.correct-unselected {
+    background-color: var(--color-correct-soft) !important;
+    border-color: var(--color-correct) !important;
 }
 
 .incorrect-selected {
-    background-color: var(--danger-light) !important;
-    border-color: var(--danger-mid) !important;
-}
-
-.correct-unselected {
-    background-color: var(--success-light) !important;
-    border-color: var(--success-mid) !important;
+    background-color: var(--color-incorrect-soft) !important;
+    border-color: var(--color-incorrect) !important;
 }
 
 .unselected {
-    background-color: #ffffff !important;
+    background-color: var(--color-card) !important;
+    border-color: var(--color-line) !important;
 }
 
 /* ---------- Feedback Banner ---------- */
 .feedback {
     width: 100%;
-    border-radius: var(--card-radius);
+    border-radius: var(--radius-card);
     padding: 14px 20px;
-    margin: 12px 0;
+    margin: 0 0 18px;
     box-sizing: border-box;
 }
 
 .feedback.correct {
-    background-color: var(--success-light);
-    border: 1.5px solid var(--success-mid);
+    background-color: var(--color-correct-soft);
+    border: 1.5px solid var(--color-correct);
 }
 
 .feedback.incorrect {
-    background-color: var(--danger-light);
-    border: 1.5px solid var(--danger-mid);
+    background-color: var(--color-incorrect-soft);
+    border: 1.5px solid var(--color-incorrect);
 }
 
 .feedback h2 {
     margin: 0;
-    font-size: 18px;
-    font-family: "Noto Sans JP", sans-serif;
-    font-weight: 600;
+    font-size: 17px;
+    font-family: var(--font-body);
+    font-weight: 700;
 }
 
-.feedback.correct h2 { color: var(--success); }
-.feedback.incorrect h2 { color: var(--danger); }
-
-/* ---------- 正解済みバッジ ---------- */
-.answered-badge {
-    display: inline-flex;
-    align-items: center;
-    font-family: "Noto Sans JP", sans-serif;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--success);
-    background-color: var(--success-light);
-    border: 1.5px solid var(--success-mid);
-    border-radius: 15px;
-    padding: 6px 12px;
-    white-space: nowrap;
-}
+.feedback.correct h2 { color: var(--color-correct); }
+.feedback.incorrect h2 { color: var(--color-incorrect); }
 
 /* ---------- Explanation Container ---------- */
 .explanation-container {
@@ -269,13 +250,13 @@ main {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: #ffffff;
-    border: 1.5px solid #e8e8e8;
-    border-radius: var(--card-radius);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    padding: 20px;
+    background: var(--color-card);
+    border: 1.5px solid var(--color-line);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    padding: 22px;
     box-sizing: border-box;
-    margin-bottom: 16px;
+    margin-bottom: 18px;
 }
 
 .exp_h3 {
@@ -283,16 +264,19 @@ main {
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    margin-bottom: 16px;
+    margin-bottom: 18px;
+    padding-bottom: 14px;
+    border-bottom: 1px dashed var(--color-line-strong);
     gap: 16px;
 }
 
 .exp_h3 h3 {
-    color: #2a2a2a;
+    color: var(--color-ink);
     margin: 0;
-    font-family: "Roboto", sans-serif;
-    font-weight: 400;
+    font-family: var(--font-mono);
+    font-weight: 700;
     font-size: 16px;
+    letter-spacing: .02em;
 }
 
 /* ---------- 解説切り替えボタン ---------- */
@@ -303,23 +287,23 @@ main {
 }
 
 .exp-btn {
-    padding: 4px 18px;
-    font-family: "Noto Sans JP", sans-serif;
-    font-size: 13px;
+    padding: 6px 16px;
+    font-family: var(--font-body);
+    font-size: 12.5px;
     font-weight: 500;
-    background-color: #ffffff;
-    color: var(--primary);
-    border-radius: 20px;
-    border: 1.5px solid var(--primary-mid);
+    background-color: var(--color-card);
+    color: var(--color-accent-deep);
+    border-radius: 999px;
+    border: 1.5px solid var(--color-accent);
     cursor: pointer;
-    transition: background-color var(--transition), color var(--transition);
+    transition: background-color var(--transition), color var(--transition), border-color var(--transition);
 }
 
 .exp-btn:hover,
 .exp-btn.active {
-    background-color: var(--primary);
+    background-color: var(--color-accent-deep);
     color: #ffffff;
-    border-color: var(--primary);
+    border-color: var(--color-accent-deep);
 }
 
 /* ---------- 解説画像 ---------- */
@@ -348,21 +332,22 @@ main {
     justify-content: center;
     align-items: flex-start;
     width: 100%;
-    background: #ffffff;
-    border: 1.5px solid #e8e8e8;
-    border-radius: var(--card-radius);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    padding: 16px 20px;
+    background: var(--color-card);
+    border: 1.5px solid var(--color-line);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    padding: 18px 22px;
     box-sizing: border-box;
-    margin-bottom: 16px;
+    margin-bottom: 18px;
 }
 
 .math_nav-container h3 {
-    margin: 0 0 10px 0;
-    color: #2a2a2a;
-    font-family: "Roboto", sans-serif;
-    font-weight: 400;
+    margin: 0 0 12px 0;
+    color: var(--color-ink);
+    font-family: var(--font-mono);
+    font-weight: 700;
     font-size: 15px;
+    letter-spacing: .02em;
 }
 
 .math_nav-container ul {
@@ -372,8 +357,14 @@ main {
 }
 
 .math_nav-container li {
-    margin: 5px 0;
+    margin: 6px 0;
     font-size: 14px;
+    font-family: var(--font-body);
+    color: var(--color-ink-soft);
+}
+
+.math_nav-container .empty {
+    color: var(--color-ink-faint);
 }
 
 /* ---------- 前後ナビゲーション ---------- */
@@ -382,24 +373,27 @@ main {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 10px 0 40px 0;
+    margin: 8px 0 40px 0;
 }
 
 .question-nav-button button {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     padding: 10px 20px;
-    background-color: #ffffff;
-    color: #3a3a3a;
-    border: 1.5px solid #e8e8e8;
-    border-radius: var(--card-radius);
-    font-size: 14px;
-    font-family: "Noto Sans JP", sans-serif;
+    background-color: var(--color-card);
+    color: var(--color-ink);
+    border: 1.5px solid var(--color-line-strong);
+    border-radius: 999px;
+    font-size: 13.5px;
+    font-family: var(--font-body);
     cursor: pointer;
     transition: border-color var(--transition), color var(--transition), transform 0.15s ease;
 }
 
 .question-nav-button button:hover {
-    border-color: var(--primary-mid);
-    color: var(--primary);
+    border-color: var(--color-accent-deep);
+    color: var(--color-accent-deep);
 }
 
 .question-nav-button .next:hover {

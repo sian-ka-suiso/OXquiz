@@ -37,7 +37,7 @@
                     <span class="chev">›</span>
                     <button type="submit" form="reloadQuestionForm" class="crumb-current">Q<?= V2H($question_number) ?></button>
                 </nav>
-                <a href="../ctrl/section.php?chapter_id=<?= V2H($chapter_id) ?>" class="back-link">&lt; 節一覧に戻る</a>
+                <a href="../ctrl/section.php?chapter_id=<?= V2H($chapter_id) ?>" class="back-link">節一覧に戻る</a>
             </div>
             <div class="guid-text">正しいと思う解答を選択してください.</div>
         </div>
@@ -166,7 +166,7 @@
                 <h3>KIT数学ナビゲーションの関連リンク</h3>
                 <ul>
                     <?php if(empty($math_navs)): ?>
-                    <li><span style="color:#aac4e0;">関連するリンクはありません</span></li>
+                    <li><span class="empty">関連するリンクはありません</span></li>
                     <?php endif; ?>
                     <?php foreach ($math_navs as $nav): ?>
                     <li>
