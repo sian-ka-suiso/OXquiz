@@ -106,7 +106,7 @@ function getChapterData(){
 function getUserInfo(int $id) {
     $pdo = db_connect();
     try {
-        $sSql = "SELECT user_name, created_at, update_at, is_admin, class_id ";
+        $sSql = "SELECT user_name, created_at, update_at, is_admin, class_id, tos_agreed_at ";
         $sSql .= "FROM user_table ";
         $sSql .= "WHERE id = :id";
 
@@ -135,7 +135,7 @@ function checkEmail(string $email) {
 //**************************************************
 // 新規登録
 //**************************************************
-function insertUser(string $email, string $login_pass, ?int $class_id = null) {
+function insertUser(string $email, string $login_pass, ?int $class_id = null, bool $tos_agreed = false) {
 
 	//データベース接続関数の呼び出し
 	$pdo = db_connect();
@@ -143,14 +143,17 @@ function insertUser(string $email, string $login_pass, ?int $class_id = null) {
 	try {
         // PASSWORD_DEFAULT を指定すると、その時点のPHPバージョンで最も安全なアルゴリズムが自動選択されます
         $hashed_pass = password_hash($login_pass, PASSWORD_DEFAULT);
+        // 利用規約への同意日時（未同意の場合はNULL）
+        $tos_agreed_at = $tos_agreed ? date('Y-m-d H:i:s') : null;
 		//データ検索の条件
-		$sql = "INSERT INTO user_table (email, login_pass, class_id) VALUES (:email, :login_pass, :class_id)";
+		$sql = "INSERT INTO user_table (email, login_pass, class_id, tos_agreed_at) VALUES (:email, :login_pass, :class_id, :tos_agreed_at)";
 		//ステートメントハンドラを作成
 		$stmh = $pdo->prepare($sql);
 		//バインドの実行
 		$stmh->bindValue(':email', $email, PDO::PARAM_STR);
         $stmh->bindValue(':login_pass',  $hashed_pass,  PDO::PARAM_STR);
         $stmh->bindValue(':class_id', $class_id, PDO::PARAM_INT);
+        $stmh->bindValue(':tos_agreed_at', $tos_agreed_at, $tos_agreed_at === null ? PDO::PARAM_NULL : PDO::PARAM_STR);
 		//SQL文の実行
 		$stmh->execute();
 		//登録成功を返却
@@ -161,6 +164,79 @@ function insertUser(string $email, string $login_pass, ?int $class_id = null) {
 		//登録失敗を返却
 		return false;
 	}
+}
+//**************************************************
+// 利用規約への同意状況を確認
+//**************************************************
+function hasTosAgreed(int $id): bool {
+    $pdo = db_connect();
+    try {
+        $sSql = "SELECT tos_agreed_at FROM user_table WHERE id = :id";
+        $stmh = $pdo->prepare($sSql);
+        $stmh->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmh->execute();
+        $value = $stmh->fetchColumn();
+        return $value !== false && $value !== null;
+    } catch (PDOException $Exception) {
+        die('実行エラー（' . __FUNCTION__."）：".$Exception->getMessage()."<br />");
+    }
+}
+//**************************************************
+// 利用規約への同意を記録
+//**************************************************
+function agreeToS(int $id): bool {
+    $pdo = db_connect();
+    try {
+        $sSql = "UPDATE user_table SET tos_agreed_at = :tos_agreed_at WHERE id = :id";
+        $stmh = $pdo->prepare($sSql);
+        $stmh->bindValue(':tos_agreed_at', date('Y-m-d H:i:s'), PDO::PARAM_STR);
+        $stmh->bindValue(':id', $id, PDO::PARAM_INT);
+        return $stmh->execute();
+    } catch (PDOException $Exception) {
+        die('実行エラー（' . __FUNCTION__."）：".$Exception->getMessage()."<br />");
+    }
+}
+//**************************************************
+// 利用規約（ToS.md）を簡易HTMLへ変換
+//**************************************************
+function renderTosHtml(string $markdown): string {
+    $lines = preg_split('/\r\n|\r|\n/', $markdown);
+    $html = '';
+    $listType = null; // 'ul' | 'ol' | null
+
+    $closeList = function () use (&$html, &$listType) {
+        if ($listType !== null) {
+            $html .= "</{$listType}>\n";
+            $listType = null;
+        }
+    };
+
+    foreach ($lines as $line) {
+        $trimmed = trim($line);
+
+        if ($trimmed === '' || preg_match('/^# /', $trimmed)) {
+            // 空行、および先頭の大見出し（呼び出し側で別途表示するため）は読み飛ばす
+            $closeList();
+            continue;
+        }
+
+        if (preg_match('/^## (.+)/u', $trimmed, $m)) {
+            $closeList();
+            $html .= '<h3>' . htmlspecialchars($m[1], ENT_QUOTES, 'UTF-8') . "</h3>\n";
+        } elseif (preg_match('/^- (.+)/u', $trimmed, $m)) {
+            if ($listType !== 'ul') { $closeList(); $html .= "<ul>\n"; $listType = 'ul'; }
+            $html .= '<li>' . htmlspecialchars($m[1], ENT_QUOTES, 'UTF-8') . "</li>\n";
+        } elseif (preg_match('/^\d+\.\s+(.+)/u', $trimmed, $m)) {
+            if ($listType !== 'ol') { $closeList(); $html .= "<ol>\n"; $listType = 'ol'; }
+            $html .= '<li>' . htmlspecialchars($m[1], ENT_QUOTES, 'UTF-8') . "</li>\n";
+        } else {
+            $closeList();
+            $html .= '<p>' . htmlspecialchars($trimmed, ENT_QUOTES, 'UTF-8') . "</p>\n";
+        }
+    }
+    $closeList();
+
+    return $html;
 }
 //**************************************************
 // ユーザー名変更(マイページ用)

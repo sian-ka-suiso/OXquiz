@@ -176,6 +176,19 @@ section > h3 {
     color: var(--color-ink);
 }
 
+.tos-status {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.tos-status > span {
+    font-size: 15px;
+    font-family: var(--font-body);
+    color: var(--color-ink);
+}
+
 /* ---------- Bookmark List ---------- */
 .bookmark-list {
     list-style: none;

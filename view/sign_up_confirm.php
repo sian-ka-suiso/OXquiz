@@ -30,6 +30,13 @@
             <input type="text" value="<?= $class_name ?>" readonly>
             <input type="hidden" name="class_id" value="<?= $_SESSION['class_id'] ?>">
         </div>
+        <div class="form-group">
+            <span>利用規約</span>
+            <input type="text" value="<?= $tos_agree ? '同意済み' : '未同意' ?>" readonly>
+            <?php if ($tos_agree): ?>
+            <input type="hidden" name="tos_agree" value="1">
+            <?php endif; ?>
+        </div>
         <div class="btn-area">
             <a href="../ctrl/sign_up.php">戻る</a>
             <button type="submit">登録する</button>

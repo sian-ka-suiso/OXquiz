@@ -19,6 +19,7 @@
     $email = isset($_POST['email']) ? $_POST['email'] : "";
     $login_pass = isset($_POST['login_pass']) ? $_POST['login_pass'] : "";
     $class_id = isset($_POST['class_id']) ? $_POST['class_id'] : "";
+    $tos_agree = isset($_POST['tos_agree']);
     $step = isset($_POST['step']) ? $_POST['step'] : "";
     $arrErr = array();
 //**************************************************
@@ -62,7 +63,12 @@
                 $_SESSION['user_id']  = $id;
                 $_SESSION['email']    = $email;
 
-                header("location: chapter.php");
+                // 利用規約に未同意の場合は同意ページへ
+                if (!hasTosAgreed($id)) {
+                    header("location: tos_agree.php");
+                } else {
+                    header("location: chapter.php");
+                }
                 exit();
             } else if ($email != "" || $login_pass != "") {
                 $arrErr['common'] = "メールアドレスもしくはパスワードが間違っています。";
@@ -75,7 +81,7 @@
 // 新規登録チェック
 //**************************************************
     if($sign_up == true && $email != "" && $login_pass != ""){
-        $result = insertUser($email, $login_pass, $class_id !== "" ? (int)$class_id : null);
+        $result = insertUser($email, $login_pass, $class_id !== "" ? (int)$class_id : null, $tos_agree);
     }
 //**************************************************
 // ゲストログインチェック

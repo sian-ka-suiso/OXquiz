@@ -26,6 +26,13 @@
         exit();
     }
 //**************************************************
+// 利用規約チェック
+//**************************************************
+    if(!$is_guest && !hasTosAgreed((int)$user_id)){
+        header("location: tos_agree.php");
+        exit();
+    }
+//**************************************************
 // 変更情報取得
 //**************************************************
     $change_name = isset($_POST['change_name']) ? $_POST['change_name'] : "";
@@ -61,6 +68,7 @@
         $update_at  = $userData['update_at'];
         $is_admin   = $userData['is_admin'];
         $class_id   = $userData['class_id'];
+        $tos_agreed_at = $userData['tos_agreed_at'];
     } else {
         // ユーザーが見つからなかった場合の予備処理
         $user_name = "ゲスト";
@@ -68,6 +76,7 @@
         $update_at = 0000;
         $is_admin = 0;
         $class_id = 0;
+        $tos_agreed_at = null;
     }
     //所属クラス名の取得
     $class_name = (empty($class_id)) ? "なし" : getClassName((int)$class_id);

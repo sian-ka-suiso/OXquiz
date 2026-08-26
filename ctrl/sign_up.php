@@ -21,6 +21,8 @@
     $login_pass2 = isset($_POST['login_pass2']) ? $_POST['login_pass2'] : "";
     //クラスID
     $class_id = isset($_POST['class_id']) ? $_POST['class_id'] : "";
+    //利用規約への同意
+    $tos_agree = isset($_POST['tos_agree']);
     //処理ステップ
     $step = isset($_POST['step']) ? $_POST['step'] : "";
     $arrErr = array();
@@ -57,11 +59,16 @@ if ($step == 1) {
         $arrErr['class_id'] = "クラスを選択してください";
     }
 
+    if (!$tos_agree) {
+        $arrErr['tos_agree'] = "利用規約に同意いただけない場合、ご利用できません。";
+    }
+
     // エラーがなければセッションにデータを保存し、ステップ2へ
     if (empty($arrErr)) {
         $_SESSION['email'] = $email;
         $_SESSION['login_pass'] = $login_pass;
         $_SESSION['class_id'] = $class_id;
+        $_SESSION['tos_agree'] = true;
         header("Location: sign_up_confirm.php");
         exit();
     }

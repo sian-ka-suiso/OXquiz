@@ -19,6 +19,8 @@
     $login_pass = isset($_SESSION['login_pass']) ? $_SESSION['login_pass'] : "";
     //クラスID
     $class_id = isset($_SESSION['class_id']) ? $_SESSION['class_id'] : "";
+    //利用規約への同意
+    $tos_agree = isset($_SESSION['tos_agree']) ? $_SESSION['tos_agree'] : false;
     //クラス名
     if ($class_id === "" ) {
         $class_name = "";
