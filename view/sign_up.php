@@ -50,6 +50,15 @@
                 <?= isset($arrErr['class_id']) ? $arrErr['class_id'] : "" ?>
             </div>
         </div>
+        <div class="form-group tos-group">
+            <label class="tos-check">
+                <input type="checkbox" name="tos_agree" value="1" <?= $tos_agree ? 'checked' : '' ?>>
+                <span><button type="button" class="tos-open-btn" data-tos-open>利用規約</button>に同意する</span>
+            </label>
+            <div class="err">
+                <?= isset($arrErr['tos_agree']) ? $arrErr['tos_agree'] : "" ?>
+            </div>
+        </div>
         <div class="btn-area">
             <a href="../ctrl/">戻る</a>
             <div>
@@ -58,5 +67,7 @@
             </div>
         </div>
     </form>
+
+    <?php require_once __DIR__ . '/parts/tos_modal.php'; ?>
 </body>
 </html>

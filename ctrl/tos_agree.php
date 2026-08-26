@@ -17,8 +17,6 @@
     $is_login = isset($_SESSION['is_login']) ? $_SESSION['is_login'] : "";
     //Id
     $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : "";
-    //メールアドレス
-    $email = isset($_SESSION['email']) ? $_SESSION['email'] : "";
     //ゲスト
     $is_guest = !empty($_SESSION['guest']);
 //**************************************************
@@ -29,44 +27,30 @@
         exit();
     }
 //**************************************************
-// 利用規約チェック
+// 同意済み／ゲストの場合はこのページ不要
 //**************************************************
-    if(!$is_guest && !hasTosAgreed((int)$user_id)){
-        header("location: tos_agree.php");
+    if ($is_guest || hasTosAgreed((int)$user_id)) {
+        header("location: chapter.php");
         exit();
     }
 //**************************************************
-// 変数取得（続き）
+// 同意処理
 //**************************************************
-    //ユーザー情報（ユーザー名、登録日、更新日、管理者フラグ）取得
-    if (!$is_guest){
-        $userData = getUserInfo($user_id);
-        if ($userData) {
-            $user_name  = $userData['user_name'];
-            $created_at = $userData['created_at'];
-            $update_at  = $userData['update_at'];
-            $is_admin   = $userData['is_admin'];
+    $arrErr = array();
+
+    if (isset($_POST['submit_tos'])) {
+        $tos_agree = isset($_POST['tos_agree']);
+        if (!$tos_agree) {
+            $arrErr['tos_agree'] = "利用規約に同意いただけない場合、ご利用できません。";
         } else {
-            // ユーザーが見つからなかった場合の予備処理
-            $user_name = "ログインユーザー";
-            $is_admin = 0;
+            agreeToS((int)$user_id);
+            header("location: chapter.php");
+            exit();
         }
-    } else {
-        $user_name  = "ゲストユーザー";
-        $created_at = 0;
-        $update_at  = 0;
-        $is_admin   = 0;
     }
-
-    //チャプター名をセクション名も合わせて取得
-    $chapters = getChaptersWithSections();
-    $section_categories = getSectionCategories();
-    $chapter_progress = (!$is_guest) ? getChapterProgressList($user_id) : [];
-    $section_progress = (!$is_guest) ? getSectionProgressList($user_id) : [];
-
 //**************************************************
 // HTMLを出力
 //**************************************************
     //画面へ表示
-    require_once('../view/chapter.php');
+    require_once('../view/tos_agree.php');
 ?>

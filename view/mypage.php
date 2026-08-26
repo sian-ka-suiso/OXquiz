@@ -95,6 +95,15 @@
                     </span>
                 </div>
 
+                <!-- 利用規約 -->
+                <div class="info-category">
+                    <div class="category-name">利用規約</div>
+                    <div class="tos-status">
+                        <span><?= $tos_agreed_at ? '同意済み（' . V2H(date('Y/m/d', strtotime($tos_agreed_at))) . '）' : '未同意' ?></span>
+                        <button type="button" class="tos-open-btn" data-tos-open>利用規約を見る</button>
+                    </div>
+                </div>
+
                 <!-- 登録日 -->
                 <div class="info-category">
                     <div class="category-name">登録日</div>
@@ -164,6 +173,8 @@
 
         </div>
     </div>
+
+    <?php require_once __DIR__ . '/parts/tos_modal.php'; ?>
 
     <script src="../js/mypage.js"></script>
 </body>

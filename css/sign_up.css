@@ -31,6 +31,28 @@ form {
     padding: 4px;
 }
 
+.tos-group {
+    width: 300px;
+}
+
+.tos-check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #303030;
+    cursor: pointer;
+}
+
+.tos-check input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    flex: none;
+    margin: 0;
+    accent-color: #2E7BC6;
+    cursor: pointer;
+}
+
 .btn-area {
     display: flex;
     justify-content: space-between;
