@@ -3,20 +3,7 @@
    ============================================= */
 
 :root {
-    --primary:       #2E7BC6;
-    --primary-light: #EAF3FD;
-    --primary-mid:   #8FC3FA;
-
-    --success:       #3a8a3a;
-    --success-light: #e8f7e8;
-    --success-mid:   #a8d8a8;
-
-    --danger:        #a33a3a;
-    --danger-light:  #fdecea;
-    --danger-mid:    #f5b8b8;
-
-    --card-radius:   12px;
-    --transition:    0.22s ease;
+    --transition: 0.22s ease;
 }
 
 /* ---------- Body ---------- */
@@ -24,7 +11,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #ffffff;
+    background-color: var(--color-bg);
     height: auto;
     min-height: 100vh;
     margin: 0;
@@ -34,69 +21,83 @@ body {
 /* ---------- Page Title ---------- */
 .page-title {
     margin-top: 5.5rem;
-    margin-bottom: 12px;
+    margin-bottom: 16px;
     font-size: 22px;
-    font-family: "Noto Sans JP", sans-serif;
-    font-weight: 600;
-    color: #2a2a2a;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    color: var(--color-ink);
     align-self: center;
 }
 
 /* ---------- Update Message ---------- */
 .update-message {
     font-size: 13px;
-    font-family: "Noto Sans JP", sans-serif;
+    font-family: var(--font-body);
     padding: 8px 14px;
     border-radius: 8px;
     margin-bottom: 10px;
     width: min(90%, 900px);
-    /* width: min(100%, 620px); */
     box-sizing: border-box;
-    background-color: var(--success-light);
-    color: var(--success);
-    border: 1px solid var(--success-mid);
+    background-color: var(--color-correct-soft);
+    color: var(--color-correct);
+    border: 1px solid var(--color-correct);
 }
 
-/* ---------- Mypage Layout (タブ＋パネル) ---------- */
+/* ---------- Mypage Layout ---------- */
 .mypage-layout {
     display: flex;
-    align-items: flex-start;
+    flex-direction: column;
     width: min(90%, 900px);
-    gap: 24px;
 }
 
+/* ---------- 上部ツールバー：タブ + 戻るリンク ---------- */
+.mypage-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin: 0 0 22px;
+    padding-bottom: 16px;
+    border-bottom: 1px dashed var(--color-line-strong);
+}
+
+/* ---------- 表示切り替えタブ（Chapterページのモード切り替えと同様） ---------- */
 .mypage-tabs {
     display: flex;
-    flex-direction: column;
-    flex: 0 0 180px;
+    gap: 2px;
+    padding: 3px;
+    background: var(--color-track);
+    border-radius: 10px;
+    flex: none;
 }
 
 .mypage-tab {
-    text-align: left;
-    padding: 12px 16px;
-    font-family: "Noto Sans JP", sans-serif;
-    font-size: 14px;
+    font-family: var(--font-body);
+    font-size: 12.5px;
     font-weight: 500;
-    color: #555;
-    background-color: #ffffff;
-    border: 1.5px solid #e8e8e8;
+    color: var(--color-ink-soft);
+    background: transparent;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 7px;
     cursor: pointer;
-    transition: background-color var(--transition), color var(--transition), border-color var(--transition);
+    transition: background .15s ease, color .15s ease, box-shadow .15s ease;
 }
 
 .mypage-tab:hover {
-    background-color: var(--primary-light);
+    color: var(--color-ink);
 }
 
 .mypage-tab.active {
-    color: #ffffff;
-    background-color: var(--primary);
-    border-color: var(--primary);
+    background: var(--color-card);
+    color: var(--color-accent-deep);
+    font-weight: 700;
+    box-shadow: 0 1px 3px rgba(20, 26, 38, .12);
 }
 
 .mypage-panels {
-    flex: 1;
-    min-width: 0;
+    width: 100%;
 }
 
 .mypage-panel {
@@ -108,19 +109,17 @@ body {
 }
 
 @media (max-width: 640px) {
-    .mypage-layout {
+    .mypage-toolbar {
         flex-direction: column;
+        align-items: stretch;
     }
 
     .mypage-tabs {
-        flex-direction: row;
-        flex: 0 0 auto;
-        width: 100%;
         overflow-x: auto;
     }
 
-    .mypage-panels {
-        width: 100%;
+    .mypage-toolbar .back-link {
+        align-self: flex-end;
     }
 }
 
@@ -130,30 +129,29 @@ section {
     flex-direction: column;
     width: 100%;
     gap: 0;
-    background-color: #ffffff;
-    border: 1.5px solid #e8e8e8;
-    border-radius: var(--card-radius);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    background-color: var(--color-card);
+    border: 1.5px solid var(--color-line);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
     overflow: hidden;
 }
 
 section > h3 {
     margin: 0;
-    padding: 13px 20px;
-    font-size: 14px;
-    font-family: "Noto Sans JP", sans-serif;
-    font-weight: 500;
-    color: white;
-    /* color: #2a2a2a; */
-    background-color: #3b9aff;
-    /* background-color: #fafafa; */
-    border-bottom: 1px solid #ebebeb;
+    padding: 15px 22px;
+    font-family: var(--font-mono);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: .02em;
+    color: var(--color-ink);
+    background-color: var(--color-card);
+    border-bottom: 1px dashed var(--color-line-strong);
 }
 
 /* ---------- Info Category ---------- */
 .info-category {
     padding: 16px 20px;
-    border-bottom: 1px solid #ebebeb;
+    border-bottom: 1px dashed var(--color-line);
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -164,18 +162,18 @@ section > h3 {
 }
 
 .category-name {
+    font-family: var(--font-mono);
     font-size: 11px;
-    font-family: "Noto Sans JP", sans-serif;
-    font-weight: 600;
-    color: #888;
-    letter-spacing: 0.06em;
+    font-weight: 700;
+    color: var(--color-ink-faint);
+    letter-spacing: 0.08em;
     text-transform: uppercase;
 }
 
 .info-category > span {
     font-size: 15px;
-    font-family: "Noto Sans JP", sans-serif;
-    color: #2a2a2a;
+    font-family: var(--font-body);
+    color: var(--color-ink);
 }
 
 /* ---------- Bookmark List ---------- */
@@ -186,7 +184,7 @@ section > h3 {
 }
 
 .bookmark-item {
-    border-bottom: 1px solid #ebebeb;
+    border-bottom: 1px dashed var(--color-line);
 }
 
 .bookmark-item:last-child {
@@ -206,30 +204,30 @@ section > h3 {
     box-sizing: border-box;
     background: transparent;
     border: none;
-    font-family: "Noto Sans JP", sans-serif;
+    font-family: var(--font-body);
     font-size: 14px;
-    color: #2a2a2a;
+    color: var(--color-ink);
     text-align: left;
     cursor: pointer;
     transition: background-color var(--transition);
 }
 
 .bookmark-link:hover {
-    background-color: var(--primary-light);
+    background-color: var(--color-accent-soft);
 }
 
 .bookmark-date {
     flex: 0 0 auto;
     min-width: 140px;
-    font-family: "Roboto", sans-serif;
+    font-family: var(--font-mono);
     font-size: 12px;
-    color: #999;
+    color: var(--color-ink-faint);
     white-space: nowrap;
 }
 
 .bookmark-path {
     flex: 1;
-    color: #555;
+    color: var(--color-ink-soft);
 }
 
 /* ---------- Bookmark Sort ---------- */
@@ -239,33 +237,33 @@ section > h3 {
     justify-content: flex-end;
     gap: 8px;
     padding: 12px 20px;
-    border-bottom: 1px solid #ebebeb;
-    font-family: "Noto Sans JP", sans-serif;
+    border-bottom: 1px dashed var(--color-line-strong);
+    font-family: var(--font-body);
     font-size: 12px;
-    color: #888;
+    color: var(--color-ink-soft);
 }
 
 .bookmark-sort-form select {
     padding: 6px 10px;
     font-size: 12px;
-    font-family: "Noto Sans JP", sans-serif;
-    color: #2a2a2a;
-    background-color: #ffffff;
-    border: 1.5px solid #e8e8e8;
+    font-family: var(--font-body);
+    color: var(--color-ink);
+    background-color: var(--color-card);
+    border: 1.5px solid var(--color-line-strong);
     border-radius: 8px;
     outline: none;
     cursor: pointer;
 }
 
 .bookmark-sort-form select:focus {
-    border-color: var(--primary-mid);
+    border-color: var(--color-accent);
 }
 
 .empty-message {
     padding: 20px;
-    font-family: "Noto Sans JP", sans-serif;
+    font-family: var(--font-body);
     font-size: 14px;
-    color: #999;
+    color: var(--color-ink-faint);
     text-align: center;
 }
 
@@ -280,8 +278,8 @@ section > h3 {
 
 .update-area > span {
     font-size: 15px;
-    font-family: "Noto Sans JP", sans-serif;
-    color: #2a2a2a;
+    font-family: var(--font-body);
+    color: var(--color-ink);
 }
 
 .update-area form {
@@ -294,8 +292,9 @@ section > h3 {
     width: 200px;
     padding: 7px 12px;
     font-size: 13px;
-    font-family: "Noto Sans JP", sans-serif;
-    border: 1.5px solid #e8e8e8;
+    font-family: var(--font-body);
+    color: var(--color-ink);
+    border: 1.5px solid var(--color-line-strong);
     border-radius: 8px;
     outline: none;
     transition: border-color var(--transition);
@@ -303,45 +302,29 @@ section > h3 {
 }
 
 .update-area input:focus {
-    border-color: var(--primary-mid);
+    border-color: var(--color-accent);
 }
 
 .update-area input::placeholder {
-    color: #bbb;
+    color: var(--color-ink-faint);
 }
 
 .update-area button {
     padding: 7px 16px;
     font-size: 13px;
-    font-family: "Noto Sans JP", sans-serif;
+    font-family: var(--font-body);
     font-weight: 500;
-    color: var(--primary);
-    background-color: var(--primary-light);
-    border: 1.5px solid var(--primary-mid);
-    border-radius: 8px;
+    color: var(--color-accent-deep);
+    background-color: var(--color-card);
+    border: 1.5px solid var(--color-accent);
+    border-radius: 999px;
     cursor: pointer;
     white-space: nowrap;
-    transition: background-color var(--transition), color var(--transition);
+    transition: background-color var(--transition), color var(--transition), border-color var(--transition);
 }
 
 .update-area button:hover {
-    background-color: var(--primary);
+    background-color: var(--color-accent-deep);
     color: #ffffff;
-    border-color: var(--primary);
-}
-
-/* ---------- Back Link ---------- */
-.back-link {
-    margin-top: 20px;
-    font-size: 13px;
-    font-family: "Noto Sans JP", sans-serif;
-    color: var(--primary);
-    text-decoration: none;
-    opacity: 0.85;
-    transition: opacity var(--transition);
-    align-items: center;
-}
-
-.back-link:hover {
-    opacity: 0.5;
+    border-color: var(--color-accent-deep);
 }

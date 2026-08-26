@@ -25,23 +25,15 @@ main {
 }
 
 /* ---------- 正答率・ブックマークなどのステータス表示 ---------- */
-.question-breadcrumb {
+.question-toolbar {
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 14px;
+    flex-wrap: wrap;
+    gap: 8px;
     margin: 0 0 22px;
     padding-bottom: 16px;
     border-bottom: 1px dashed var(--color-line-strong);
-}
-
-/* ---------- 正答率・正解済みバッジのまとまり ---------- */
-.question-badges {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    margin-left: auto;
 }
 
 /* ---------- 正答率バッジ ---------- */
@@ -66,7 +58,7 @@ main {
     align-items: center;
     font-family: var(--font-mono);
     font-size: 12px;
-    font-weight: 700;
+    font-weight: 600;
     letter-spacing: .02em;
     color: var(--color-correct);
     background-color: var(--color-correct-soft);
@@ -82,21 +74,21 @@ main {
     align-items: center;
     gap: 5px;
     font-family: var(--font-body);
-    font-size: 12.5px;
-    font-weight: 500;
+    font-size: 12px;
+    font-weight: 600;
     color: var(--color-ink-soft);
     background-color: var(--color-card);
     border: 1.5px solid var(--color-line-strong);
     border-radius: 999px;
-    padding: 8px 16px;
+    padding: 6px 13px;
     cursor: pointer;
     white-space: nowrap;
     transition: background-color var(--transition), color var(--transition), border-color var(--transition);
 }
 
 .bookmark-btn:hover {
-    border-color: var(--color-accent-deep);
-    color: var(--color-accent-deep);
+    border-color: #f0d98a;
+    background-color: #fff8e6
 }
 
 .bookmark-btn.active {

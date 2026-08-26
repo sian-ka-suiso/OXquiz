@@ -67,13 +67,11 @@
             <form id="quizForm" action="" method="post">
 
                 <!-- 正答率・ブックマークなどのステータス表示 -->
-                <div class="question-breadcrumb">
-                    <div class="question-badges">
-                        <?php if ($current_status === 'correct' && !$show_explanation): ?>
-                        <span class="answered-badge">正解済み</span>
-                        <?php endif; ?>
-                        <span class="accuracy-badge">正答率：<?= V2H($accuracy_text) ?></span>
-                    </div>
+                <div class="question-toolbar">
+                    <?php if ($current_status === 'correct' && !$show_explanation): ?>
+                    <span class="answered-badge">正解済み</span>
+                    <?php endif; ?>
+                    <span class="accuracy-badge">正答率：<?= V2H($accuracy_text) ?></span>
 
                     <?php if (!$is_guest): ?>
                     <button type="submit" form="bookmarkForm" class="bookmark-btn <?= $is_bookmarked ? 'active' : '' ?>" aria-label="ブックマーク">

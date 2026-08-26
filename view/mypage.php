@@ -6,12 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>よくある間違い〇✕クイズ マイページ</title>
     <link rel="stylesheet" type="text/css" href="../css/common.css">
+    <link rel="stylesheet" type="text/css" href="../css/variables.css">
     <link rel="stylesheet" type="text/css" href="../css/mypage.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=RocknRoll+One&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=RocknRoll+One&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Zen+Kaku+Gothic+New&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -34,14 +35,18 @@
     <?php endif; ?>
 
     <div class="mypage-layout">
-        <!-- 左側タブ -->
-        <nav class="mypage-tabs">
-            <button type="button" class="mypage-tab active" data-tab="user-info">ユーザー情報</button>
-            <button type="button" class="mypage-tab" data-tab="bookmarks">ブックマーク</button>
-            <button type="button" class="mypage-tab" data-tab="achievements" style="display: none;" style="display: none;">実績</button>
-        </nav>
 
-        <!-- 右側コンテンツ -->
+        <!-- 上部ツールバー：表示切り替えタブ + 戻るリンク -->
+        <div class="mypage-toolbar">
+            <nav class="mypage-tabs" role="group" aria-label="表示切り替え">
+                <button type="button" class="mypage-tab active" data-tab="user-info">ユーザー情報</button>
+                <button type="button" class="mypage-tab" data-tab="bookmarks">ブックマーク</button>
+                <button type="button" class="mypage-tab" data-tab="achievements" style="display: none;">実績</button>
+            </nav>
+            <a href="../ctrl/chapter.php" class="back-link">章一覧に戻る</a>
+        </div>
+
+        <!-- コンテンツ -->
         <div class="mypage-panels">
 
             <!-- ユーザー情報カード -->
@@ -159,9 +164,6 @@
 
         </div>
     </div>
-
-    <!-- 戻るリンク -->
-    <a href="../ctrl/chapter.php" class="back-link">Chapter一覧に戻る</a>
 
     <script src="../js/mypage.js"></script>
 </body>
