@@ -260,11 +260,6 @@ body:not([data-mode="detail"]) .legend {
 .suuri-tag.cat-2 { background: var(--cat2-bg); color: var(--cat2-text); }
 .suuri-tag.cat-3 { background: var(--cat3-bg); color: var(--cat3-text); }
 
-.chapter-card[data-state="new"] .suuri-tag {
-    background: var(--color-track);
-    color: var(--color-ink-faint);
-}
-
 /* ---------- セクション別 正誤バー（詳細モードのみ） ---------- */
 .sec-bar {
     width: 56px;
