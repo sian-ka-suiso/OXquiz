@@ -57,7 +57,7 @@ function loginCheck($email = "", $login_pass = ""){
         }
         
     } catch (PDOException $Exception) {
-        die('実行エラー（' . __FUNCTION__."）：".$Exception->getMessage()."<br />");
+        dbError(__FUNCTION__, $Exception);
     }
     
     return false; // ユーザーがいない、またはパスワード不一致
@@ -118,7 +118,7 @@ function getUserInfo(int $id) {
         return $stmh->fetch(PDO::FETCH_ASSOC);
         
     } catch (PDOException $Exception) {
-        die('実行エラー（' . __FUNCTION__."）：".$Exception->getMessage()."<br />");
+        dbError(__FUNCTION__, $Exception);
     }
 }
 //**************************************************
@@ -157,7 +157,7 @@ function insertUser(string $email, string $login_pass, ?int $class_id = null) {
 		return true;
 	} catch (PDOException $Exception) {
 		//例外が発生したらエラーを出力
-		die('実行エラー :' . $Exception->getMessage()."<br />");
+		dbError(__FUNCTION__, $Exception);
 		//登録失敗を返却
 		return false;
 	}
@@ -181,7 +181,7 @@ function ChangeUserName(int $id, string $change_name) {
 		return true;
 	} catch (PDOException $Exception) {
 		//例外が発生したらエラーを出力
-		die('実行エラー :' . $Exception->getMessage()."<br />");
+		dbError(__FUNCTION__, $Exception);
 		//登録失敗を返却
 		return false;
 	}
@@ -205,7 +205,7 @@ function ResetLoginPass(int $id, string $reset_pass) {
         $stmh->execute();
         return true;
     } catch (PDOException $Exception) {
-        die('実行エラー :' . $Exception->getMessage()."<br />");
+        dbError(__FUNCTION__, $Exception);
         return false;
     }
 }
@@ -225,7 +225,7 @@ function getActiveClasses(){
         $stmh->execute();
         $array_result = $stmh->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $Exception) {
-        die('実行エラー :' . $Exception->getMessage() . "<br/>");
+        dbError(__FUNCTION__, $Exception);
     }
 
     return $array_result;
@@ -243,7 +243,7 @@ function getClassName(int $class_id){
 
         return $stmh->fetchColumn();
     } catch (PDOException $Exception) {
-        die('実行エラー :' . $Exception->getMessage() . "<br/>");
+        dbError(__FUNCTION__, $Exception);
     }
 }
 
@@ -269,7 +269,7 @@ function updateUser(int $id, int $is_admin) {
 		return true;
 	} catch (PDOException $Exception) {
 		//例外が発生したらエラーを出力
-		die('実行エラー :' . $Exception->getMessage()."<br />");
+		dbError(__FUNCTION__, $Exception);
 		//登録失敗を返却
 		return false;
 	}
@@ -313,7 +313,7 @@ function updateChapter($id, $name, $folder_name, $order_number, $is_published) {
 		return true;
 	} catch (PDOException $Exception) {
 		//例外が発生したらエラーを出力
-		die('実行エラー :' . $Exception->getMessage()."<br />");
+		dbError(__FUNCTION__, $Exception);
 		//登録失敗を返却
 		return false;
 	}
@@ -359,7 +359,7 @@ function insertChapter($id, $name, $folder_name, $order_number, $is_published) {
 		return true;
 	} catch (PDOException $Exception) {
 		//例外が発生したらエラーを出力
-		die('実行エラー :' . $Exception->getMessage()."<br />");
+		dbError(__FUNCTION__, $Exception);
 		//登録失敗を返却
 		return false;
 	}
@@ -438,7 +438,7 @@ function admLoginCheck($email = "", $login_pass = ""){
         }
         
     } catch (PDOException $Exception) {
-        die('実行エラー（' . __FUNCTION__."）：".$Exception->getMessage()."<br />");
+        dbError(__FUNCTION__, $Exception);
     }
     
     return false; // ユーザーがいない、またはパスワード不一致
@@ -485,7 +485,7 @@ function teacherLoginCheck($email = "", $login_pass = ""){
         }
 
     } catch (PDOException $Exception) {
-        die('実行エラー（' . __FUNCTION__."）：".$Exception->getMessage()."<br />");
+        dbError(__FUNCTION__, $Exception);
     }
 
     return false; // ユーザーがいない、またはパスワード不一致
@@ -510,7 +510,7 @@ function getAll(){
 
         $array_result = $stmh->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $Exception) {
-        die('実行エラー :' . $Exception->getMessage() . "<br/>");
+        dbError(__FUNCTION__, $Exception);
     }
 
     return $array_result;
@@ -538,7 +538,7 @@ function getChapterAll(){
 
         $array_result = $stmh->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $Exception) {
-        die('実行エラー :' . $Exception->getMessage() . "<br/>");
+        dbError(__FUNCTION__, $Exception);
     }
 
     return $array_result;
@@ -564,7 +564,7 @@ function getChapterNames(int $chapter_id)
 
         $array_result = $stmh->fetch(PDO::FETCH_ASSOC);
     } catch (PDOException $Exception) {
-        die('実行エラー :' . $Exception->getMessage() . "<br/>");
+        dbError(__FUNCTION__, $Exception);
     }
 
     return $array_result;
@@ -613,7 +613,7 @@ function getChaptersWithSections()
         $array_result = array_values($array_result);
 
     } catch (PDOException $Exception) {
-        die('実行エラー :' . $Exception->getMessage() . "<br/>");
+        dbError(__FUNCTION__, $Exception);
     }
 
     return $array_result;
@@ -656,7 +656,7 @@ function getChapterProgressList(int $user_id)
         }
 
     } catch (PDOException $Exception) {
-        die('実行エラー :' . $Exception->getMessage() . "<br/>");
+        dbError(__FUNCTION__, $Exception);
     }
 
     return $result;
@@ -683,7 +683,7 @@ function getSectionAll(){
 
         $array_result = $stmh->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $Exception) {
-        die('実行エラー :' . $Exception->getMessage() . "<br/>");
+        dbError(__FUNCTION__, $Exception);
     }
 
     return $array_result;
@@ -709,7 +709,7 @@ function getSectionNames(int $section_id)
 
         $array_result = $stmh->fetch(PDO::FETCH_ASSOC);
     } catch (PDOException $Exception) {
-        die('実行エラー :' . $Exception->getMessage() . "<br/>");
+        dbError(__FUNCTION__, $Exception);
     }
 
     return $array_result;
@@ -758,7 +758,7 @@ function getSectionsWithQuestions(int $chapter_id)
         $array_result = array_values($array_result);
 
     } catch (PDOException $Exception) {
-        die('実行エラー :' . $Exception->getMessage() . "<br/>");
+        dbError(__FUNCTION__, $Exception);
     }
 
     return $array_result;
@@ -781,7 +781,7 @@ function getSectionCategories()
             $result[(int)$row['section_id']][] = $row['suuri'];
         }
     } catch (PDOException $Exception) {
-        die('実行エラー :' . $Exception->getMessage() . "<br/>");
+        dbError(__FUNCTION__, $Exception);
     }
     return $result;
 }
@@ -822,7 +822,7 @@ function getSectionProgressList(int $user_id)
         }
 
     } catch (PDOException $Exception) {
-        die('実行エラー :' . $Exception->getMessage() . "<br/>");
+        dbError(__FUNCTION__, $Exception);
     }
 
     return $result;
@@ -857,7 +857,7 @@ function getQuestionStatuses(int $user_id, array $question_ids)
         }
 
     } catch (PDOException $Exception) {
-        die('実行エラー :' . $Exception->getMessage() . "<br/>");
+        dbError(__FUNCTION__, $Exception);
     }
 
     return $result;
@@ -888,7 +888,7 @@ function getQuestions(int $question_id)
 
     } catch (PDOException $Exception) {
         // 例外が発生したらエラー処理を出力
-        die('実行エラー :' . $Exception->getMessage() . "<br/>");
+        dbError(__FUNCTION__, $Exception);
     }
 
     return $array_result;
@@ -913,7 +913,7 @@ function getQuestionIds(int $section_id){
 
         $array_result = $stmh->fetchAll(PDO::FETCH_COLUMN);
     } catch (PDOException $Exception) {
-        die('実行エラー :' . $Exception->getMessage() . "<br/>");
+        dbError(__FUNCTION__, $Exception);
     }
 
     return $array_result;
@@ -940,7 +940,7 @@ function getQuestionCount(int $section_id){
         $result = (int)$stmh->fetchColumn();
 
     } catch (PDOException $Exception) {
-        die('実行エラー :' . $Exception->getMessage() . "<br/>");
+        dbError(__FUNCTION__, $Exception);
     }
 
     return $result;
@@ -968,7 +968,7 @@ function getExplanationIds(int $question_id)
 
     } catch (PDOException $Exception) {
         // 例外が発生したらエラー処理を出力
-        die('実行エラー :' . $Exception->getMessage() . "<br/>");
+        dbError(__FUNCTION__, $Exception);
     }
 
     return $array_result;
@@ -996,7 +996,7 @@ function updateQuestionStatus(int $user_id, int $question_id, bool $is_correct)
         $stmh->execute();
 
     } catch (PDOException $Exception) {
-        die('実行エラー :' . $Exception->getMessage() . "<br/>");
+        dbError(__FUNCTION__, $Exception);
     }
 }
 
@@ -1014,7 +1014,7 @@ function insertFirstAnswer(int $user_id, int $question_id, bool $is_correct)
         $stmh->execute();
 
     } catch (PDOException $Exception) {
-        die('実行エラー :' . $Exception->getMessage() . "<br/>");
+        dbError(__FUNCTION__, $Exception);
     }
 }
 
@@ -1039,7 +1039,7 @@ function getQuestionAccuracy(int $question_id)
         $result['correct_count'] = (int)$row['correct_count'];
 
     } catch (PDOException $Exception) {
-        die('実行エラー :' . $Exception->getMessage() . "<br/>");
+        dbError(__FUNCTION__, $Exception);
     }
 
     return $result;
@@ -1074,7 +1074,7 @@ function getNavs(int $question_id)
 
     } catch (PDOException $Exception) {
         // 例外が発生したらエラー処理を出力
-        die('実行エラー :' . $Exception->getMessage() . "<br/>");
+        dbError(__FUNCTION__, $Exception);
     }
 
     return $array_result;
@@ -1099,7 +1099,7 @@ function isBookmarked(int $user_id, int $question_id)
         return (bool)$stmh->fetchColumn();
 
     } catch (PDOException $Exception) {
-        die('実行エラー :' . $Exception->getMessage() . "<br/>");
+        dbError(__FUNCTION__, $Exception);
     }
 }
 
@@ -1119,7 +1119,7 @@ function insertBookmark(int $user_id, int $question_id)
         $stmh->execute();
 
     } catch (PDOException $Exception) {
-        die('実行エラー :' . $Exception->getMessage() . "<br/>");
+        dbError(__FUNCTION__, $Exception);
     }
 }
 
@@ -1138,7 +1138,7 @@ function deleteBookmark(int $user_id, int $question_id)
         $stmh->execute();
 
     } catch (PDOException $Exception) {
-        die('実行エラー :' . $Exception->getMessage() . "<br/>");
+        dbError(__FUNCTION__, $Exception);
     }
 }
 
@@ -1168,7 +1168,7 @@ function getUserBookmarks(int $user_id)
         $array_result = $stmh->fetchAll(PDO::FETCH_ASSOC);
 
     } catch (PDOException $Exception) {
-        die('実行エラー :' . $Exception->getMessage() . "<br/>");
+        dbError(__FUNCTION__, $Exception);
     }
 
     return $array_result;
