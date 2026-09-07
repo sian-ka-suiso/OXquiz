@@ -7,6 +7,15 @@ body:not([data-mode="detail"]) .legend {
     display: none;
 }
 
+/* ---------- ゲスト向け注意書き ---------- */
+.guest-note {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    /* font-style: italic; */
+    letter-spacing: .02em;
+    color: var(--color-ink-faint);
+}
+
 /* ---------- モード切替スイッチ ---------- */
 .mode-switch {
     display: flex;
