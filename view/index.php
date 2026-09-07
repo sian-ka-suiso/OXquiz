@@ -53,6 +53,14 @@
                     <button type="submit">新規登録</button>
                 </form>
             </div>
+            <div class="login-benefits">
+                <p class="login-benefits-title">ログインでできること</p>
+                <ul>
+                    <li>進捗の記録（正解・不正解）</li>
+                    <li>問題のブックマーク</li>
+                    <li>マイページでのアカウント管理</li>
+                </ul>
+            </div>
         </div>
     </div>
 </body>

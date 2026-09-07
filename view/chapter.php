@@ -44,8 +44,8 @@
         <div class="grid-toolbar">
             <p class="grid-count">全<?= $visible_chapter_count ?>章</p>
             <div class="mode-switch" role="group" aria-label="表示モード切り替え">
-                <button type="button" class="mode-btn active" data-mode-value="simple">通常モード</button>
-                <button type="button" class="mode-btn" data-mode-value="detail">詳細モード</button>
+                <button type="button" class="mode-btn active" data-mode-value="simple">簡易表示</button>
+                <button type="button" class="mode-btn" data-mode-value="detail">進捗表示</button>
             </div>
         </div>
 
@@ -54,6 +54,7 @@
             <span class="legend-item"><span class="legend-dot correct"></span>正解</span>
             <span class="legend-item"><span class="legend-dot incorrect"></span>不正解</span>
             <span class="legend-item"><span class="legend-dot blank"></span>未回答</span>
+            <?php if($is_guest): ?><span class="guest-note">ゲストログインでは進捗は表示されません．</span><?php endif; ?>
         </div>
 
         <!-- チャプター一覧（Grid） -->
