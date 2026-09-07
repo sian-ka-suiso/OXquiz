@@ -31,8 +31,8 @@
 
         <?php
             // 表示対象チャプター数（トップバーの件数表示用）
-            $visible_chapters = array_values(array_filter($chapters, function ($c) use ($is_admin) {
-                return $c['chapter_published'] || $is_admin;
+            $visible_chapters = array_values(array_filter($chapters, function ($c) use ($is_admin, $is_teacher) {
+                return $c['chapter_published'] || $is_admin || $is_teacher;
             }));
             $visible_chapter_count = count($visible_chapters);
 
@@ -61,7 +61,7 @@
         <div class="chapter-container" id="chapterContainer" data-mode="simple">
             <?php $chapter_index = 1; ?>
             <?php foreach ($chapters as $chapter): ?>
-            <?php if ($chapter['chapter_published'] || $is_admin): ?>
+            <?php if ($chapter['chapter_published'] || $is_admin || $is_teacher): ?>
             <?php
                 $chapter_id   = $chapter['id'];
                 $chapter_name = $chapter['chapter_name'];
@@ -114,7 +114,7 @@
                         <div class="section-name-container">
                             <?php $section_index = 1; ?>
                             <?php foreach ($section_names as $section): ?>
-                                <?php if ($section['section_published'] || $is_admin): ?>
+                                <?php if ($section['section_published'] || $is_admin || $is_teacher): ?>
                                     <?php
                                         $section_id  = $section['id'];
                                         $sec_progress = $section_progress[$section_id] ?? ['total' => 0, 'correct_count' => 0, 'wrong_count' => 0];

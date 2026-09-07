@@ -61,14 +61,17 @@
             $created_at = $userData['created_at'];
             $update_at  = $userData['update_at'];
             $is_admin   = $userData['is_admin'];
+            $is_teacher = $userData['is_teacher'];
         } else {
             $user_name = "ユーザーネーム";
             $is_admin = 0;
+            $is_teacher = 0;
         }
     } else {
         // ゲストのときも変数を定義しておく
         $user_name  = "ゲストユーザー";
         $is_admin   = 0;
+        $is_teacher = 0;
         $question_statuses = [];
     }
     

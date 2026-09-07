@@ -33,8 +33,8 @@
 
         <?php
             // 表示対象セクション数（ツールバーの件数表示用）
-            $visible_sections = array_values(array_filter($sections, function ($s) use ($is_admin) {
-                return $s['is_published'] || $is_admin;
+            $visible_sections = array_values(array_filter($sections, function ($s) use ($is_admin, $is_teacher) {
+                return $s['is_published'] || $is_admin || $is_teacher;
             }));
             $visible_section_count = count($visible_sections);
         ?>
@@ -53,7 +53,7 @@
 
             <!-- Section一覧 -->
             <?php foreach($sections as $section_index => $section): ?>
-            <?php if ($section['is_published'] || $is_admin): ?>
+            <?php if ($section['is_published'] || $is_admin || $is_teacher): ?>
             <?php
                 $section_id   = $section['id'];
                 $section_name = $section['name'];

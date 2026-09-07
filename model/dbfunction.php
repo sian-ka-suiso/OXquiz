@@ -106,7 +106,7 @@ function getChapterData(){
 function getUserInfo(int $id) {
     $pdo = db_connect();
     try {
-        $sSql = "SELECT user_name, created_at, update_at, is_admin, class_id, tos_agreed_at ";
+        $sSql = "SELECT user_name, created_at, update_at, is_admin, is_teacher, class_id, tos_agreed_at ";
         $sSql .= "FROM user_table ";
         $sSql .= "WHERE id = :id";
 
