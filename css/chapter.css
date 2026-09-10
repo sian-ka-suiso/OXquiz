@@ -53,15 +53,15 @@ body:not([data-mode="detail"]) .legend {
 /* ---------- Chapter Container (Grid) ---------- */
 .chapter-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
     gap: 22px;
     width: 100%;
     padding-bottom: 40px;
 }
 
-/* 通常モード：カードを小さくして1行に3〜4枚表示し、スクロール量を減らす */
+/* 簡易表示：カードを小さくして1行に3〜4枚表示し、スクロール量を減らす */
 .chapter-container[data-mode="simple"] {
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 18px;
 }
 
@@ -127,7 +127,7 @@ body:not([data-mode="detail"]) .legend {
 /* ---------- 章名 + 進捗リング ---------- */
 .chapter-line {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     gap: 16px;
     margin-bottom: 6px;
 }
@@ -142,7 +142,7 @@ body:not([data-mode="detail"]) .legend {
     /* font-family: "RocknRoll One", sans-serif; */
     font-family: var(--font-mono);
     font-weight: 600;
-    font-size: 25px;
+    font-size: 24px;
     color: var(--color-ink);
     line-height: 1.28;
     white-space: nowrap;
