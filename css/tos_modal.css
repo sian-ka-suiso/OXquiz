@@ -50,9 +50,15 @@
     transition: background-color .15s ease, color .15s ease;
 }
 
+/* ×（&times;）は字形の重心が上寄りなフォントが多いため、見た目の中心に合わせて微調整 */
+.tos-modal-close span {
+    display: inline-block;
+    transform: translateY(1px);
+}
+
 .tos-modal-close:hover {
     background-color: #f2f2f2;
-    color: #2a2a2a;
+    color: #CF4A40;
 }
 
 .tos-modal-body {
