@@ -82,24 +82,24 @@ function getUsers(){
     return $result;
 }
 //**************************************************
-// 全チャプターの情報取得
+// 全チャプターの情報取得 (getChapterAllと同じ処理)
 //**************************************************
-function getChapterData(){
-    $result = [];
-    $pdo = db_connect();
+// function getChapterData(){
+//     $result = [];
+//     $pdo = db_connect();
 
-    try {
-        $sSql = "SELECT id, name, folder_name, order_number, is_published FROM chapter_table";
-        $stmh = $pdo->prepare($sSql);
-        $stmh->execute();
-        $rows = $stmh->fetchAll(PDO::FETCH_ASSOC);
-        $result = $rows;
-    } catch (PDOException $Exception) {
-        error_log("PDO Error in " . __FUNCTION__ . ": " . $Exception->getMessage());
-        return [];
-    }
-    return $result;
-}
+//     try {
+//         $sSql = "SELECT id, name, folder_name, order_number, is_published FROM chapter_table";
+//         $stmh = $pdo->prepare($sSql);
+//         $stmh->execute();
+//         $rows = $stmh->fetchAll(PDO::FETCH_ASSOC);
+//         $result = $rows;
+//     } catch (PDOException $Exception) {
+//         error_log("PDO Error in " . __FUNCTION__ . ": " . $Exception->getMessage());
+//         return [];
+//     }
+//     return $result;
+// }
 //**************************************************
 // ユーザー情報（ユーザー名、登録日、更新日、管理者フラグ）取得
 //**************************************************
@@ -367,7 +367,6 @@ function deleteUser(int $id){
 	}
 }
 //**************************************************
-//**************************************************
 // チャプター更新（管理ページ用）
 //**************************************************
 function updateChapter($id, $name, $folder_name, $order_number, $is_published) {
@@ -473,6 +472,126 @@ function checkOrder($order_number) {
     $count = $stmt->fetchColumn();
     return $count > 0; // true = 存在する
 }
+//**************************************************
+// セクション更新（管理ページ用）
+//**************************************************
+function updateSection($id, $chapter_id, $name, $folder_name, $order_number, $is_published) {
+	$pdo = db_connect();
+	try {
+		//データ検索の条件
+		$sql = "UPDATE section_table SET chapter_id = :chapter_id, name = :name, folder_name = :folder_name, order_number = :order_number, is_published = :is_published WHERE id = :id";
+		//ステートメントハンドラを作成
+		$stmh = $pdo->prepare($sql);
+		//バインドの実行
+		$stmh->bindValue(':id', $id, PDO::PARAM_STR);
+        $stmh->bindValue(':chapter_id', $chapter_id, PDO::PARAM_STR);
+        $stmh->bindValue(':name', $name, PDO::PARAM_STR);
+        $stmh->bindValue(':folder_name', $folder_name, PDO::PARAM_STR);
+        $stmh->bindValue(':order_number', $order_number, PDO::PARAM_STR);
+        $stmh->bindValue(':is_published', $is_published, PDO::PARAM_STR);
+		//SQL文の実行
+		$stmh->execute();
+		//登録成功を返却
+		return true;
+	} catch (PDOException $Exception) {
+		//例外が発生したらエラーを出力
+		dbError(__FUNCTION__, $Exception);
+		//登録失敗を返却
+		return false;
+	}
+}
+//**************************************************
+// セクション削除（管理ページ用）
+//**************************************************
+function deleteSection($id){
+	$pdo = db_connect();
+	try {
+		$sql = "DELETE FROM section_table WHERE id = :id";
+		$stmh = $pdo->prepare($sql);
+		$stmh->bindValue(':id', $id,  PDO::PARAM_INT);
+		$stmh->execute();
+		return true;
+	} catch (PDOException $Exception) {
+        error_log("PDO Error in " . __FUNCTION__ . ": " . $Exception->getMessage());
+		return false;
+	}
+}
+//**************************************************
+// セクション追加
+//**************************************************
+function insertSection($id, $chapter_id, $name, $folder_name, $order_number, $is_published) {
+
+	//データベース接続関数の呼び出し
+	$pdo = db_connect();
+
+	try {
+		//データ検索の条件
+		$sql = "INSERT INTO section_table (id, chapter_id, name, folder_name, order_number, is_published) VALUES (:id, :chapter_id, :name, :folder_name, :order_number, :is_published)";
+		//ステートメントハンドラを作成
+		$stmh = $pdo->prepare($sql);
+		//バインドの実行
+		$stmh->bindValue(':id', $id, PDO::PARAM_STR);
+        $stmh->bindValue(':chapter_id', $chapter_id, PDO::PARAM_STR);
+        $stmh->bindValue(':name',  $name,  PDO::PARAM_STR);
+        $stmh->bindValue(':folder_name',  $folder_name,  PDO::PARAM_STR);
+        $stmh->bindValue(':order_number',  $order_number,  PDO::PARAM_STR);
+        $stmh->bindValue(':is_published',  $is_published,  PDO::PARAM_STR);
+		//SQL文の実行
+		$stmh->execute();
+		//登録成功を返却
+		return true;
+	} catch (PDOException $Exception) {
+		//例外が発生したらエラーを出力
+		dbError(__FUNCTION__, $Exception);
+		//登録失敗を返却
+		return false;
+	}
+}
+//**************************************************
+// チャプターID重複確認
+//**************************************************
+function checkSectionChap($chapter_id) {
+    $pdo = db_connect();  // ここで接続を確保
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM chapter_table WHERE id = :chapter_id");
+    $stmt->bindValue(':chapter_id', $chapter_id, PDO::PARAM_STR);
+    $stmt->execute();
+    $count = $stmt->fetchColumn();
+    return $count > 0; // true = 存在する
+}
+//**************************************************
+// チャプター名重複確認
+//**************************************************
+function checkSectionName($name) {
+    $pdo = db_connect();  // ここで接続を確保
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM section_table WHERE name = :name");
+    $stmt->bindValue(':name', $name, PDO::PARAM_STR);
+    $stmt->execute();
+    $count = $stmt->fetchColumn();
+    return $count > 0; // true = 存在する
+} 
+//**************************************************
+// フォルダーー名重複確認
+//**************************************************
+function checkSectionFolder($folder_name) {
+    $pdo = db_connect();  // ここで接続を確保
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM section_table WHERE folder_name = :folder_name");
+    $stmt->bindValue(':folder_name', $folder_name, PDO::PARAM_STR);
+    $stmt->execute();
+    $count = $stmt->fetchColumn();
+    return $count > 0; // true = 存在する
+}
+//**************************************************
+// オーダー番号重複確認
+//**************************************************
+function checkSectionOrder($order_number) {
+    $pdo = db_connect();  // ここで接続を確保
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM section_table WHERE order_number = :order_number");
+    $stmt->bindValue(':order_number', $order_number, PDO::PARAM_STR);
+    $stmt->execute();
+    $count = $stmt->fetchColumn();
+    return $count > 0; // true = 存在する
+}
+//**************************************************
 // 管理者ログインチェック
 //**************************************************
 function admLoginCheck($email = "", $login_pass = ""){
