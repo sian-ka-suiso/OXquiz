@@ -54,10 +54,10 @@
                 </form>
             </div>
             <div class="login-benefits">
-                <p class="login-benefits-title">ログインでできること</p>
+                <p class="login-benefits-title">ログインしたら可能になること</p>
                 <ul>
-                    <li>進捗の記録（正解・不正解）</li>
-                    <li>問題のブックマーク</li>
+                    <li>進捗（正解・不正解）の記録</li>
+                    <li>復習リストへの問題の追加</li>
                     <li>マイページでのアカウント管理</li>
                 </ul>
             </div>

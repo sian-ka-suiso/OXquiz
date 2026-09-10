@@ -40,7 +40,7 @@
         <div class="mypage-toolbar">
             <nav class="mypage-tabs" role="group" aria-label="表示切り替え">
                 <button type="button" class="mypage-tab active" data-tab="user-info">ユーザー情報</button>
-                <button type="button" class="mypage-tab" data-tab="bookmarks">ブックマーク</button>
+                <button type="button" class="mypage-tab" data-tab="bookmarks">復習リスト</button>
                 <button type="button" class="mypage-tab" data-tab="achievements" style="display: none;">実績</button>
             </nav>
             <a href="../ctrl/chapter.php" class="back-link">章一覧に戻る</a>
@@ -123,7 +123,7 @@
             </section>
 
             <section class="mypage-panel" data-panel="bookmarks">
-                <h3>ブックマークした問題</h3>
+                <h3>リストに追加した問題</h3>
 
                 <?php if (!empty($bookmarks)): ?>
                 <div class="bookmark-sort-form">
@@ -137,7 +137,7 @@
                 <?php endif; ?>
 
                 <?php if (empty($bookmarks)): ?>
-                <div class="empty-message">ブックマークした問題はまだありません</div>
+                <div class="empty-message">リストに追加した問題はまだありません</div>
                 <?php else: ?>
                 <ul class="bookmark-list">
                     <?php foreach ($bookmarks as $bookmark): ?>

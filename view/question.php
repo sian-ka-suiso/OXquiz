@@ -75,7 +75,7 @@
 
                     <?php if (!$is_guest): ?>
                     <button type="submit" form="bookmarkForm" class="bookmark-btn <?= $is_bookmarked ? 'active' : '' ?>" aria-label="ブックマーク">
-                        <?= $is_bookmarked ? '★ ブックマーク済み' : '☆ ブックマークする' ?>
+                        <?= $is_bookmarked ? '復習リスト追加済み' : '復習リストに追加' ?>
                     </button>
                     <?php endif; ?>
                 </div>
