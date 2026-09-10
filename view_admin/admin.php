@@ -12,7 +12,7 @@
     <ul>
         <li><a href="../ctrl_admin/user.php">ユーザー</a></li>
         <li><a href="../ctrl_admin/chapter.php">章（Chapter）</a></li>
-        <li><a href="">節（Section）</a></li>
+        <li><a href="../ctrl_admin/section.php">節（Section）</a></li>
         <li><a href="">問題・解説</a></li>
         <li><a href="">数学ナビ</a></li>
     </ul>
