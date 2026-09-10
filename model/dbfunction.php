@@ -412,18 +412,17 @@ function deleteChapter($id){
 //**************************************************
 // チャプター追加
 //**************************************************
-function insertChapter($id, $name, $folder_name, $order_number, $is_published) {
+function insertChapter($name, $folder_name, $order_number, $is_published) {
 
 	//データベース接続関数の呼び出し
 	$pdo = db_connect();
 
 	try {
 		//データ検索の条件
-		$sql = "INSERT INTO chapter_table (id, name, folder_name, order_number, is_published) VALUES (:id, :name, :folder_name, :order_number, :is_published)";
+		$sql = "INSERT INTO chapter_table (name, folder_name, order_number, is_published) VALUES (:name, :folder_name, :order_number, :is_published)";
 		//ステートメントハンドラを作成
 		$stmh = $pdo->prepare($sql);
 		//バインドの実行
-		$stmh->bindValue(':id', $id, PDO::PARAM_STR);
         $stmh->bindValue(':name',  $name,  PDO::PARAM_STR);
         $stmh->bindValue(':folder_name',  $folder_name,  PDO::PARAM_STR);
         $stmh->bindValue(':order_number',  $order_number,  PDO::PARAM_STR);
@@ -519,18 +518,17 @@ function deleteSection($id){
 //**************************************************
 // セクション追加
 //**************************************************
-function insertSection($id, $chapter_id, $name, $folder_name, $order_number, $is_published) {
+function insertSection($chapter_id, $name, $folder_name, $order_number, $is_published) {
 
 	//データベース接続関数の呼び出し
 	$pdo = db_connect();
 
 	try {
 		//データ検索の条件
-		$sql = "INSERT INTO section_table (id, chapter_id, name, folder_name, order_number, is_published) VALUES (:id, :chapter_id, :name, :folder_name, :order_number, :is_published)";
+		$sql = "INSERT INTO section_table (chapter_id, name, folder_name, order_number, is_published) VALUES (:chapter_id, :name, :folder_name, :order_number, :is_published)";
 		//ステートメントハンドラを作成
 		$stmh = $pdo->prepare($sql);
 		//バインドの実行
-		$stmh->bindValue(':id', $id, PDO::PARAM_STR);
         $stmh->bindValue(':chapter_id', $chapter_id, PDO::PARAM_STR);
         $stmh->bindValue(':name',  $name,  PDO::PARAM_STR);
         $stmh->bindValue(':folder_name',  $folder_name,  PDO::PARAM_STR);

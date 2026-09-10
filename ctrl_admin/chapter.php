@@ -32,7 +32,7 @@
 // 挿入処理
 //**************************************************
     if($chapter_insert){
-        $insert_check = insertChapter($_SESSION['id'],$_SESSION['name'], $_SESSION['folder_name'], $_SESSION['order_number'],$_SESSION['is_published']);
+        $insert_check = insertChapter($_SESSION['name'], $_SESSION['folder_name'], $_SESSION['order_number'],$_SESSION['is_published']);
         if($insert_check){
             unset($_SESSION['id']);
             unset($_SESSION['name']);
