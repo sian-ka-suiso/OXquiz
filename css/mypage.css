@@ -62,7 +62,7 @@ body {
     border-bottom: 1px dashed var(--color-line-strong);
 }
 
-/* ---------- 表示切り替えタブ（Chapterページのモード切り替えと同様） ---------- */
+/* ---------- 表示切り替えタブ ---------- */
 .mypage-tabs {
     display: flex;
     gap: 2px;

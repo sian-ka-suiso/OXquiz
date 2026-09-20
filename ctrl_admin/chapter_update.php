@@ -2,14 +2,11 @@
 //**************************************************
 // 初期処理
 //**************************************************
-    //SESSIONスタート
     session_start();
 
-    //データベース接続関数の定義ファイルを読み込み
     require_once('../model/dbconnect.php');
 
-    //データベース操作関数の定義ファイルを読み込み
-    require_once('../model/dbfunction.php');
+    require_once('../model/dbfunction_admin.php');
 //**************************************************
 // ログインチェック
 //**************************************************
@@ -27,7 +24,7 @@
     $is_published = isset($_POST['is_published']) ? $_POST['is_published'] : "";
     $step = isset($_POST['step']) ? $_POST['step'] : "";
 //**************************************************
-// 削除処理
+// 更新処理
 //**************************************************
     if($step == 2){
         $update_check = updateChapter($id, $name, $folder_name, $order_number, $is_published);
@@ -38,7 +35,6 @@
 //**************************************************
 // HTMLを出力
 //**************************************************
-    //画面へ表示
     if($step == 1){
         require_once('../view_admin/chapter_update.php');
     }elseif($step == "3"){

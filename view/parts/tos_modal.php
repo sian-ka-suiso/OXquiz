@@ -3,7 +3,6 @@ $tosMarkdown = file_get_contents(__DIR__ . '/../../ToS.md');
 ?>
 <link rel="stylesheet" type="text/css" href="../css/tos_modal.css">
 
-<!-- 利用規約モーダル -->
 <dialog id="tosModal" class="tos-modal">
     <div class="tos-modal-head">
         <h2>利用規約</h2>

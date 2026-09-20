@@ -1,4 +1,3 @@
-<!-- ヘッダー -->
 <header>
     <a href="../ctrl/chapter.php" class="site-logo">
         <img src="../images/other/logo.png" alt="よくある間違い〇✕クイズ">

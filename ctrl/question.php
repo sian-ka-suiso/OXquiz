@@ -2,25 +2,18 @@
 //**************************************************
 // 初期処理
 //**************************************************
-    //SESSIONスタート
     session_start();
 
-    //データベース接続関数の定義ファイルを読み込み
     require_once('../model/dbconnect.php');
 
-    //データベース操作関数の定義ファイルを読み込み
     require_once('../model/dbfunction.php');
 
 //**************************************************
 // 変数取得
 //**************************************************
-    //ログインチェックフラグ
     $is_login = isset($_SESSION['is_login']) ? $_SESSION['is_login'] : "";
-    //Id
     $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : "";
-    //メールアドレス
     $email = isset($_SESSION['email']) ? $_SESSION['email'] : "";
-    //ゲスト
     $is_guest = !empty($_SESSION['guest']);
 //**************************************************
 // ログインチェック
@@ -37,7 +30,7 @@
         exit();
     }
 //**************************************************
-// 変数取得（続き）
+// パラメータ・表示データ取得
 //**************************************************
     // チャプターid
     $chapter_id = isset($_GET['chapter_id']) ? $_GET['chapter_id'] : "";
@@ -73,34 +66,6 @@
     $show_explanation = false;
     // 結果判定
     $feedback = '';
-    // 正解/不正解の結果表示＋解説表示
-    if (isset($_POST['selected_option'])) {
-        $selected_option = (int)$_POST['selected_option'];
-        if ($selected_option === (int)$questions["correct_answer"]) {
-            $feedback = "〇 正解！関連するリンクは下へ";
-        } else {
-            $feedback = "✕ 不正解...解説は下へ";
-        }
-        $show_explanation = true;
-
-        $is_correct = ($selected_option === (int)$questions["correct_answer"]);
-        $q_id = (int)$_POST['question_id'];
-        
-        if (!$is_guest) {
-            updateQuestionStatus($user_id, $q_id, $is_correct);
-            insertFirstAnswer($user_id, $q_id, $is_correct);
-        }
-    }
-
-    // ブックマークの登録／解除
-    if (isset($_POST['toggle_bookmark']) && !$is_guest) {
-        $bookmark_question_id = (int)$_POST['question_id'];
-        if (isBookmarked($user_id, $bookmark_question_id)) {
-            deleteBookmark($user_id, $bookmark_question_id);
-        } else {
-            insertBookmark($user_id, $bookmark_question_id);
-        }
-    }
     // ブックマーク済みフラグ
     $is_bookmarked = (!$is_guest) ? isBookmarked($user_id, (int)$question_id) : false;
 
@@ -124,6 +89,43 @@
     }
 
 //**************************************************
+// 回答送信処理
+//**************************************************
+    // 正解/不正解の結果表示＋解説表示
+    if (isset($_POST['selected_option'])) {
+        $selected_option = (int)$_POST['selected_option'];
+        if ($selected_option === (int)$questions["correct_answer"]) {
+            $feedback = "〇 正解！関連するリンクは下へ";
+        } else {
+            $feedback = "✕ 不正解...解説は下へ";
+        }
+        $show_explanation = true;
+
+        $is_correct = ($selected_option === (int)$questions["correct_answer"]);
+        $q_id = (int)$_POST['question_id'];
+
+        if (!$is_guest) {
+            updateQuestionStatus($user_id, $q_id, $is_correct);
+            insertFirstAnswer($user_id, $q_id, $is_correct);
+        }
+    }
+
+//**************************************************
+// ブックマーク切替処理
+//**************************************************
+    // ブックマークの登録／解除（切替後の状態を $is_bookmarked に反映）
+    if (isset($_POST['toggle_bookmark']) && !$is_guest) {
+        $bookmark_question_id = (int)$_POST['question_id'];
+        if (isBookmarked($user_id, $bookmark_question_id)) {
+            deleteBookmark($user_id, $bookmark_question_id);
+            $is_bookmarked = false;
+        } else {
+            insertBookmark($user_id, $bookmark_question_id);
+            $is_bookmarked = true;
+        }
+    }
+
+//**************************************************
 // ファイルパスを生成
 //**************************************************
     // フォルダー名
@@ -142,7 +144,7 @@
     for($i=1; $i<=$questions["options"]; $i++){
         $path = "../images/".$chapter_fname."/".$section_fname."/".$question_fname."/opt".$i.".png";
         $mtime = filemtime($path);
-        $options[$i] = [ // キーをIDにしておくと復元が楽です
+        $options[$i] = [
             'id'   => $i,
             'path' => $path . "?v=" . $mtime
         ];
@@ -152,8 +154,8 @@
         // 回答送信後：送られてきた順番（カンマ区切りの文字列）を配列に戻す
         $order = explode(',', $_POST['option_order']);
         $shuffledOptions = [];
-        foreach ($order as $user_id) {
-            $shuffledOptions[] = $options[$user_id];
+        foreach ($order as $option_id) {
+            $shuffledOptions[] = $options[$option_id];
         }
     } else {
         // 初回表示時：シャッフルして順番を確定させる

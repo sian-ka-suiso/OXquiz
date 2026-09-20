@@ -216,6 +216,40 @@ header nav {
     padding: 20px 0;
 }
 
+.top-breadcrumb a,
+.top-breadcrumb span {
+    color: var(--color-ink-faint);
+}
+
+.top-breadcrumb a {
+    text-decoration: none;
+    transition: color .15s ease;
+}
+
+.top-breadcrumb a:hover {
+    color: var(--color-accent-deep);
+}
+
+.top-breadcrumb .chev {
+    color: var(--color-line-strong);
+}
+
+.top-breadcrumb .crumb-current {
+    font: inherit;
+    color: var(--color-ink);
+    font-weight: 700;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    transition: color .15s ease;
+}
+
+.top-breadcrumb .crumb-current:hover {
+    color: var(--color-accent-deep);
+}
+
 .back-link {
     display: inline-flex;
     align-items: center;
@@ -235,9 +269,13 @@ header nav {
 }
 
 .back-link:hover {
-    /* background: var(--color-accent-soft); */
     border-color: var(--color-accent-deep);
     color: var(--color-accent-deep);
+}
+
+.page-heading .guid-text {
+    margin: 0 0 25px;
+    text-align: center;
 }
 
 /* ---------- ツールバー（件数 + 凡例） ---------- */
@@ -289,45 +327,6 @@ header nav {
 .legend-dot.correct   { background: var(--color-correct); }
 .legend-dot.incorrect { background: var(--color-incorrect); }
 .legend-dot.blank     { background: var(--color-track); border: 1px solid var(--color-line-strong); }
-
-.top-breadcrumb a,
-.top-breadcrumb span {
-    color: var(--color-ink-faint);
-}
-
-.top-breadcrumb a {
-    text-decoration: none;
-    transition: color .15s ease;
-}
-
-.top-breadcrumb a:hover {
-    color: var(--color-accent-deep);
-}
-
-.top-breadcrumb .chev {
-    color: var(--color-line-strong);
-}
-
-.top-breadcrumb .crumb-current {
-    font: inherit;
-    color: var(--color-ink);
-    font-weight: 700;
-    background: none;
-    border: none;
-    padding: 0;
-    margin: 0;
-    cursor: pointer;
-    transition: color .15s ease;
-}
-
-.top-breadcrumb .crumb-current:hover {
-    color: var(--color-accent-deep);
-}
-
-.page-heading .guid-text {
-    margin: 0 0 25px;
-    text-align: center;
-}
 
 /* ---------- Math Nav ---------- */
 .math_nav-container a {

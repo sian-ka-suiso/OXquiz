@@ -19,10 +19,8 @@
 
     <?php require_once __DIR__ . '/parts/header.php'; ?>
 
-    <!-- ページタイトル -->
     <h2 class="page-title">マイページ</h2>
 
-    <!-- 更新メッセージ -->
     <?php if(isset($change_message)): ?>
     <span class="update-message">
         <?= V2H($change_message); ?>
@@ -46,14 +44,11 @@
             <a href="../ctrl/chapter.php" class="back-link">章一覧に戻る</a>
         </div>
 
-        <!-- コンテンツ -->
         <div class="mypage-panels">
 
-            <!-- ユーザー情報カード -->
             <section class="mypage-panel active" data-panel="user-info">
                 <h3>ユーザー情報</h3>
 
-                <!-- ユーザー名 -->
                 <div class="info-category">
                     <div class="category-name">ユーザー名</div>
                     <div class="update-area">
@@ -67,7 +62,6 @@
                     </div>
                 </div>
 
-                <!-- メールアドレス -->
                 <div class="info-category">
                     <div class="category-name">メールアドレス</div>
                     <span>
@@ -75,7 +69,6 @@
                     </span>
                 </div>
 
-                <!-- パスワード -->
                 <div class="info-category">
                     <div class="category-name">パスワード</div>
                     <div class="update-area">
@@ -87,7 +80,6 @@
                     </div>
                 </div>
 
-                <!-- 所属クラス -->
                 <div class="info-category">
                     <div class="category-name">所属クラス</div>
                     <span>
@@ -95,7 +87,6 @@
                     </span>
                 </div>
 
-                <!-- 利用規約 -->
                 <div class="info-category">
                     <div class="category-name">利用規約</div>
                     <div class="tos-status">
@@ -104,7 +95,6 @@
                     </div>
                 </div>
 
-                <!-- 登録日 -->
                 <div class="info-category">
                     <div class="category-name">登録日</div>
                     <span>
@@ -112,7 +102,6 @@
                     </span>
                 </div>
 
-                <!-- 最終更新日 -->
                 <div class="info-category">
                     <div class="category-name">最終更新日</div>
                     <span>
