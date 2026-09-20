@@ -14,6 +14,8 @@
     $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : "";
     $email = isset($_SESSION['email']) ? $_SESSION['email'] : "";
     $is_guest = !empty($_SESSION['guest']);
+    // ポートフォリオ用デモアカウントは利用規約への同意を求めない
+    $is_demo_account = ($email === 'demo@email.com');
 //**************************************************
 // ログインチェック処理
 //**************************************************
@@ -24,7 +26,7 @@
 //**************************************************
 // 利用規約チェック
 //**************************************************
-    if(!$is_guest && !hasTosAgreed((int)$user_id)){
+    if(!$is_guest && !$is_demo_account && !hasTosAgreed((int)$user_id)){
         header("location: tos_agree.php");
         exit();
     }

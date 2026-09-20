@@ -55,10 +55,14 @@
                         <span>
                             <?= V2H($user_name); ?>
                         </span>
+                        <?php if ($is_demo_account): ?>
+                        <span class="demo-locked">デモアカウントのため変更不可</span>
+                        <?php else: ?>
                         <form action="mypage.php" method="post">
                             <input type="text" name="change_name" placeholder="新しいユーザー名">
                             <button type="submit">変更</button>
                         </form>
+                        <?php endif; ?>
                     </div>
                 </div>
 
@@ -73,10 +77,14 @@
                     <div class="category-name">パスワード</div>
                     <div class="update-area">
                         <span>••••••••••</span>
+                        <?php if ($is_demo_account): ?>
+                        <span class="demo-locked">デモアカウントのため変更不可</span>
+                        <?php else: ?>
                         <form action="mypage.php" method="post">
                             <input type="password" name="reset_pass" placeholder="新しいパスワード">
                             <button type="submit">再設定</button>
                         </form>
+                        <?php endif; ?>
                     </div>
                 </div>
 
@@ -90,7 +98,7 @@
                 <div class="info-category">
                     <div class="category-name">利用規約</div>
                     <div class="tos-status">
-                        <span><?= $tos_agreed_at ? '同意済み（' . V2H(date('Y/m/d', strtotime($tos_agreed_at))) . '）' : '未同意' ?></span>
+                        <span><?= $is_demo_account ? 'デモアカウントのため対象外' : ($tos_agreed_at ? '同意済み（' . V2H(date('Y/m/d', strtotime($tos_agreed_at))) . '）' : '未同意') ?></span>
                         <button type="button" class="tos-open-btn" data-tos-open>利用規約を見る</button>
                     </div>
                 </div>

@@ -15,6 +15,8 @@
     $email = isset($_SESSION['email']) ? $_SESSION['email'] : "";
     $is_guest = !empty($_SESSION['guest']);
     $pre_page_link = isset($_POST['pre_page_link']) ? $_POST['pre_page_link'] : "";
+    // ポートフォリオ用デモアカウント（全訪問者で共有するため、名前・パスワードの変更や利用規約同意を求めない）
+    $is_demo_account = ($email === 'demo@email.com');
 //**************************************************
 // ログインチェック
 //**************************************************
@@ -25,7 +27,7 @@
 //**************************************************
 // 利用規約チェック
 //**************************************************
-    if(!$is_guest && !hasTosAgreed((int)$user_id)){
+    if(!$is_guest && !$is_demo_account && !hasTosAgreed((int)$user_id)){
         header("location: tos_agree.php");
         exit();
     }
@@ -38,15 +40,23 @@
 // ユーザー名変更
 //**************************************************
     if($change_name !== "") {
-        ChangeUserName($user_id, $change_name);
-        $change_message = "ユーザー名を更新しました。";
+        if ($is_demo_account) {
+            $change_message = "デモアカウントのため、ユーザー名は変更できません。";
+        } else {
+            ChangeUserName($user_id, $change_name);
+            $change_message = "ユーザー名を更新しました。";
+        }
     }
 //**************************************************
 // パスワード再設定
 //**************************************************
     if($reset_pass !== "") {
-        ResetLoginPass($user_id, $reset_pass);
-        $reset_message = "パスワードを更新しました。";
+        if ($is_demo_account) {
+            $reset_message = "デモアカウントのため、パスワードは変更できません。";
+        } else {
+            ResetLoginPass($user_id, $reset_pass);
+            $reset_message = "パスワードを更新しました。";
+        }
     }
 
 //**************************************************
