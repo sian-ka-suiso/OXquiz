@@ -19,3 +19,6 @@ Thumbs.db
 /問題スライド/
 /イラスト素材.pptx
 /イラスト素材_logo.pptx
+
+# 一時的な動作確認用ファイル（phpinfo()を出力するため非公開）
+/version.php
