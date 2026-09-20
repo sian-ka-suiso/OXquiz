@@ -31,24 +31,15 @@ function dbError(string $context, Throwable $e): never {
 //データベース接続関数
 function db_connect()
 {
-    // データベース接続情報
-    $host = 'localhost';
-    $dbname = 'oxquiz';
-    $user = 'root';
-    $password = '';
-
-    // 学内サーバのDBへのログイン内容は以下の通り
-    // $host = 'localhost';
-    // $dbname = 'oxquiz';
-    // $user = 'OXquiz';
-    // $password = 'REDACTED';
+    // データベース接続情報（環境ごとの値は model/db_config.php に定義）
+    require_once __DIR__ . '/db_config.php';
 
     //DSNの作成
-    $dsn = "mysql:host=" . $host . ";dbname=" . $dbname . ";charset=utf8";
+    $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8";
 
     try {
         //データベースに接続
-        $pdo = new PDO($dsn, $user, $password);
+        $pdo = new PDO($dsn, DB_USER, DB_PASS);
 
         //エラーが発生したら例外を投げる設定
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

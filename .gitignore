@@ -1,0 +1,21 @@
+# 環境固有のDB接続情報（model/db_config.sample.php を参照してコピーする）
+/model/db_config.php
+
+# エディタ・OSの生成物
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# バックアップ・一時ファイル
+*.bak
+~$*.pptx
+~$*.doc
+~$*.docx
+~$*.xls
+~$*.xlsx
+
+# 学内向け資料（コードと無関係のため非公開）
+/問題スライド/
+/イラスト素材.pptx
+/イラスト素材_logo.pptx
