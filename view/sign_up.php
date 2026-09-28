@@ -24,7 +24,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label for="password">パスワード<span style="font-size: 14px; color: #353535;">（英数字６文字以上）</span></label>
+            <label for="password">パスワード<span style="font-size: 14px; color: #353535;">（6文字以上20文字以下）</span></label>
             <input type="password" name="login_pass" value="<?= $login_pass ?>" placeholder="">
             <div class="err">
                 <?= isset($arrErr['login_pass']) ? $arrErr['login_pass'] : "" ?>
