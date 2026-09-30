@@ -7,34 +7,6 @@
     <title>よくある間違いOXクイズ　チャプター追加確認</title>
 </head>
 <body>
-<<<<<<< HEAD
-    <h2>以下のチャプターを追加します</h2>
-    <div class="tables">
-        <table border="1">
-            <h3>追加内容</h3>
-            <tr>
-                <th>チャプター名</th>
-                <th>フォルダー名</th>
-                <th>表示順</th>
-                <th>公開状況</th>
-            </tr>
-            <tr>
-                <td><?php echo htmlspecialchars($name); ?></td>
-                <td><?php echo htmlspecialchars($folder_name); ?></td>
-                <td><?php echo htmlspecialchars($order_number); ?></td>
-                <td><?php echo htmlspecialchars($is_published); ?></td>
-            </tr>
-        </table>
-        <form action="../ctrl_admin/chapter.php" method="post">
-            <input type="hidden" name="id" value="<?php echo htmlspecialchars($id); ?>">
-            <input type="hidden" name="name" value="<?php echo htmlspecialchars($name); ?>">
-            <input type="hidden" name="folder_name" value="<?php echo htmlspecialchars($folder_name); ?>">
-            <input type="hidden" name="order_number" value="<?php echo htmlspecialchars($order_number); ?>">
-            <input type="hidden" name="is_published" value="<?php echo htmlspecialchars($is_published); ?>">
-            <button type="submit">追加する</button>
-            <input type="hidden" name="chapter_insert" value="true">
-        </form>
-=======
     <div class="admin-page">
         <header class="admin-header">
             <div class="admin-header-text">
@@ -55,7 +27,7 @@
                 <tr>
                     <th>チャプター名</th>
                     <th>フォルダー名</th>
-                    <th>順番</th>
+                    <th>表示順</th>
                     <th>公開状況</th>
                 </tr>
                 </thead>
@@ -86,7 +58,6 @@
                 </form>
             </div>
         </div>
->>>>>>> origin/main
     </div>
 </body>
 </html>

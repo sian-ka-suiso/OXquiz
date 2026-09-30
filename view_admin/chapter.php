@@ -42,7 +42,7 @@
                 <th>ID</th>
                 <th>チャプター名</th>
                 <th>フォルダー名</th>
-                <th>順番</th>
+                <th>表示順</th>
                 <th>公開状況</th>
                 <th class="col-actions">操作</th>
             </tr>
@@ -69,7 +69,7 @@
                             <input type="hidden" name="folder_name" value="<?php echo V2H($chap['folder_name']); ?>">
                             <input type="hidden" name="order_number" value="<?php echo V2H($chap['order_number']); ?>">
                             <input type="hidden" name="is_published" value="<?php echo V2H($chap['is_published']); ?>">
-                            <button type="submit" name="step" value="1" class="btn btn-small btn-edit" title="このチャプターの内容を編集します">✎ 編集</button>
+                            <button type="submit" name="step" value="1" class="btn btn-small btn-edit" title="このチャプターの内容を編集します">✏️ 編集</button>
                         </form>
                         <form action="../ctrl_admin/chapter_delete.php" method="post" class="inline-form">
                             <input type="hidden" name="id" value="<?php echo V2H($chap['id']); ?>">

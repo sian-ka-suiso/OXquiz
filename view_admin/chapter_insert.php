@@ -33,7 +33,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>順番（order）</th>
+                        <th>表示順</th>
                         <td>
                             <input type="text" name="order_number" value="<?= $order_number ?>">
                             <span class="err"><?= isset($arrErr['order_number']) ? $arrErr['order_number'] : "" ?></span>
