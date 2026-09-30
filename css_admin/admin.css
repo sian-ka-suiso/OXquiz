@@ -1,0 +1,652 @@
+/* =============================================
+   管理画面 共通スタイル (Oxquiz Admin)
+   シンプル・機能重視のデザイン
+   ============================================= */
+
+:root {
+    --adm-bg:            #F4F6F8;
+    --adm-surface:       #FFFFFF;
+    --adm-border:        #DDE2E8;
+    --adm-border-strong: #C4CBD4;
+
+    --adm-text:          #1C2333;
+    --adm-text-soft:     #5B6472;
+    --adm-text-faint:    #8A93A0;
+
+    --adm-primary:       #2E7BC6;
+    --adm-primary-dark:  #1F5C99;
+    --adm-primary-soft:  #EAF3FD;
+
+    --adm-danger:        #CF4A40;
+    --adm-danger-dark:   #A83A31;
+    --adm-danger-soft:   #FBEAE8;
+
+    --adm-warning:       #B9791B;
+    --adm-warning-dark:  #96610F;
+    --adm-warning-soft:  #FCF1DE;
+
+    --adm-success:       #2E9958;
+    --adm-success-dark:  #237A44;
+    --adm-success-soft:  #E7F5EC;
+
+    --adm-radius:        8px;
+    --adm-radius-sm:     6px;
+    --adm-shadow:        0 1px 2px rgba(20,26,38,.04), 0 6px 16px -10px rgba(20,26,38,.25);
+
+    --adm-font: "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    background-color: var(--adm-bg);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: var(--adm-font);
+    color: var(--adm-text);
+    background-color: var(--adm-bg);
+    line-height: 1.6;
+}
+
+/* ---------- Layout ---------- */
+.admin-page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 28px 24px 60px;
+}
+
+.admin-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding-bottom: 18px;
+    margin-bottom: 22px;
+    border-bottom: 1px solid var(--adm-border);
+}
+
+.admin-header-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.admin-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0;
+    color: var(--adm-text);
+}
+
+.admin-subtitle {
+    font-size: 13px;
+    color: var(--adm-text-faint);
+    margin: 0;
+}
+
+.admin-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.admin-panel {
+    background: var(--adm-surface);
+    border: 1px solid var(--adm-border);
+    border-radius: var(--adm-radius);
+    box-shadow: var(--adm-shadow);
+    padding: 22px 24px;
+    margin-bottom: 22px;
+}
+
+/* ---------- Toolbar (更新・追加など) ---------- */
+.admin-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.toolbar-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.toolbar-hint {
+    font-size: 12px;
+    color: var(--adm-text-faint);
+}
+
+/* ---------- Forms (that only wrap a single button) ---------- */
+.inline-form {
+    display: inline-block;
+    margin: 0;
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--adm-font);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+    padding: 10px 16px;
+    border-radius: var(--adm-radius-sm);
+    border: 1.5px solid transparent;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background .15s ease, border-color .15s ease, color .15s ease, transform .05s ease;
+}
+
+.btn:active {
+    transform: translateY(1px);
+}
+
+/* 主要アクション（追加する・変更する・ログイン 等） */
+.btn-primary {
+    background: var(--adm-primary);
+    border-color: var(--adm-primary);
+    color: #fff;
+}
+.btn-primary:hover {
+    background: var(--adm-primary-dark);
+    border-color: var(--adm-primary-dark);
+}
+
+/* 補助アクション（更新・戻る・キャンセル 等） */
+.btn-secondary {
+    background: var(--adm-surface);
+    border-color: var(--adm-border-strong);
+    color: var(--adm-text);
+}
+.btn-secondary:hover {
+    border-color: var(--adm-primary);
+    color: var(--adm-primary);
+}
+
+/* 目立たせない戻る・ログアウト用 */
+.btn-ghost {
+    background: transparent;
+    border-color: transparent;
+    color: var(--adm-text-soft);
+    padding: 9px 12px;
+}
+.btn-ghost:hover {
+    background: var(--adm-border);
+    color: var(--adm-text);
+}
+
+/* 破壊的アクション（削除） */
+.btn-danger {
+    background: var(--adm-danger);
+    border-color: var(--adm-danger);
+    color: #fff;
+}
+.btn-danger:hover {
+    background: var(--adm-danger-dark);
+    border-color: var(--adm-danger-dark);
+}
+
+.btn-danger-outline {
+    background: var(--adm-danger-soft);
+    border-color: var(--adm-danger);
+    color: var(--adm-danger-dark);
+}
+.btn-danger-outline:hover {
+    background: var(--adm-danger);
+    color: #fff;
+}
+
+/* 注意を要するアクション（仮パスワード発行など） */
+.btn-warning {
+    background: var(--adm-warning-soft);
+    border-color: var(--adm-warning);
+    color: var(--adm-warning-dark);
+}
+.btn-warning:hover {
+    background: var(--adm-warning);
+    color: #fff;
+}
+
+/* 編集アクション */
+.btn-edit {
+    background: var(--adm-primary-soft);
+    border-color: var(--adm-primary);
+    color: var(--adm-primary-dark);
+}
+.btn-edit:hover {
+    background: var(--adm-primary);
+    color: #fff;
+}
+
+.btn-small {
+    padding: 6px 10px;
+    font-size: 12.5px;
+    border-radius: 6px;
+}
+
+.btn[disabled] {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+/* ---------- Badges (公開状況など) ---------- */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+.badge-published {
+    background: var(--adm-success-soft);
+    color: var(--adm-success-dark);
+}
+.badge-published::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--adm-success);
+}
+
+.badge-unpublished {
+    background: #EEF0F2;
+    color: var(--adm-text-faint);
+}
+.badge-unpublished::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--adm-text-faint);
+}
+
+.badge-admin {
+    background: var(--adm-warning-soft);
+    color: var(--adm-warning-dark);
+}
+.badge-user {
+    background: #EEF0F2;
+    color: var(--adm-text-soft);
+}
+
+/* ---------- Table ---------- */
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid var(--adm-border);
+    border-radius: var(--adm-radius);
+    background: var(--adm-surface);
+    box-shadow: var(--adm-shadow);
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    min-width: 640px;
+}
+
+.admin-table thead th {
+    position: sticky;
+    top: 0;
+    background: #F7F9FB;
+    color: var(--adm-text-soft);
+    font-weight: 700;
+    text-align: left;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--adm-border-strong);
+    white-space: nowrap;
+}
+
+.admin-table tbody td {
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--adm-border);
+    vertical-align: middle;
+    color: var(--adm-text);
+}
+
+.admin-table tbody tr:hover {
+    background: #FAFBFD;
+}
+
+.admin-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.admin-table td.col-id {
+    color: var(--adm-text-faint);
+    font-variant-numeric: tabular-nums;
+}
+
+.admin-table th.col-actions,
+.admin-table td.col-actions {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.row-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    flex-wrap: nowrap;
+}
+
+.empty-row td {
+    text-align: center;
+    color: var(--adm-text-faint);
+    padding: 32px 14px;
+}
+
+/* ---------- Forms (insert / update) ---------- */
+.admin-form-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 4px;
+}
+
+.admin-form-table th {
+    text-align: left;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--adm-text-soft);
+    padding: 8px 12px 8px 0;
+    white-space: nowrap;
+    width: 1%;
+}
+
+.admin-form-table td {
+    padding: 8px 0;
+}
+
+.admin-form-table tr + tr th,
+.admin-form-table tr + tr td {
+    border-top: 1px solid var(--adm-border);
+    padding-top: 14px;
+}
+.admin-form-table tr + tr th {
+    padding-top: 14px;
+}
+
+.admin-form-table input[type="text"],
+.admin-form-table input[type="email"],
+.admin-form-table input[type="password"],
+.admin-form-table select {
+    width: 100%;
+    min-width: 160px;
+    padding: 9px 11px;
+    font-family: var(--adm-font);
+    font-size: 14px;
+    color: var(--adm-text);
+    background: var(--adm-surface);
+    border: 1.5px solid var(--adm-border-strong);
+    border-radius: var(--adm-radius-sm);
+    transition: border-color .15s ease;
+}
+
+.admin-form-table input:focus,
+.admin-form-table select:focus {
+    outline: none;
+    border-color: var(--adm-primary);
+}
+
+.field-value {
+    color: var(--adm-text);
+    font-weight: 600;
+}
+
+.err {
+    display: block;
+    font-size: 12px;
+    color: var(--adm-danger);
+    margin-top: 4px;
+}
+
+.panel-heading {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--adm-text-soft);
+    margin: 0 0 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed var(--adm-border-strong);
+}
+
+.panel-heading.is-before { color: var(--adm-text-faint); }
+.panel-heading.is-after  { color: var(--adm-primary-dark); }
+
+.compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 720px) {
+    .compare-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.form-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid var(--adm-border);
+}
+
+/* ---------- Notice / Alert boxes ---------- */
+.notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 14px 16px;
+    border-radius: var(--adm-radius-sm);
+    font-size: 13.5px;
+    margin-bottom: 20px;
+}
+
+.notice-icon {
+    font-size: 15px;
+    line-height: 1.4;
+}
+
+.notice-danger {
+    background: var(--adm-danger-soft);
+    color: var(--adm-danger-dark);
+    border: 1px solid #F0C6C1;
+}
+
+.notice-warning {
+    background: var(--adm-warning-soft);
+    color: var(--adm-warning-dark);
+    border: 1px solid #EFD9A8;
+}
+
+.notice-info {
+    background: var(--adm-primary-soft);
+    color: var(--adm-primary-dark);
+    border: 1px solid #C9E0F5;
+}
+
+.notice strong {
+    font-weight: 700;
+}
+
+/* ---------- 仮パスワード表示 ---------- */
+.temp-pass-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--adm-warning-soft);
+    border: 1.5px dashed var(--adm-warning);
+    border-radius: var(--adm-radius-sm);
+    padding: 14px 18px;
+    margin-bottom: 16px;
+}
+
+.temp-pass-label {
+    font-size: 12.5px;
+    color: var(--adm-warning-dark);
+    font-weight: 700;
+}
+
+.temp-pass-value {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    color: var(--adm-text);
+    background: #fff;
+    border: 1px solid var(--adm-border-strong);
+    border-radius: 6px;
+    padding: 4px 10px;
+}
+
+/* ---------- ダッシュボード（admin.php） ---------- */
+.admin-role {
+    font-size: 13px;
+    color: var(--adm-text-soft);
+    margin: 0 0 22px;
+}
+
+.admin-role strong {
+    color: var(--adm-primary-dark);
+}
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 14px;
+}
+
+.menu-card {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 18px 18px 16px;
+    background: var(--adm-surface);
+    border: 1px solid var(--adm-border);
+    border-radius: var(--adm-radius);
+    box-shadow: var(--adm-shadow);
+    text-decoration: none;
+    color: var(--adm-text);
+    transition: border-color .15s ease, transform .1s ease;
+}
+
+.menu-card:hover {
+    border-color: var(--adm-primary);
+    transform: translateY(-2px);
+}
+
+.menu-card-icon {
+    font-size: 22px;
+}
+
+.menu-card-title {
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.menu-card-desc {
+    font-size: 12.5px;
+    color: var(--adm-text-faint);
+}
+
+.menu-card.is-disabled {
+    opacity: .55;
+    pointer-events: none;
+}
+
+/* ---------- ログイン画面 ---------- */
+.login-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    padding: 24px;
+}
+
+.login-logo img {
+    width: 100%;
+    max-width: 420px;
+    object-fit: contain;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 340px;
+    background: var(--adm-surface);
+    border: 1px solid var(--adm-border);
+    border-radius: var(--adm-radius);
+    box-shadow: var(--adm-shadow);
+    padding: 26px 28px 24px;
+}
+
+.login-heading {
+    font-size: 18px;
+    font-weight: 700;
+    text-align: center;
+    margin: 0 0 18px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group span {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--adm-text-soft);
+}
+
+.form-group input {
+    padding: 10px 12px;
+    font-family: var(--adm-font);
+    font-size: 14px;
+    border: 1.5px solid var(--adm-border-strong);
+    border-radius: var(--adm-radius-sm);
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--adm-primary);
+}
+
+.login-form .btn {
+    justify-content: center;
+    width: 100%;
+    padding: 11px 16px;
+}
