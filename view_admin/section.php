@@ -65,7 +65,7 @@
                 </td>
                 <td class="col-actions">
                     <div class="row-actions">
-                        <form action="../ctrl_admin/setction_update.php" method="post" class="inline-form">
+                        <form action="../ctrl_admin/section_update.php" method="post" class="inline-form">
                             <input type="hidden" name="id" value="<?php echo V2H($sec['id']); ?>">
                             <input type="hidden" name="chapter_id" value="<?php echo V2H($sec['chapter_id']); ?>">
                             <input type="hidden" name="name" value="<?php echo V2H($sec['name']); ?>">
