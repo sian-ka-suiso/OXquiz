@@ -61,7 +61,7 @@
                     <li>マイページでのアカウント管理</li>
                 </ul>
             </div>
-            <!-- デモログインの非表示：デモログインはKalediWebのみ -->
+            <!-- デモログインの非表示：デモログインはKaleido Webのみ -->
             <!-- <form action="../ctrl/index.php" method="post" class="demo-login-form">
                 <input type="hidden" name="email" value="demo@email.com">
                 <input type="hidden" name="login_pass" value="demo0920">
