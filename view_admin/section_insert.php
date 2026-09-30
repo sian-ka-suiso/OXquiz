@@ -6,7 +6,7 @@
     <title>Document</title>
 </head>
 <body>
-    <h2>以下のチャプターを追加します</h2>
+    <h2>以下のセクションを追加します</h2>
     <div class="tables">
 
         <form action="../ctrl_admin/section_insert.php" method="post">
@@ -16,7 +16,7 @@
                     <th>チャプターID</th>
                     <th>セクション名</th>
                     <th>フォルダー名</th>
-                    <th>order</th>
+                    <th>表示順</th>
                     <th>公開状況</th>
                 </tr>
                 <tr>

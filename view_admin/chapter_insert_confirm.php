@@ -6,14 +6,14 @@
     <title>Document</title>
 </head>
 <body>
-    <h2>以下のユーザーを追加します</h2>
+    <h2>以下のチャプターを追加します</h2>
     <div class="tables">
         <table border="1">
             <h3>追加内容</h3>
             <tr>
                 <th>チャプター名</th>
                 <th>フォルダー名</th>
-                <th>order</th>
+                <th>表示順</th>
                 <th>公開状況</th>
             </tr>
             <tr>

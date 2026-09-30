@@ -15,7 +15,7 @@
                 <tr>
                     <th>チャプター名</th>
                     <th>フォルダー名</th>
-                    <th>order</th>
+                    <th>表示順</th>
                     <th>公開状況</th>
                 </tr>
                 <tr>

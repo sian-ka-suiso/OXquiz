@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>よくある間違いOXクイズ　チャプター一覧</title>
+    <title>よくある間違いOXクイズ　セクション一覧</title>
 </head>
 <body>
-    <h2>ユーザーDB</h2>
+    <h2>セクションDB</h2>
     <form action="../ctrl_admin/section.php" method="post">
         <button type="submit">更新</button>
     </form>
@@ -19,7 +19,7 @@
             <th>Chapter ID</th>
             <th>名前</th>
             <th>フォルダー名</th>
-            <th>Order Number</th>
+            <th>表示順</th>
             <th>公開状況</th>
             <th>編集</th>
             <th>削除</th>
@@ -32,7 +32,7 @@
             <td><?php echo V2H($sec['folder_name']); ?></td>
             <td><?php echo V2H($sec['order_number']); ?></td>
             <td><?php echo V2H($sec['is_published']); ?></td>
-            <form action="../ctrl_admin/setction_update.php" method="post">
+            <form action="../ctrl_admin/section_update.php" method="post">
                 <td><button type="submit" name="step" value="1">編集</button></td>
                 <input type="hidden" name="id" value="<?php echo V2H($sec['id']); ?>">
                 <input type="hidden" name="chapter_id" value="<?php echo V2H($sec['chapter_id']); ?>">

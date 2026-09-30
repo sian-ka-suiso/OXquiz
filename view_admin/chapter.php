@@ -6,7 +6,7 @@
     <title>よくある間違いOXクイズ　チャプター一覧</title>
 </head>
 <body>
-    <h2>ユーザーDB</h2>
+    <h2>チャプターDB</h2>
     <form action="../ctrl_admin/chapter.php" method="post">
         <button type="submit">更新</button>
     </form>
@@ -18,7 +18,7 @@
             <th>ID</th>
             <th>チャプター名</th>
             <th>フォルダー名</th>
-            <th>order</th>
+            <th>表示順</th>
             <th>公開状況</th>
             <th>編集</th>
             <th>削除</th>
