@@ -7,60 +7,6 @@
     <title>よくある間違いOXクイズ　チャプター編集</title>
 </head>
 <body>
-<<<<<<< HEAD
-    <h2>以下のチャプターを編集します</h2>
-    <div class="tables">
-        <table border="1">
-            <h3>変更前</h3>
-            <tr>
-                <th>ID</th>
-                <th>チャプター名</th>
-                <th>フォルダー名</th>
-                <th>表示順</th>
-                <th>公開状況</th>
-            </tr>
-            <tr>
-                <td><?php echo htmlspecialchars($id); ?></td>
-                <td><?php echo htmlspecialchars($name); ?></td>
-                <td><?php echo htmlspecialchars($folder_name); ?></td>
-                <td><?php echo htmlspecialchars($order_number); ?></td>
-                <td><?php echo htmlspecialchars($is_published); ?></td>
-            </tr>
-        </table>
-        <form action="../ctrl_admin/chapter_update.php" method="post">
-            <table border="1">
-                <h3>変更後</h3>
-                        <tr>
-                    <th>ID</th>
-                    <th>チャプター名</th>
-                    <th>フォルダー名</th>
-                    <th>表示順</th>
-                    <th>公開状況</th>
-                </tr>
-                <tr>
-                    <td><?php echo htmlspecialchars($id); ?></td>
-                    <td>
-                        <input type="text" name="name" value="<?= $name ?>">
-                    </td>
-                    <td>
-                        <input type="text" name="folder_name" value="<?= $folder_name ?>">
-                    </td>
-                    <td>
-                        <input type="text" name="order_number" value="<?= $order_number ?>">
-                    </td>
-                    <td>
-                        <select name="is_published" id="">
-                            <option value="0" <?= $is_published == 0 ? 'selected' : '' ?>>０</option>
-                            <option value="1" <?= $is_published == 1 ? 'selected' : '' ?>>１</option>
-                        </select>
-                    </td>
-                </tr>
-            </table>
-            <input type="hidden" name="step" value="2">
-            <input type="hidden" name="id" value="<?php echo htmlspecialchars($id); ?>">
-            <button type="submit">変更する</button>
-        </form>
-=======
     <div class="admin-page">
         <header class="admin-header">
             <div class="admin-header-text">
@@ -122,7 +68,6 @@
                 </form>
             </div>
         </div>
->>>>>>> origin/main
     </div>
 </body>
 </html>
