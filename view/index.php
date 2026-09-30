@@ -61,12 +61,13 @@
                     <li>マイページでのアカウント管理</li>
                 </ul>
             </div>
-            <form action="../ctrl/index.php" method="post" class="demo-login-form">
+            <!-- デモログインの非表示：デモログインはKalediWebのみ -->
+            <!-- <form action="../ctrl/index.php" method="post" class="demo-login-form">
                 <input type="hidden" name="email" value="demo@email.com">
                 <input type="hidden" name="login_pass" value="demo0920">
                 <input type="hidden" name="step" value="1">
                 <button type="submit">デモログイン</button>
-            </form>
+            </form> -->
         </div>
     </div>
 </body>
