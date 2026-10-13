@@ -17,7 +17,17 @@
 //**************************************************
 // 変数取得
 //**************************************************
+    // ユーザーテーブルの情報を取得
     $users = getUsers();
+    // 各権限を配列にまとめて定義
+    foreach ($users as &$user) {
+        $roles = [];
+        if ($user['is_admin'] == 1) { $roles[] = ['label' => '管理者', 'class' => 'badge-admin']; }
+        if ($user['is_teacher'] == 1) { $roles[] = ['label' => '教員', 'class' => 'badge-teacher']; }
+        if (empty($roles)) { $roles[] = ['label' => '一般', 'class' => 'badge-user' ]; }
+        $user['roles'] = $roles;
+    }
+    unset($user);
 //**************************************************
 // HTMLを出力
 //**************************************************

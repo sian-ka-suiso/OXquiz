@@ -88,7 +88,7 @@ function teacherLoginCheck($email = "", $login_pass = ""){
 function getUsers(){
     $pdo = db_connect();
     try {
-        $sSql = "SELECT id, email, login_pass, user_name, created_at, update_at, is_admin FROM user_table";
+        $sSql = "SELECT id, email, login_pass, user_name, created_at, update_at, is_admin, is_teacher, class_id FROM user_table";
         $stmh = $pdo->prepare($sSql);
         $stmh->execute();
         return $stmh->fetchAll(PDO::FETCH_ASSOC);

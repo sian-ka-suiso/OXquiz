@@ -41,6 +41,7 @@
                 <th>登録日</th>
                 <th>更新日</th>
                 <th>権限</th>
+                <th>クラスID</th>
                 <th class="col-actions">操作</th>
             </tr>
             </thead>
@@ -54,12 +55,11 @@
                 <td><?php echo V2H($user['created_at']); ?></td>
                 <td><?php echo V2H($user['update_at']); ?></td>
                 <td>
-                    <?php if ($user['is_admin'] == 1): ?>
-                        <span class="badge badge-admin">管理者</span>
-                    <?php else: ?>
-                        <span class="badge badge-user">一般</span>
-                    <?php endif; ?>
+                    <?php foreach($user['roles'] as $role): ?>
+                    <span class="badge <?= V2H($role['class']) ?>"><?php echo V2H($role['label']) ?></span>
+                    <?php endforeach; ?>
                 </td>
+                <td><?php echo V2H($user['class_id']); ?></td>
                 <td class="col-actions">
                     <div class="row-actions">
                         <form action="../ctrl_admin/user_update.php" method="post" class="inline-form">

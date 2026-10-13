@@ -250,7 +250,8 @@ body {
     gap: 5px;
     font-size: 12px;
     font-weight: 600;
-    padding: 4px 10px;
+    margin: 2px 0 2px 0;
+    padding: 4px 10px 2px 10px;
     border-radius: 999px;
     white-space: nowrap;
 }
@@ -282,6 +283,10 @@ body {
 .badge-admin {
     background: var(--adm-warning-soft);
     color: var(--adm-warning-dark);
+}
+.badge-teacher {
+    background: var(--adm-primary-soft);
+    color: var(--adm-primary-dark);
 }
 .badge-user {
     background: #EEF0F2;
