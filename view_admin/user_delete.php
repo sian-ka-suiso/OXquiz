@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../css_admin/admin.css">
-    <title>よくある間違いOXクイズ　ユーザー削除</title>
+    <title>よくある間違いOXクイズ　アカウント削除</title>
 </head>
 <body>
     <div class="admin-page">
         <header class="admin-header">
             <div class="admin-header-text">
-                <h1 class="admin-title">ユーザーの削除確認</h1>
+                <h1 class="admin-title">アカウントの削除確認</h1>
                 <?php require('../view_admin/parts/header_role.php'); ?>
             </div>
         </header>
@@ -19,7 +19,7 @@
 
         <div class="notice notice-danger">
             <span class="notice-icon">⚠</span>
-            <span><strong>この操作は取り消せません。</strong>以下のユーザーを本当に削除しますか？</span>
+            <span><strong>この操作は取り消せません。</strong>以下のアカウントを本当に削除しますか？</span>
         </div>
 
         <div class="admin-panel">
@@ -29,7 +29,7 @@
                 <tr>
                     <th>ID</th>
                     <th>メールアドレス</th>
-                    <th>ユーザー名</th>
+                    <th>アカウント名</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -46,7 +46,7 @@
                 <form action="../ctrl_admin/user_delete.php" method="post" class="inline-form">
                     <input type="hidden" name="id" value="<?php echo htmlspecialchars($id); ?>">
                     <input type="hidden" name="step" value="2">
-                    <button type="submit" class="btn btn-danger" title="このユーザーを完全に削除します">✕ 削除する</button>
+                    <button type="submit" class="btn btn-danger" title="このアカウントを完全に削除します">✕ 削除する</button>
                 </form>
                 <form action="../ctrl_admin/user.php" method="post" class="inline-form">
                     <input type="hidden" name="step" value="">

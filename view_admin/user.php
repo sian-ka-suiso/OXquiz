@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../css_admin/admin.css">
-    <title>よくある間違いOXクイズ　ユーザー一覧</title>
+    <title>よくある間違いOXクイズ　アカウント一覧</title>
 </head>
 <body>
     <div class="admin-page admin-page--wide">
         <header class="admin-header">
             <div class="admin-header-text">
-                <h1 class="admin-title">👤 ユーザー一覧</h1>
+                <h1 class="admin-title">👤 アカウント一覧</h1>
                 <?php require('../view_admin/parts/header_role.php'); ?>
             </div>
             <div class="admin-header-actions">
@@ -20,12 +20,12 @@
             </div>
         </header>
 
-        <p class="admin-description">ユーザー情報の確認・編集・削除・仮パスワード発行ができます</p>
+        <p class="admin-description">アカウント情報の確認・編集・削除・仮パスワード発行ができます</p>
 
         <div class="admin-toolbar">
             <div class="toolbar-group">
                 <form action="../ctrl_admin/user.php" method="post" class="inline-form">
-                    <button type="submit" class="btn btn-secondary" title="最新のユーザー一覧を再読み込みします">
+                    <button type="submit" class="btn btn-secondary" title="最新のアカウント一覧を再読み込みします">
                         <span class="btn-icon">↻</span> 更新
                     </button>
                 </form>
@@ -39,7 +39,7 @@
                 <th>ID</th>
                 <th>メールアドレス</th>
                 <th>パスワード</th>
-                <th>ユーザー名</th>
+                <th>アカウント名</th>
                 <th>登録日</th>
                 <th>更新日</th>
                 <th>権限</th>
@@ -64,24 +64,26 @@
                 <td><?php echo V2H($user['class_id']); ?></td>
                 <td class="col-actions">
                     <div class="row-actions">
+                        <?php if($is_admin): ?>
                         <form action="../ctrl_admin/user_update.php" method="post" class="inline-form">
                             <input type="hidden" name="id" value="<?php echo V2H($user['id']); ?>">
                             <input type="hidden" name="email" value="<?php echo V2H($user['email']); ?>">
                             <input type="hidden" name="user_name" value="<?php echo V2H($user['user_name']); ?>">
                             <input type="hidden" name="is_admin" value="<?php echo V2H($user['is_admin']); ?>">
-                            <button type="submit" name="step" value="1" class="btn btn-small btn-edit" title="このユーザーの情報を編集します">✏️ 編集</button>
+                            <button type="submit" name="step" value="1" class="btn btn-small btn-edit" title="このアカウントの情報を編集します">✏️ 編集</button>
                         </form>
                         <form action="../ctrl_admin/user_delete.php" method="post" class="inline-form">
                             <input type="hidden" name="id" value="<?php echo V2H($user['id']); ?>">
                             <input type="hidden" name="email" value="<?php echo V2H($user['email']); ?>">
                             <input type="hidden" name="user_name" value="<?php echo V2H($user['user_name']); ?>">
-                            <button type="submit" name="step" value="1" class="btn btn-small btn-danger" title="このユーザーを削除します（確認画面へ進みます）">✕ 削除</button>
+                            <button type="submit" name="step" value="1" class="btn btn-small btn-danger" title="このアカウントを削除します（確認画面へ進みます）">✕ 削除</button>
                         </form>
+                        <?php endif; ?>
                         <form action="../ctrl_admin/temp_pass.php" method="post" class="inline-form">
                             <input type="hidden" name="id" value="<?php echo V2H($user['id']); ?>">
                             <input type="hidden" name="email" value="<?php echo V2H($user['email']); ?>">
                             <input type="hidden" name="user_name" value="<?php echo V2H($user['user_name']); ?>">
-                            <button type="submit" name="step" value="1" class="btn btn-small btn-warning" title="このユーザーの仮パスワードを発行します（元のパスワードは上書きされます）">🔑 仮パスワード発行</button>
+                            <button type="submit" name="step" value="1" class="btn btn-small btn-warning" title="このアカウントの仮パスワードを発行します（元のパスワードは上書きされます）">🔑 仮パスワード発行</button>
                         </form>
                     </div>
                 </td>
