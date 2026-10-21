@@ -60,6 +60,11 @@ body {
     padding: 28px 24px 60px;
 }
 
+/* データ一覧を表示するサブページ用：横幅を広くとる */
+.admin-page--wide {
+    max-width: 1600px;
+}
+
 .admin-header {
     display: flex;
     align-items: flex-start;

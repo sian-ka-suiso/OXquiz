@@ -7,7 +7,7 @@
     <title>よくある間違いOXクイズ　チャプター一覧</title>
 </head>
 <body>
-    <div class="admin-page">
+    <div class="admin-page admin-page--wide">
         <header class="admin-header">
             <div class="admin-header-text">
                 <h1 class="admin-title">📘 チャプター一覧</h1>
