@@ -11,9 +11,11 @@
         <header class="admin-header">
             <div class="admin-header-text">
                 <h1 class="admin-title">チャプターの編集</h1>
-                <p class="admin-subtitle">「変更後」の内容を書き換えて更新してください</p>
+                <?php require('../view_admin/parts/header_role.php'); ?>
             </div>
         </header>
+
+        <p class="admin-description">「変更後」の内容を書き換えて更新してください</p>
 
         <div class="admin-panel">
             <div class="compare-grid">
@@ -23,7 +25,7 @@
                         <tr><th>ID</th><td class="field-value"><?php echo htmlspecialchars($id); ?></td></tr>
                         <tr><th>チャプター名</th><td class="field-value"><?php echo htmlspecialchars($name); ?></td></tr>
                         <tr><th>フォルダー名</th><td class="field-value"><?php echo htmlspecialchars($folder_name); ?></td></tr>
-                        <tr><th>順番</th><td class="field-value"><?php echo htmlspecialchars($order_number); ?></td></tr>
+                        <tr><th>表示順</th><td class="field-value"><?php echo htmlspecialchars($order_number); ?></td></tr>
                         <tr><th>公開状況</th><td class="field-value"><?php echo htmlspecialchars($is_published); ?></td></tr>
                     </table>
                 </div>
@@ -41,7 +43,7 @@
                                 <td><input type="text" name="folder_name" value="<?= $folder_name ?>"></td>
                             </tr>
                             <tr>
-                                <th>順番</th>
+                                <th>表示順</th>
                                 <td><input type="text" name="order_number" value="<?= $order_number ?>"></td>
                             </tr>
                             <tr>

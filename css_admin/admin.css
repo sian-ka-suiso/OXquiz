@@ -60,6 +60,11 @@ body {
     padding: 28px 24px 60px;
 }
 
+/* データ一覧を表示するサブページ用：横幅を広くとる */
+.admin-page--wide {
+    max-width: 1600px;
+}
+
 .admin-header {
     display: flex;
     align-items: flex-start;
@@ -69,6 +74,15 @@ body {
     padding-bottom: 18px;
     margin-bottom: 22px;
     border-bottom: 1px solid var(--adm-border);
+}
+
+/* タイトルの下に表示するログイン権限 */
+.admin-header-role {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--adm-text-soft);
 }
 
 .admin-header-text {
@@ -84,10 +98,11 @@ body {
     color: var(--adm-text);
 }
 
-.admin-subtitle {
-    font-size: 13px;
-    color: var(--adm-text-faint);
-    margin: 0;
+/* ヘッダー下、ページ内容の上に表示する説明文 */
+.admin-description {
+    font-size: 13.5px;
+    color: var(--adm-text-soft);
+    margin: 0 0 18px;
 }
 
 .admin-header-actions {
@@ -120,6 +135,41 @@ body {
     align-items: center;
     gap: 8px;
     flex-wrap: wrap;
+}
+
+/* 検索・並び替えフォーム */
+.search-form label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--adm-text-soft);
+}
+
+.search-form input,
+.search-form select {
+    padding: 8px 10px;
+    font-family: var(--adm-font);
+    font-size: 14px;
+    color: var(--adm-text);
+    background: var(--adm-surface);
+    border: 1.5px solid var(--adm-border-strong);
+    border-radius: var(--adm-radius-sm);
+}
+
+.search-form input:focus,
+.search-form select:focus {
+    outline: none;
+    border-color: var(--adm-primary);
+}
+
+.search-form .search-id {
+    width: 90px;
+}
+
+.search-err {
+    margin: -10px 0 14px;
 }
 
 .toolbar-hint {
@@ -250,7 +300,8 @@ body {
     gap: 5px;
     font-size: 12px;
     font-weight: 600;
-    padding: 4px 10px;
+    margin: 2px 0 2px 0;
+    padding: 4px 10px 2px 10px;
     border-radius: 999px;
     white-space: nowrap;
 }
@@ -282,6 +333,10 @@ body {
 .badge-admin {
     background: var(--adm-warning-soft);
     color: var(--adm-warning-dark);
+}
+.badge-teacher {
+    background: var(--adm-primary-soft);
+    color: var(--adm-primary-dark);
 }
 .badge-user {
     background: #EEF0F2;
@@ -442,6 +497,17 @@ body {
     margin-bottom: 20px;
 }
 
+/* 変更前（文字のみ）と変更後（入力欄）で行の高さをそろえる */
+.compare-grid .admin-form-table input,
+.compare-grid .admin-form-table select {
+    display: block;
+    height: 40px;
+}
+
+.compare-grid .admin-form-table .field-value {
+    line-height: 40px;
+}
+
 @media (max-width: 720px) {
     .compare-grid {
         grid-template-columns: 1fr;
@@ -526,16 +592,6 @@ body {
 }
 
 /* ---------- ダッシュボード（admin.php） ---------- */
-.admin-role {
-    font-size: 13px;
-    color: var(--adm-text-soft);
-    margin: 0 0 22px;
-}
-
-.admin-role strong {
-    color: var(--adm-primary-dark);
-}
-
 .menu-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -630,6 +686,14 @@ body {
     font-size: 12.5px;
     font-weight: 700;
     color: var(--adm-text-soft);
+}
+
+/* 上の項目名用スタイルがエラー文に当たらないよう、.err の見た目に戻す */
+.form-group .err {
+    font-size: 12px;
+    font-weight: normal;
+    color: var(--adm-danger);
+    margin-top: 0;
 }
 
 .form-group input {

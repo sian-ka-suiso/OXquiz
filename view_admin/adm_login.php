@@ -17,11 +17,14 @@
                 <div class="form-group">
                     <span>メールアドレス</span>
                     <input type="email" name="email" value="">
+                    <span class="err"><?= isset($arrErr['email']) ? $arrErr['email'] : "" ?></span>
                 </div>
                 <div class="form-group">
                     <span>パスワード</span>
                     <input type="password" name="pw" value="">
+                    <span class="err"><?= isset($arrErr['login_pass']) ? $arrErr['login_pass'] : "" ?></span>
                 </div>
+                <input type="hidden" name="step" value="1">
                 <span class="err"><?= isset($arrErr['common']) ? $arrErr['common'] : "" ?></span>
                 <button type="submit" class="btn btn-primary" title="入力した内容でログインします">ログイン</button>
             </form>
