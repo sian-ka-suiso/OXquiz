@@ -80,8 +80,15 @@
                         <?php if ($is_demo_account): ?>
                         <span class="demo-locked">デモアカウントのため変更不可</span>
                         <?php else: ?>
-                        <form action="mypage.php" method="post">
-                            <input type="password" name="reset_pass" placeholder="新しいパスワード">
+                        <form action="mypage.php" method="post" class="password-form">
+                            <input type="password" name="current_pass" placeholder="現在のパスワード">
+                            <?php if(isset($arrErr['current_pass'])): ?>
+                            <span class="err"><?= V2H($arrErr['current_pass']) ?></span>
+                            <?php endif; ?>
+                            <input type="password" name="reset_pass" placeholder="新しいパスワード（6〜20文字）">
+                            <?php if(isset($arrErr['reset_pass'])): ?>
+                            <span class="err"><?= V2H($arrErr['reset_pass']) ?></span>
+                            <?php endif; ?>
                             <button type="submit">再設定</button>
                         </form>
                         <?php endif; ?>
