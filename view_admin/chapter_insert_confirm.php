@@ -11,9 +11,11 @@
         <header class="admin-header">
             <div class="admin-header-text">
                 <h1 class="admin-title">チャプター追加内容の確認</h1>
-                <p class="admin-subtitle">この内容でよろしければ「追加する」を押してください</p>
+                <?php require('../view_admin/parts/header_role.php'); ?>
             </div>
         </header>
+
+        <p class="admin-description">この内容でよろしければ「追加する」を押してください</p>
 
         <div class="notice notice-info">
             <span class="notice-icon">ℹ</span>

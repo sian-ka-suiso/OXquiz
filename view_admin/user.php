@@ -11,7 +11,7 @@
         <header class="admin-header">
             <div class="admin-header-text">
                 <h1 class="admin-title">👤 ユーザー一覧</h1>
-                <p class="admin-subtitle">ユーザー情報の確認・編集・削除・仮パスワード発行ができます</p>
+                <?php require('../view_admin/parts/header_role.php'); ?>
             </div>
             <div class="admin-header-actions">
                 <form action="../ctrl_admin/admin.php" method="post" class="inline-form">
@@ -19,6 +19,8 @@
                 </form>
             </div>
         </header>
+
+        <p class="admin-description">ユーザー情報の確認・編集・削除・仮パスワード発行ができます</p>
 
         <div class="admin-toolbar">
             <div class="toolbar-group">

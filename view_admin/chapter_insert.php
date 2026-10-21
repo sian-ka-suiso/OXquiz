@@ -11,9 +11,11 @@
         <header class="admin-header">
             <div class="admin-header-text">
                 <h1 class="admin-title">チャプターの新規追加</h1>
-                <p class="admin-subtitle">内容を入力して追加してください</p>
+                <?php require('../view_admin/parts/header_role.php'); ?>
             </div>
         </header>
+
+        <p class="admin-description">内容を入力して追加してください</p>
 
         <div class="admin-panel">
             <form id="chapterInsertForm" action="../ctrl_admin/chapter_insert.php" method="post">

@@ -11,9 +11,11 @@
         <header class="admin-header">
             <div class="admin-header-text">
                 <h1 class="admin-title">ユーザーの削除確認</h1>
-                <p class="admin-subtitle">内容を確認してから削除してください</p>
+                <?php require('../view_admin/parts/header_role.php'); ?>
             </div>
         </header>
+
+        <p class="admin-description">内容を確認してから削除してください</p>
 
         <div class="notice notice-danger">
             <span class="notice-icon">⚠</span>

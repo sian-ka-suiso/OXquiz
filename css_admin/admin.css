@@ -76,6 +76,15 @@ body {
     border-bottom: 1px solid var(--adm-border);
 }
 
+/* タイトルの下に表示するログイン権限 */
+.admin-header-role {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--adm-text-soft);
+}
+
 .admin-header-text {
     display: flex;
     flex-direction: column;
@@ -89,10 +98,11 @@ body {
     color: var(--adm-text);
 }
 
-.admin-subtitle {
-    font-size: 13px;
-    color: var(--adm-text-faint);
-    margin: 0;
+/* ヘッダー下、ページ内容の上に表示する説明文 */
+.admin-description {
+    font-size: 13.5px;
+    color: var(--adm-text-soft);
+    margin: 0 0 18px;
 }
 
 .admin-header-actions {
@@ -547,16 +557,6 @@ body {
 }
 
 /* ---------- ダッシュボード（admin.php） ---------- */
-.admin-role {
-    font-size: 13px;
-    color: var(--adm-text-soft);
-    margin: 0 0 22px;
-}
-
-.admin-role strong {
-    color: var(--adm-primary-dark);
-}
-
 .menu-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));

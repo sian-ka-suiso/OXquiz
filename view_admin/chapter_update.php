@@ -11,9 +11,11 @@
         <header class="admin-header">
             <div class="admin-header-text">
                 <h1 class="admin-title">チャプターの編集</h1>
-                <p class="admin-subtitle">「変更後」の内容を書き換えて更新してください</p>
+                <?php require('../view_admin/parts/header_role.php'); ?>
             </div>
         </header>
+
+        <p class="admin-description">「変更後」の内容を書き換えて更新してください</p>
 
         <div class="admin-panel">
             <div class="compare-grid">

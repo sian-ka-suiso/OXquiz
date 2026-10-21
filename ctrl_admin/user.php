@@ -24,6 +24,9 @@
         $user['roles'] = getRoleLabels($user);
     }
     unset($user);
+    // 権限を取得
+    $is_admin   = isset($_SESSION['admin_is_admin']) ? $_SESSION['admin_is_admin'] : 0;
+    $is_teacher = isset($_SESSION['admin_is_teacher']) ? $_SESSION['admin_is_teacher'] : 0;
 //**************************************************
 // HTMLを出力
 //**************************************************
