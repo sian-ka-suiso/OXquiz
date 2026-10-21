@@ -30,7 +30,32 @@
                     </button>
                 </form>
             </div>
+            <!-- 検索・並び替え（条件がURLに残るようGETで送る） -->
+            <form action="../ctrl_admin/user.php" method="get" class="toolbar-group search-form">
+                <label>ID
+                    <input type="text" name="search_id" value="<?= V2H($search_id) ?>" inputmode="numeric" placeholder="例：12" class="search-id">
+                </label>
+                <label>権限
+                    <select name="role">
+                        <?php foreach ($roleOptions as $value => $label): ?>
+                        <option value="<?= V2H($value) ?>" <?= $search_role === (string)$value ? 'selected' : '' ?>><?= V2H($label) ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </label>
+                <label>並び順
+                    <select name="sort">
+                        <?php foreach ($sortOptions as $value => $label): ?>
+                        <option value="<?= V2H($value) ?>" <?= $sort === $value ? 'selected' : '' ?>><?= V2H($label) ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </label>
+                <button type="submit" class="btn btn-primary" title="条件に合うアカウントを表示します">検索</button>
+                <a href="../ctrl_admin/user.php" class="btn btn-ghost" title="検索条件をクリアして全件表示に戻します">クリア</a>
+            </form>
         </div>
+        <?php if (isset($arrErr['search_id'])): ?>
+        <p class="err search-err"><?= V2H($arrErr['search_id']) ?></p>
+        <?php endif; ?>
 
         <div class="table-wrapper">
         <table class="admin-table">
@@ -38,7 +63,7 @@
             <tr>
                 <th>ID</th>
                 <th>メールアドレス</th>
-                <th>パスワード</th>
+                <!-- <th>パスワード</th> -->
                 <th>アカウント名</th>
                 <th>登録日</th>
                 <th>更新日</th>
@@ -48,11 +73,14 @@
             </tr>
             </thead>
             <tbody>
+            <?php if (empty($users)): ?>
+            <tr class="empty-row"><td colspan="8">条件に合うアカウントはありません</td></tr>
+            <?php endif; ?>
             <?php foreach($users as $user): ?>
             <tr>
                 <td class="col-id"><?php echo V2H($user['id']); ?></td>
                 <td><?php echo V2H($user['email']); ?></td>
-                <td>**********</td>
+                <!-- <td>**********</td> -->
                 <td><?php echo V2H($user['user_name']); ?></td>
                 <td><?php echo V2H($user['created_at']); ?></td>
                 <td><?php echo V2H($user['update_at']); ?></td>

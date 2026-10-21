@@ -137,6 +137,41 @@ body {
     flex-wrap: wrap;
 }
 
+/* 検索・並び替えフォーム */
+.search-form label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--adm-text-soft);
+}
+
+.search-form input,
+.search-form select {
+    padding: 8px 10px;
+    font-family: var(--adm-font);
+    font-size: 14px;
+    color: var(--adm-text);
+    background: var(--adm-surface);
+    border: 1.5px solid var(--adm-border-strong);
+    border-radius: var(--adm-radius-sm);
+}
+
+.search-form input:focus,
+.search-form select:focus {
+    outline: none;
+    border-color: var(--adm-primary);
+}
+
+.search-form .search-id {
+    width: 90px;
+}
+
+.search-err {
+    margin: -10px 0 14px;
+}
+
 .toolbar-hint {
     font-size: 12px;
     color: var(--adm-text-faint);

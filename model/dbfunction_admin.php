@@ -70,13 +70,48 @@ function getRoleLabels(array $user): array {
 ### ユーザー管理
 ####################################################################################
 //**************************************************
-// 全ユーザーの情報取得
+// 全ユーザーの情報取得（検索・並び替え対応）
+// $search_id : ID検索（空なら条件なし）
+// $role      : ロール検索 'admin' / 'teacher' / 'general'（空なら条件なし）
+// $sort      : 並び順 'id_asc' / 'id_desc'
 //**************************************************
-function getUsers(){
+function getUsers($search_id = "", $role = "", $sort = "id_asc"){
     $pdo = db_connect();
     try {
+        $where = [];
+        $params = [];
+
+        if ($search_id !== "") {
+            $where[] = "id = :id";
+            $params[':id'] = (int)$search_id;
+        }
+
+        if ($role === "admin") {
+            $where[] = "is_admin = 1";
+        } elseif ($role === "teacher") {
+            $where[] = "is_teacher = 1";
+        } elseif ($role === "general") {
+            $where[] = "is_admin = 0 AND is_teacher = 0";
+        }
+
+        // ORDER BY にはプレースホルダーが使えないため、決められた候補からのみ選ぶ
+        // （候補にない値が来た場合はID昇順にする）
+        $sortList = [
+            'id_asc'          => 'id ASC',
+            'id_desc'         => 'id DESC',
+        ];
+        $orderBy = isset($sortList[$sort]) ? $sortList[$sort] : $sortList['id_asc'];
+
         $sSql = "SELECT id, email, login_pass, user_name, created_at, update_at, is_admin, is_teacher, class_id FROM user_table";
+        if (!empty($where)) {
+            $sSql .= " WHERE " . implode(" AND ", $where);
+        }
+        $sSql .= " ORDER BY " . $orderBy;
+
         $stmh = $pdo->prepare($sSql);
+        foreach ($params as $key => $value) {
+            $stmh->bindValue($key, $value, PDO::PARAM_INT);
+        }
         $stmh->execute();
         return $stmh->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $Exception) {
