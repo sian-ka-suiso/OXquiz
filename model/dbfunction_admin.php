@@ -9,21 +9,28 @@ require_once __DIR__ . '/dbfunction.php';
 ### 認証
 ####################################################################################
 //**************************************************
-// 管理者ログインチェック
+// 管理画面ログインチェック（管理者・教員共通）
+// 成功時は id と権限フラグ（is_admin / is_teacher）を返す
 //**************************************************
-function admLoginCheck($email = "", $login_pass = ""){
+function staffLoginCheck($email = "", $login_pass = ""){
     $pdo = db_connect();
 
     try {
-        $sSql = "SELECT id, login_pass FROM user_table WHERE email = :email AND is_admin = 1";
+        $sSql = "SELECT id, login_pass, is_admin, is_teacher FROM user_table WHERE email = :email AND (is_admin = 1 OR is_teacher = 1)";
         $stmh = $pdo->prepare($sSql);
         $stmh->bindValue(':email', $email, PDO::PARAM_STR);
         $stmh->execute();
         $user = $stmh->fetch(PDO::FETCH_ASSOC);
 
         if ($user !== false) {
+            $staff = [
+                'id'         => $user['id'],
+                'is_admin'   => (int)$user['is_admin'],
+                'is_teacher' => (int)$user['is_teacher'],
+            ];
+
             if (password_verify($login_pass, $user['login_pass'])) {
-                return $user['id'];
+                return $staff;
             }
 
             // 移行期間中の平文パスワードとの一致も許可し、一致した場合はハッシュ化して保存し直す
@@ -34,49 +41,29 @@ function admLoginCheck($email = "", $login_pass = ""){
                 $updateStmh->bindValue(':new_pass', $newHash, PDO::PARAM_STR);
                 $updateStmh->bindValue(':id', $user['id'], PDO::PARAM_INT);
                 $updateStmh->execute();
-                return $user['id'];
+                return $staff;
             }
         }
     } catch (PDOException $Exception) {
         dbError(__FUNCTION__, $Exception);
     }
 
-    return false; // ユーザーがいない、またはパスワード不一致
+    return false; // ユーザーがいない、権限がない、またはパスワード不一致
 }
+
+####################################################################################
+### 権限表示
+####################################################################################
 //**************************************************
-// 教員ログインチェック
+// 権限フラグから表示用のロール（ラベルとバッジのクラス）を作る
+// $user には is_admin / is_teacher が含まれていること
 //**************************************************
-function teacherLoginCheck($email = "", $login_pass = ""){
-    $pdo = db_connect();
-
-    try {
-        $sSql = "SELECT id, login_pass FROM user_table WHERE email = :email AND is_teacher = 1";
-        $stmh = $pdo->prepare($sSql);
-        $stmh->bindValue(':email', $email, PDO::PARAM_STR);
-        $stmh->execute();
-        $user = $stmh->fetch(PDO::FETCH_ASSOC);
-
-        if ($user !== false) {
-            if (password_verify($login_pass, $user['login_pass'])) {
-                return $user['id'];
-            }
-
-            // 移行期間中の平文パスワードとの一致も許可し、一致した場合はハッシュ化して保存し直す
-            if ($login_pass === $user['login_pass']) {
-                $newHash = password_hash($login_pass, PASSWORD_DEFAULT);
-                $updateSql = "UPDATE user_table SET login_pass = :new_pass WHERE id = :id";
-                $updateStmh = $pdo->prepare($updateSql);
-                $updateStmh->bindValue(':new_pass', $newHash, PDO::PARAM_STR);
-                $updateStmh->bindValue(':id', $user['id'], PDO::PARAM_INT);
-                $updateStmh->execute();
-                return $user['id'];
-            }
-        }
-    } catch (PDOException $Exception) {
-        dbError(__FUNCTION__, $Exception);
-    }
-
-    return false; // ユーザーがいない、またはパスワード不一致
+function getRoleLabels(array $user): array {
+    $roles = [];
+    if ($user['is_admin'] == 1) { $roles[] = ['label' => '管理者', 'class' => 'badge-admin']; }
+    if ($user['is_teacher'] == 1) { $roles[] = ['label' => '教員', 'class' => 'badge-teacher']; }
+    if (empty($roles)) { $roles[] = ['label' => '一般', 'class' => 'badge-user']; }
+    return $roles;
 }
 
 ####################################################################################

@@ -452,6 +452,17 @@ body {
     margin-bottom: 20px;
 }
 
+/* 変更前（文字のみ）と変更後（入力欄）で行の高さをそろえる */
+.compare-grid .admin-form-table input,
+.compare-grid .admin-form-table select {
+    display: block;
+    height: 40px;
+}
+
+.compare-grid .admin-form-table .field-value {
+    line-height: 40px;
+}
+
 @media (max-width: 720px) {
     .compare-grid {
         grid-template-columns: 1fr;
@@ -640,6 +651,14 @@ body {
     font-size: 12.5px;
     font-weight: 700;
     color: var(--adm-text-soft);
+}
+
+/* 上の項目名用スタイルがエラー文に当たらないよう、.err の見た目に戻す */
+.form-group .err {
+    font-size: 12px;
+    font-weight: normal;
+    color: var(--adm-danger);
+    margin-top: 0;
 }
 
 .form-group input {

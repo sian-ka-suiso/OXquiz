@@ -21,7 +21,11 @@
             </div>
         </header>
 
-        <p class="admin-role">ログイン権限（admin_role）：<strong><?= htmlspecialchars($admin_role) ?></strong></p>
+        <p class="admin-role">ログイン権限：
+            <?php foreach ($roles as $role): ?>
+            <span class="badge <?= V2H($role['class']) ?>"><?= V2H($role['label']) ?></span>
+            <?php endforeach; ?>
+        </p>
 
         <div class="menu-grid">
             <a class="menu-card" href="../ctrl_admin/user.php" title="ユーザーの一覧確認・編集・削除・仮パスワード発行ができます">

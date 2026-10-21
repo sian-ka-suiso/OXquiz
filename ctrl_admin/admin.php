@@ -17,8 +17,11 @@
 //**************************************************
 // 変数取得
 //**************************************************
-    // 管理者としてログイン中か、教員としてログイン中か（今後、権限ごとにUIを出し分ける想定）
-    $admin_role = isset($_SESSION['admin_role']) ? $_SESSION['admin_role'] : "";
+    // ログイン中ユーザーの権限フラグ（権限ごとのUIの出し分けに使う）
+    $is_admin   = isset($_SESSION['admin_is_admin']) ? $_SESSION['admin_is_admin'] : 0;
+    $is_teacher = isset($_SESSION['admin_is_teacher']) ? $_SESSION['admin_is_teacher'] : 0;
+    // 表示用のロール（管理者・教員などのラベル）
+    $roles = getRoleLabels(['is_admin' => $is_admin, 'is_teacher' => $is_teacher]);
     $chapterSectionQuestions = getAll();
 //**************************************************
 // HTMLを出力
