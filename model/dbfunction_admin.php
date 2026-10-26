@@ -224,6 +224,47 @@ function getChapterAll(){
     }
 }
 //**************************************************
+// チャプター一覧取得（検索・並び替え付き、管理ページ用）
+//**************************************************
+function getChapters($search_id = "", $sort = "order_asc"){
+    $pdo = db_connect();
+    try {
+        $where = [];
+        $params = [];
+
+        if ($search_id !== "") {
+            $where[] = "id = :id";
+            $params[':id'] = (int)$search_id;
+        }
+
+        // ORDER BY にはプレースホルダーが使えないため、決められた候補からのみ選ぶ
+        // （候補にない値が来た場合は表示順の昇順にする）
+        $sortList = [
+            'order_asc'  => 'order_number ASC, id ASC',
+            'order_desc' => 'order_number DESC, id DESC',
+            'id_asc'     => 'id ASC',
+            'id_desc'    => 'id DESC',
+        ];
+        $orderBy = isset($sortList[$sort]) ? $sortList[$sort] : $sortList['order_asc'];
+
+        $sSql = "SELECT * FROM chapter_table";
+        if (!empty($where)) {
+            $sSql .= " WHERE " . implode(" AND ", $where);
+        }
+        $sSql .= " ORDER BY " . $orderBy;
+
+        $stmh = $pdo->prepare($sSql);
+        foreach ($params as $key => $value) {
+            $stmh->bindValue($key, $value, PDO::PARAM_INT);
+        }
+        $stmh->execute();
+        return $stmh->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $Exception) {
+        dbError(__FUNCTION__, $Exception);
+        return [];
+    }
+}
+//**************************************************
 // チャプター更新（管理ページ用）
 //**************************************************
 function updateChapter($id, $name, $folder_name, $order_number, $is_published) {
