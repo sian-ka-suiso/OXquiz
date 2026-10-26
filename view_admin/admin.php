@@ -39,16 +39,11 @@
                 <span class="menu-card-title">節（Section）</span>
                 <span class="menu-card-desc">節の一覧・追加・編集・削除</span>
             </a>
-            <span class="menu-card is-disabled" title="未実装のページです">
-                <span class="menu-card-icon">❓</span>
-                <span class="menu-card-title">問題・解説</span>
-                <span class="menu-card-desc">準備中</span>
-            </span>
-            <span class="menu-card is-disabled" title="未実装のページです">
-                <span class="menu-card-icon">🧭</span>
-                <span class="menu-card-title">数学ナビ</span>
-                <span class="menu-card-desc">準備中</span>
-            </span>
+            <a class="menu-card" href="../ctrl_admin/question.php" title="問題（Question）の一覧確認・追加">
+                <span class="menu-card-icon">📕</span>
+                <span class="menu-card-title">問題</span>
+                <span class="menu-card-desc">問題の一覧・追加・編集・削除</span>
+            </a>
         </div>
     </div>
 </body>
