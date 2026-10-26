@@ -11,9 +11,11 @@
         <header class="admin-header">
             <div class="admin-header-text">
                 <h1 class="admin-title">セクションの新規追加</h1>
-                <p class="admin-subtitle">内容を入力して追加してください</p>
+                <?php require('../view_admin/parts/header_role.php'); ?>
             </div>
         </header>
+
+        <p class="admin-description">内容を入力して追加してください</p>
 
         <div class="admin-panel">
             <form id="sectionInsertForm" action="../ctrl_admin/section_insert.php" method="post">
@@ -40,7 +42,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>順番（order）</th>
+                        <th>表示順</th>
                         <td>
                             <input type="text" name="order_number" value="<?= $order_number ?>">
                             <span class="err"><?= isset($arrErr['order_number']) ? $arrErr['order_number'] : "" ?></span>

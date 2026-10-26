@@ -9,21 +9,28 @@ require_once __DIR__ . '/dbfunction.php';
 ### 認証
 ####################################################################################
 //**************************************************
-// 管理者ログインチェック
+// 管理画面ログインチェック（管理者・教員共通）
+// 成功時は id と権限フラグ（is_admin / is_teacher）を返す
 //**************************************************
-function admLoginCheck($email = "", $login_pass = ""){
+function staffLoginCheck($email = "", $login_pass = ""){
     $pdo = db_connect();
 
     try {
-        $sSql = "SELECT id, login_pass FROM user_table WHERE email = :email AND is_admin = 1";
+        $sSql = "SELECT id, login_pass, is_admin, is_teacher FROM user_table WHERE email = :email AND (is_admin = 1 OR is_teacher = 1)";
         $stmh = $pdo->prepare($sSql);
         $stmh->bindValue(':email', $email, PDO::PARAM_STR);
         $stmh->execute();
         $user = $stmh->fetch(PDO::FETCH_ASSOC);
 
         if ($user !== false) {
+            $staff = [
+                'id'         => $user['id'],
+                'is_admin'   => (int)$user['is_admin'],
+                'is_teacher' => (int)$user['is_teacher'],
+            ];
+
             if (password_verify($login_pass, $user['login_pass'])) {
-                return $user['id'];
+                return $staff;
             }
 
             // 移行期間中の平文パスワードとの一致も許可し、一致した場合はハッシュ化して保存し直す
@@ -34,62 +41,77 @@ function admLoginCheck($email = "", $login_pass = ""){
                 $updateStmh->bindValue(':new_pass', $newHash, PDO::PARAM_STR);
                 $updateStmh->bindValue(':id', $user['id'], PDO::PARAM_INT);
                 $updateStmh->execute();
-                return $user['id'];
+                return $staff;
             }
         }
     } catch (PDOException $Exception) {
         dbError(__FUNCTION__, $Exception);
     }
 
-    return false; // ユーザーがいない、またはパスワード不一致
+    return false; // ユーザーがいない、権限がない、またはパスワード不一致
 }
+
+####################################################################################
+### 権限表示
+####################################################################################
 //**************************************************
-// 教員ログインチェック
+// 権限フラグから表示用のロール（ラベルとバッジのクラス）を作る
+// $user には is_admin / is_teacher が含まれていること
 //**************************************************
-function teacherLoginCheck($email = "", $login_pass = ""){
-    $pdo = db_connect();
-
-    try {
-        $sSql = "SELECT id, login_pass FROM user_table WHERE email = :email AND is_teacher = 1";
-        $stmh = $pdo->prepare($sSql);
-        $stmh->bindValue(':email', $email, PDO::PARAM_STR);
-        $stmh->execute();
-        $user = $stmh->fetch(PDO::FETCH_ASSOC);
-
-        if ($user !== false) {
-            if (password_verify($login_pass, $user['login_pass'])) {
-                return $user['id'];
-            }
-
-            // 移行期間中の平文パスワードとの一致も許可し、一致した場合はハッシュ化して保存し直す
-            if ($login_pass === $user['login_pass']) {
-                $newHash = password_hash($login_pass, PASSWORD_DEFAULT);
-                $updateSql = "UPDATE user_table SET login_pass = :new_pass WHERE id = :id";
-                $updateStmh = $pdo->prepare($updateSql);
-                $updateStmh->bindValue(':new_pass', $newHash, PDO::PARAM_STR);
-                $updateStmh->bindValue(':id', $user['id'], PDO::PARAM_INT);
-                $updateStmh->execute();
-                return $user['id'];
-            }
-        }
-    } catch (PDOException $Exception) {
-        dbError(__FUNCTION__, $Exception);
-    }
-
-    return false; // ユーザーがいない、またはパスワード不一致
+function getRoleLabels(array $user): array {
+    $roles = [];
+    if ($user['is_admin'] == 1) { $roles[] = ['label' => '管理者', 'class' => 'badge-admin']; }
+    if ($user['is_teacher'] == 1) { $roles[] = ['label' => '教員', 'class' => 'badge-teacher']; }
+    if (empty($roles)) { $roles[] = ['label' => '一般', 'class' => 'badge-user']; }
+    return $roles;
 }
 
 ####################################################################################
 ### ユーザー管理
 ####################################################################################
 //**************************************************
-// 全ユーザーの情報取得
+// 全ユーザーの情報取得（検索・並び替え対応）
+// $search_id : ID検索（空なら条件なし）
+// $role      : ロール検索 'admin' / 'teacher' / 'general'（空なら条件なし）
+// $sort      : 並び順 'id_asc' / 'id_desc'
 //**************************************************
-function getUsers(){
+function getUsers($search_id = "", $role = "", $sort = "id_asc"){
     $pdo = db_connect();
     try {
-        $sSql = "SELECT id, email, login_pass, user_name, created_at, update_at, is_admin FROM user_table";
+        $where = [];
+        $params = [];
+
+        if ($search_id !== "") {
+            $where[] = "id = :id";
+            $params[':id'] = (int)$search_id;
+        }
+
+        if ($role === "admin") {
+            $where[] = "is_admin = 1";
+        } elseif ($role === "teacher") {
+            $where[] = "is_teacher = 1";
+        } elseif ($role === "general") {
+            $where[] = "is_admin = 0 AND is_teacher = 0";
+        }
+
+        // ORDER BY にはプレースホルダーが使えないため、決められた候補からのみ選ぶ
+        // （候補にない値が来た場合はID昇順にする）
+        $sortList = [
+            'id_asc'          => 'id ASC',
+            'id_desc'         => 'id DESC',
+        ];
+        $orderBy = isset($sortList[$sort]) ? $sortList[$sort] : $sortList['id_asc'];
+
+        $sSql = "SELECT id, email, login_pass, user_name, created_at, update_at, is_admin, is_teacher, class_id FROM user_table";
+        if (!empty($where)) {
+            $sSql .= " WHERE " . implode(" AND ", $where);
+        }
+        $sSql .= " ORDER BY " . $orderBy;
+
         $stmh = $pdo->prepare($sSql);
+        foreach ($params as $key => $value) {
+            $stmh->bindValue($key, $value, PDO::PARAM_INT);
+        }
         $stmh->execute();
         return $stmh->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $Exception) {
@@ -100,13 +122,14 @@ function getUsers(){
 //**************************************************
 // ユーザー更新（管理ページ用）
 //**************************************************
-function updateUser(int $id, int $is_admin) {
+function updateUser(int $id, int $is_admin, int $is_teacher) {
     $pdo = db_connect();
     try {
-        $sql = "UPDATE user_table SET is_admin = :is_admin WHERE id = :id";
+        $sql = "UPDATE user_table SET is_admin = :is_admin, is_teacher = :is_teacher WHERE id = :id";
         $stmh = $pdo->prepare($sql);
         $stmh->bindValue(':id', $id, PDO::PARAM_STR);
         $stmh->bindValue(':is_admin', $is_admin, PDO::PARAM_STR);
+        $stmh->bindValue(':is_teacher', $is_teacher, PDO::PARAM_STR);
         $stmh->execute();
         return true;
     } catch (PDOException $Exception) {
@@ -194,6 +217,47 @@ function getChapterAll(){
     try {
         $sSql = "SELECT * FROM chapter_table";
         $stmh = $pdo->prepare($sSql);
+        $stmh->execute();
+        return $stmh->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $Exception) {
+        dbError(__FUNCTION__, $Exception);
+        return [];
+    }
+}
+//**************************************************
+// チャプター一覧取得（検索・並び替え付き、管理ページ用）
+//**************************************************
+function getChapters($search_id = "", $sort = "order_asc"){
+    $pdo = db_connect();
+    try {
+        $where = [];
+        $params = [];
+
+        if ($search_id !== "") {
+            $where[] = "id = :id";
+            $params[':id'] = (int)$search_id;
+        }
+
+        // ORDER BY にはプレースホルダーが使えないため、決められた候補からのみ選ぶ
+        // （候補にない値が来た場合は表示順の昇順にする）
+        $sortList = [
+            'order_asc'  => 'order_number ASC, id ASC',
+            'order_desc' => 'order_number DESC, id DESC',
+            'id_asc'     => 'id ASC',
+            'id_desc'    => 'id DESC',
+        ];
+        $orderBy = isset($sortList[$sort]) ? $sortList[$sort] : $sortList['order_asc'];
+
+        $sSql = "SELECT * FROM chapter_table";
+        if (!empty($where)) {
+            $sSql .= " WHERE " . implode(" AND ", $where);
+        }
+        $sSql .= " ORDER BY " . $orderBy;
+
+        $stmh = $pdo->prepare($sSql);
+        foreach ($params as $key => $value) {
+            $stmh->bindValue($key, $value, PDO::PARAM_INT);
+        }
         $stmh->execute();
         return $stmh->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $Exception) {

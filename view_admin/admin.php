@@ -11,7 +11,7 @@
         <header class="admin-header">
             <div class="admin-header-text">
                 <h1 class="admin-title">管理者トップページ</h1>
-                <p class="admin-subtitle">編集したいデータベースを選んでください</p>
+                <?php require('../view_admin/parts/header_role.php'); ?>
             </div>
             <div class="admin-header-actions">
                 <form action="../ctrl_admin/adm_login.php" method="post" class="inline-form">
@@ -21,13 +21,13 @@
             </div>
         </header>
 
-        <p class="admin-role">ログイン権限（admin_role）：<strong><?= htmlspecialchars($admin_role) ?></strong></p>
+        <p class="admin-description">編集したいデータベースを選んでください</p>
 
         <div class="menu-grid">
-            <a class="menu-card" href="../ctrl_admin/user.php" title="ユーザーの一覧確認・編集・削除・仮パスワード発行ができます">
+            <a class="menu-card" href="../ctrl_admin/user.php" title="アカウントの一覧確認・編集・削除・仮パスワード発行ができます">
                 <span class="menu-card-icon">👤</span>
-                <span class="menu-card-title">ユーザー</span>
-                <span class="menu-card-desc">ユーザー情報の確認・編集・削除</span>
+                <span class="menu-card-title">アカウント</span>
+                <span class="menu-card-desc">アカウント情報の確認・編集・削除</span>
             </a>
             <a class="menu-card" href="../ctrl_admin/chapter.php" title="章（Chapter）の一覧確認・追加・編集・削除ができます">
                 <span class="menu-card-icon">📘</span>

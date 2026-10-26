@@ -306,6 +306,16 @@ section > h3 {
     gap: 8px;
 }
 
+/* パスワード再設定：入力欄が2つあるので縦に並べる */
+.update-area form.password-form {
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.password-form .err {
+    font-size: 12px;
+}
+
 .update-area input {
     width: 200px;
     padding: 7px 12px;

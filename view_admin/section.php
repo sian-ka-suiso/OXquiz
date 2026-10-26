@@ -7,11 +7,11 @@
     <title>よくある間違いOXクイズ　セクション一覧</title>
 </head>
 <body>
-    <div class="admin-page">
+    <div class="admin-page admin-page--wide">
         <header class="admin-header">
             <div class="admin-header-text">
                 <h1 class="admin-title">📗 セクション一覧</h1>
-                <p class="admin-subtitle">節（Section）の確認・追加・編集・削除ができます</p>
+                <?php require('../view_admin/parts/header_role.php'); ?>
             </div>
             <div class="admin-header-actions">
                 <form action="../ctrl_admin/admin.php" method="post" class="inline-form">
@@ -19,6 +19,8 @@
                 </form>
             </div>
         </header>
+
+        <p class="admin-description">節（Section）の確認・追加・編集・削除ができます</p>
 
         <div class="admin-toolbar">
             <div class="toolbar-group">
@@ -43,7 +45,7 @@
                 <th>チャプターID</th>
                 <th>名前</th>
                 <th>フォルダー名</th>
-                <th>順番</th>
+                <th>表示順</th>
                 <th>公開状況</th>
                 <th class="col-actions">操作</th>
             </tr>
@@ -65,14 +67,14 @@
                 </td>
                 <td class="col-actions">
                     <div class="row-actions">
-                        <form action="../ctrl_admin/setction_update.php" method="post" class="inline-form">
+                        <form action="../ctrl_admin/section_update.php" method="post" class="inline-form">
                             <input type="hidden" name="id" value="<?php echo V2H($sec['id']); ?>">
                             <input type="hidden" name="chapter_id" value="<?php echo V2H($sec['chapter_id']); ?>">
                             <input type="hidden" name="name" value="<?php echo V2H($sec['name']); ?>">
                             <input type="hidden" name="folder_name" value="<?php echo V2H($sec['folder_name']); ?>">
                             <input type="hidden" name="order_number" value="<?php echo V2H($sec['order_number']); ?>">
                             <input type="hidden" name="is_published" value="<?php echo V2H($sec['is_published']); ?>">
-                            <button type="submit" name="step" value="1" class="btn btn-small btn-edit" title="このセクションの内容を編集します">✎ 編集</button>
+                            <button type="submit" name="step" value="1" class="btn btn-small btn-edit" title="このセクションの内容を編集します">✏️ 編集</button>
                         </form>
                         <form action="../ctrl_admin/section_delete.php" method="post" class="inline-form">
                             <input type="hidden" name="id" value="<?php echo V2H($sec['id']); ?>">

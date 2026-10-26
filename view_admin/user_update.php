@@ -4,16 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../css_admin/admin.css">
-    <title>よくある間違いOXクイズ　ユーザー編集</title>
+    <title>よくある間違いOXクイズ　アカウント編集</title>
 </head>
 <body>
     <div class="admin-page">
         <header class="admin-header">
             <div class="admin-header-text">
-                <h1 class="admin-title">ユーザーの編集</h1>
-                <p class="admin-subtitle">「変更後」の内容を書き換えて更新してください</p>
+                <h1 class="admin-title">アカウントの編集</h1>
+                <?php require('../view_admin/parts/header_role.php'); ?>
             </div>
         </header>
+
+        <p class="admin-description">「変更後」の内容を書き換えて更新してください</p>
 
         <div class="admin-panel">
             <div class="compare-grid">
@@ -22,8 +24,9 @@
                     <table class="admin-form-table">
                         <tr><th>ID</th><td class="field-value"><?php echo htmlspecialchars($id); ?></td></tr>
                         <tr><th>メールアドレス</th><td class="field-value"><?php echo htmlspecialchars($email); ?></td></tr>
-                        <tr><th>ユーザー名</th><td class="field-value"><?php echo htmlspecialchars($user_name); ?></td></tr>
+                        <tr><th>アカウント名</th><td class="field-value"><?php echo htmlspecialchars($user_name); ?></td></tr>
                         <tr><th>管理者フラグ</th><td class="field-value"><?php echo htmlspecialchars($is_admin); ?></td></tr>
+                        <tr><th>教員フラグ</th><td class="field-value"><?php echo htmlspecialchars($is_teacher); ?></td></tr>
                     </table>
                 </div>
                 <div>
@@ -32,13 +35,23 @@
                         <table class="admin-form-table">
                             <tr><th>ID</th><td class="field-value"><?php echo htmlspecialchars($id); ?></td></tr>
                             <tr><th>メールアドレス</th><td class="field-value"><?php echo htmlspecialchars($email); ?></td></tr>
-                            <tr><th>ユーザー名</th><td class="field-value"><?php echo htmlspecialchars($user_name); ?></td></tr>
+                            <tr><th>アカウント名</th><td class="field-value"><?php echo htmlspecialchars($user_name); ?></td></tr>
+                            <!-- 権限の変更は、対象ユーザーが再ログインした後に反映される -->
                             <tr>
                                 <th>管理者フラグ</th>
                                 <td>
                                     <select name="is_admin">
                                         <option value="0" <?= $is_admin == 0 ? 'selected' : '' ?>>一般（０）</option>
                                         <option value="1" <?= $is_admin == 1 ? 'selected' : '' ?>>管理者（１）</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>教員フラグ</th>
+                                <td>
+                                    <select name="is_teacher">
+                                        <option value="0" <?= $is_teacher == 0 ? 'selected' : '' ?>>一般（０）</option>
+                                        <option value="1" <?= $is_teacher == 1 ? 'selected' : '' ?>>教員（１）</option>
                                     </select>
                                 </td>
                             </tr>

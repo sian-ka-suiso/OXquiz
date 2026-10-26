@@ -36,6 +36,8 @@
 //**************************************************
     $change_name = isset($_POST['change_name']) ? $_POST['change_name'] : "";
     $reset_pass = isset($_POST['reset_pass']) ? $_POST['reset_pass'] : "";
+    $current_pass = isset($_POST['current_pass']) ? $_POST['current_pass'] : "";
+    $arrErr = array();
 //**************************************************
 // ユーザー名変更
 //**************************************************
@@ -50,12 +52,33 @@
 //**************************************************
 // パスワード再設定
 //**************************************************
-    if($reset_pass !== "") {
+    // 再設定ボタンが押されたとき（新しいパスワード欄が送られてきたとき）だけ処理する
+    if(isset($_POST['reset_pass'])) {
         if ($is_demo_account) {
             $reset_message = "デモアカウントのため、パスワードは変更できません。";
         } else {
-            ResetLoginPass($user_id, $reset_pass);
-            $reset_message = "パスワードを更新しました。";
+            // 現在のパスワードの確認（本人以外による変更を防ぐ）
+            if($current_pass == ""){
+                $arrErr['current_pass'] = "現在のパスワードを入力してください";
+            } else {
+                // 照合に失敗すると false が返るため、(int) 比較の前に成功したかを確認する
+                $checked_id = loginCheck($email, $current_pass);
+                if(!$checked_id || (int)$checked_id !== (int)$user_id){
+                    $arrErr['current_pass'] = "現在のパスワードが正しくありません";
+                }
+            }
+
+            // 新しいパスワードの確認（ログイン・新規登録と同じ条件）
+            if($reset_pass == ""){
+                $arrErr['reset_pass'] = "新しいパスワードを入力してください";
+            } elseif(mb_strlen($reset_pass,"UTF-8") < 6 || mb_strlen($reset_pass,"UTF-8") > 20){
+                $arrErr['reset_pass'] = "パスワードは6〜20文字で入力してください";
+            }
+
+            if(empty($arrErr)){
+                ResetLoginPass($user_id, $reset_pass);
+                $reset_message = "パスワードを更新しました。";
+            }
         }
     }
 
