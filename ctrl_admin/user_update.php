@@ -28,12 +28,13 @@
     $email = isset($_POST['email']) ? $_POST['email'] : "";
     $user_name = isset($_POST['user_name']) ? $_POST['user_name'] : "";
     $is_admin = isset($_POST['is_admin']) ? $_POST['is_admin'] : "";
+    $is_teacher = isset($_POST['is_teacher']) ? $_POST['is_teacher'] : "";
     $step = isset($_POST['step']) ? $_POST['step'] : "";
 //**************************************************
 // 更新処理
 //**************************************************
     if($step == 2){
-        $update_check = updateUser($id, $is_admin);
+        $update_check = updateUser($id, $is_admin, $is_teacher);
         if($update_check){
             $step = "3";
         }

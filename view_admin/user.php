@@ -98,6 +98,7 @@
                             <input type="hidden" name="email" value="<?php echo V2H($user['email']); ?>">
                             <input type="hidden" name="user_name" value="<?php echo V2H($user['user_name']); ?>">
                             <input type="hidden" name="is_admin" value="<?php echo V2H($user['is_admin']); ?>">
+                            <input type="hidden" name="is_teacher" value="<?php echo V2H($user['is_teacher']); ?>">
                             <button type="submit" name="step" value="1" class="btn btn-small btn-edit" title="このアカウントの情報を編集します">✏️ 編集</button>
                         </form>
                         <form action="../ctrl_admin/user_delete.php" method="post" class="inline-form">

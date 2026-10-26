@@ -122,13 +122,14 @@ function getUsers($search_id = "", $role = "", $sort = "id_asc"){
 //**************************************************
 // ユーザー更新（管理ページ用）
 //**************************************************
-function updateUser(int $id, int $is_admin) {
+function updateUser(int $id, int $is_admin, int $is_teacher) {
     $pdo = db_connect();
     try {
-        $sql = "UPDATE user_table SET is_admin = :is_admin WHERE id = :id";
+        $sql = "UPDATE user_table SET is_admin = :is_admin, is_teacher = :is_teacher WHERE id = :id";
         $stmh = $pdo->prepare($sql);
         $stmh->bindValue(':id', $id, PDO::PARAM_STR);
         $stmh->bindValue(':is_admin', $is_admin, PDO::PARAM_STR);
+        $stmh->bindValue(':is_teacher', $is_teacher, PDO::PARAM_STR);
         $stmh->execute();
         return true;
     } catch (PDOException $Exception) {
