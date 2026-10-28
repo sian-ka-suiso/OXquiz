@@ -3,11 +3,7 @@
 // 初期処理
 //**************************************************
     session_start();
-
-    echo '<pre>';
-    var_dump($_SESSION);
-    echo '</pre>';
-
+    
     require_once('../model/dbconnect.php');
 
     require_once('../model/dbfunction_admin.php');

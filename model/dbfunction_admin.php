@@ -301,7 +301,6 @@ function deleteChapter($id){
         return false;
     }
 }
-
 ####################################################################################
 ### セクション管理
 ####################################################################################
@@ -421,7 +420,102 @@ function deleteSection($id){
         return false;
     }
 }
-
+####################################################################################
+### クエスチョン管理
+####################################################################################
+//**************************************************
+// セクションID重複確認
+//**************************************************
+function checkQuestionSec($section_id) {
+    $pdo = db_connect();
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM section_table WHERE id = :section_id");
+    $stmt->bindValue(':section_id', $section_id, PDO::PARAM_STR);
+    $stmt->execute();
+    $count = $stmt->fetchColumn();
+    return $count > 0; // true = 存在する
+}
+//**************************************************
+// オーダー番号重複確認
+//**************************************************
+function checkQuestionOrder($order_number, $section_id) {
+    $pdo = db_connect();
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM question_table WHERE order_number = :order_number AND section_id = :section_id");
+    $stmt->bindValue(':order_number', $order_number, PDO::PARAM_STR);
+    $stmt->bindValue(':section_id', $section_id, PDO::PARAM_STR);
+    $stmt->execute();
+    $count = $stmt->fetchColumn();
+    return $count > 0; // true = 存在する
+}
+//**************************************************
+// クエスチョン追加
+//**************************************************
+function insertQuestion($section_id, $order_number, $options, $correct_answer) {
+    $pdo = db_connect();
+    try {
+        $sql = "INSERT INTO question_table (section_id, order_number, options, correct_answer) VALUES (:section_id, :order_number, :options, :correct_answer)";
+        $stmh = $pdo->prepare($sql);
+        $stmh->bindValue(':section_id', $section_id, PDO::PARAM_STR);
+        $stmh->bindValue(':order_number',  $order_number,  PDO::PARAM_STR);
+        $stmh->bindValue(':options',  $options,  PDO::PARAM_STR);
+        $stmh->bindValue(':correct_answer',  $correct_answer,  PDO::PARAM_STR);
+        $stmh->execute();
+        return true;
+    } catch (PDOException $Exception) {
+        dbError(__FUNCTION__, $Exception);
+        return false;
+    }
+}
+//**************************************************
+// クエスチョンテーブルの全情報を取り出す
+//**************************************************
+function getQuestionAll(){
+    $pdo = db_connect();
+    try {
+        $sSql = "SELECT * FROM question_table";
+        $stmh = $pdo->prepare($sSql);
+        $stmh->execute();
+        return $stmh->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $Exception) {
+        dbError(__FUNCTION__, $Exception);
+        return [];
+    }
+}
+//**************************************************
+// クエスチョン更新（管理ページ用）
+//**************************************************
+function updateQuestion($id, $section_id, $order_number, $options, $correct_answer) {
+    $pdo = db_connect();
+    try {
+        $sql = "UPDATE question_table SET section_id = :section_id, order_number = :order_number, options = :options, correct_answer = :correct_answer WHERE id = :id";
+        $stmh = $pdo->prepare($sql);
+        $stmh->bindValue(':id', $id, PDO::PARAM_STR);
+        $stmh->bindValue(':section_id', $section_id, PDO::PARAM_STR);
+        $stmh->bindValue(':order_number', $order_number, PDO::PARAM_STR);
+        $stmh->bindValue(':options', $options, PDO::PARAM_STR);
+        $stmh->bindValue(':correct_answer', $correct_answer, PDO::PARAM_STR);
+        $stmh->execute();
+        return true;
+    } catch (PDOException $Exception) {
+        dbError(__FUNCTION__, $Exception);
+        return false;
+    }
+}
+//**************************************************
+// クエスチョン削除（管理ページ用）
+//**************************************************
+function deleteQuestion($id){
+    $pdo = db_connect();
+    try {
+        $sql = "DELETE FROM question_table WHERE id = :id";
+        $stmh = $pdo->prepare($sql);
+        $stmh->bindValue(':id', $id,  PDO::PARAM_INT);
+        $stmh->execute();
+        return true;
+    } catch (PDOException $Exception) {
+        error_log("PDO Error in " . __FUNCTION__ . ": " . $Exception->getMessage());
+        return false;
+    }
+}
 ####################################################################################
 ### ダッシュボード
 ####################################################################################
