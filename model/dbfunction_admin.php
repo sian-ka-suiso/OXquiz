@@ -386,6 +386,49 @@ function getSectionAll(){
     }
 }
 //**************************************************
+// セクション一覧取得（検索・並び替え付き、管理ページ用）
+//**************************************************
+function getSections($search_id = "", $sort = "order_asc"){
+    $pdo = db_connect();
+    try {
+        $where = [];
+        $params = [];
+
+        if ($search_id !== "") {
+            $where[] = "s.id = :id";
+            $params[':id'] = (int)$search_id;
+        }
+
+        // ORDER BY にはプレースホルダーが使えないため、決められた候補からのみ選ぶ
+        // （候補にない値が来た場合は表示順の昇順にする）
+        // 表示順はユーザー画面と同じく「チャプターの表示順 → セクションの表示順」
+        $sortList = [
+            'order_asc'  => 'c.order_number ASC, s.order_number ASC, s.id ASC',
+            'order_desc' => 'c.order_number DESC, s.order_number DESC, s.id DESC',
+            'id_asc'     => 's.id ASC',
+            'id_desc'    => 's.id DESC',
+        ];
+        $orderBy = isset($sortList[$sort]) ? $sortList[$sort] : $sortList['order_asc'];
+
+        $sSql = "SELECT s.* FROM section_table s ";
+        $sSql .= "LEFT JOIN chapter_table c ON c.id = s.chapter_id";
+        if (!empty($where)) {
+            $sSql .= " WHERE " . implode(" AND ", $where);
+        }
+        $sSql .= " ORDER BY " . $orderBy;
+
+        $stmh = $pdo->prepare($sSql);
+        foreach ($params as $key => $value) {
+            $stmh->bindValue($key, $value, PDO::PARAM_INT);
+        }
+        $stmh->execute();
+        return $stmh->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $Exception) {
+        dbError(__FUNCTION__, $Exception);
+        return [];
+    }
+}
+//**************************************************
 // セクション更新（管理ページ用）
 //**************************************************
 function updateSection($id, $chapter_id, $name, $folder_name, $order_number, $is_published) {
