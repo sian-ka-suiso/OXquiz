@@ -341,10 +341,11 @@ function checkSectionFolder($folder_name) {
 //**************************************************
 // オーダー番号重複確認
 //**************************************************
-function checkSectionOrder($order_number) {
+function checkSectionOrder($order_number, $chapter_id) {
     $pdo = db_connect();
-    $stmt = $pdo->prepare("SELECT COUNT(*) FROM section_table WHERE order_number = :order_number");
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM section_table WHERE order_number = :order_number AND chapter_id = :chapter_id");
     $stmt->bindValue(':order_number', $order_number, PDO::PARAM_STR);
+    $stmt->bindValue(':chapter_id', $chapter_id, PDO::PARAM_STR);
     $stmt->execute();
     $count = $stmt->fetchColumn();
     return $count > 0; // true = 存在する
