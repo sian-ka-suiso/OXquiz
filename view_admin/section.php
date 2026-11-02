@@ -66,13 +66,14 @@
                 <th>セクション名</th>
                 <th>フォルダー名</th>
                 <th>表示順</th>
+                <th>数理カテゴリー</th>
                 <th>公開状況</th>
                 <th class="col-actions">操作</th>
             </tr>
             </thead>
             <tbody>
             <?php if (empty($section_data)): ?>
-            <tr class="empty-row"><td colspan="7">条件に合うセクションはありません</td></tr>
+            <tr class="empty-row"><td colspan="8">条件に合うセクションはありません</td></tr>
             <?php endif; ?>
             <?php foreach($section_data as $sec): ?>
             <tr>
@@ -81,6 +82,19 @@
                 <td><?php echo V2H($sec['name']); ?></td>
                 <td><?php echo V2H($sec['folder_name']); ?></td>
                 <td><?php echo V2H($sec['order_number']); ?></td>
+                <td>
+                    <?php foreach ($section_categories[$sec["id"]] ?? [] as $suuri): ?>
+                    <?php
+                    $cat_class = 'cat-1';
+                    if (mb_strpos($suuri, 'Ⅱ') !== false) {
+                        $cat_class = 'cat-2';
+                        } elseif (mb_strpos($suuri, 'Ⅲ') !== false) {
+                        $cat_class = 'cat-3';
+                        }
+                    ?>
+                    <span class="suuri-tag <?= $cat_class ?>"><?= V2H($suuri) ?></span>
+                    <?php endforeach; ?>
+                </td>
                 <td>
                     <?php if ($sec['is_published'] == 1): ?>
                         <span class="badge badge-published">公開中</span>
@@ -97,6 +111,9 @@
                             <input type="hidden" name="name" value="<?php echo V2H($sec['name']); ?>">
                             <input type="hidden" name="folder_name" value="<?php echo V2H($sec['folder_name']); ?>">
                             <input type="hidden" name="order_number" value="<?php echo V2H($sec['order_number']); ?>">
+                            <?php foreach ($section_categories[$sec["id"]] ?? [] as $suuri): ?>
+                            <input type="hidden" name="section_categories[]" value="<?php echo V2H($suuri); ?>">
+                            <?php endforeach; ?>
                             <input type="hidden" name="is_published" value="<?php echo V2H($sec['is_published']); ?>">
                             <button type="submit" name="step" value="1" class="btn btn-small btn-edit" title="このセクションの内容を編集します">✏️ 編集</button>
                         </form>
@@ -106,6 +123,9 @@
                             <input type="hidden" name="name" value="<?php echo V2H($sec['name']); ?>">
                             <input type="hidden" name="folder_name" value="<?php echo V2H($sec['folder_name']); ?>">
                             <input type="hidden" name="order_number" value="<?php echo V2H($sec['order_number']); ?>">
+                            <?php foreach ($section_categories[$sec["id"]] ?? [] as $suuri): ?>
+                            <input type="hidden" name="section_categories[]" value="<?php echo V2H($suuri); ?>">
+                            <?php endforeach; ?>
                             <input type="hidden" name="is_published" value="<?php echo V2H($sec['is_published']); ?>">
                             <button type="submit" name="step" value="1" class="btn btn-small btn-danger" title="このセクションを削除します（確認画面へ進みます）">✕ 削除</button>
                         </form>

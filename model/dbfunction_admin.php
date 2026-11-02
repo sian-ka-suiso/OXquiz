@@ -449,17 +449,55 @@ function updateSection($id, $chapter_id, $name, $folder_name, $order_number, $is
     }
 }
 //**************************************************
+// セクションの数理カテゴリー更新（管理ページ用）
+//**************************************************
+// 一度すべて削除してから、チェックされたものを登録し直す
+function updateSectionCategories($section_id, array $categories) {
+    $pdo = db_connect();
+    try {
+        $pdo->beginTransaction();
+
+        $stmh = $pdo->prepare("DELETE FROM section_category WHERE section_id = :section_id");
+        $stmh->bindValue(':section_id', $section_id, PDO::PARAM_INT);
+        $stmh->execute();
+
+        $stmh = $pdo->prepare("INSERT INTO section_category (section_id, suuri) VALUES (:section_id, :suuri)");
+        foreach ($categories as $suuri) {
+            $stmh->bindValue(':section_id', $section_id, PDO::PARAM_INT);
+            $stmh->bindValue(':suuri', $suuri, PDO::PARAM_STR);
+            $stmh->execute();
+        }
+
+        $pdo->commit();
+        return true;
+    } catch (PDOException $Exception) {
+        if ($pdo->inTransaction()) { $pdo->rollBack(); }
+        dbError(__FUNCTION__, $Exception);
+        return false;
+    }
+}
+//**************************************************
 // セクション削除（管理ページ用）
 //**************************************************
+// 数理カテゴリーも一緒に削除する
 function deleteSection($id){
     $pdo = db_connect();
     try {
+        $pdo->beginTransaction();
+
+        $stmh = $pdo->prepare("DELETE FROM section_category WHERE section_id = :id");
+        $stmh->bindValue(':id', $id,  PDO::PARAM_INT);
+        $stmh->execute();
+
         $sql = "DELETE FROM section_table WHERE id = :id";
         $stmh = $pdo->prepare($sql);
         $stmh->bindValue(':id', $id,  PDO::PARAM_INT);
         $stmh->execute();
+
+        $pdo->commit();
         return true;
     } catch (PDOException $Exception) {
+        if ($pdo->inTransaction()) { $pdo->rollBack(); }
         error_log("PDO Error in " . __FUNCTION__ . ": " . $Exception->getMessage());
         return false;
     }
