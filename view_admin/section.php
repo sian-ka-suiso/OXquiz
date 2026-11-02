@@ -29,13 +29,33 @@
                         <span class="btn-icon">↻</span> 更新
                     </button>
                 </form>
+                <?php if($is_admin): ?>
                 <form action="../ctrl_admin/section_insert.php" method="post" class="inline-form">
                     <button type="submit" class="btn btn-primary" title="新しいセクションを追加する画面へ進みます">
                         <span class="btn-icon">＋</span> 新規追加
                     </button>
                 </form>
+                <?php endif; ?>
             </div>
+            <!-- 検索・並び替え（条件がURLに残るようGETで送る） -->
+            <form action="../ctrl_admin/section.php" method="get" class="toolbar-group search-form">
+                <label>ID
+                    <input type="text" name="search_id" value="<?= V2H($search_id) ?>" inputmode="numeric" placeholder="例：3" class="search-id">
+                </label>
+                <label>並び順
+                    <select name="sort">
+                        <?php foreach ($sortOptions as $value => $label): ?>
+                        <option value="<?= V2H($value) ?>" <?= $sort === $value ? 'selected' : '' ?>><?= V2H($label) ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </label>
+                <button type="submit" class="btn btn-primary" title="条件に合うセクションを表示します">検索</button>
+                <a href="../ctrl_admin/section.php" class="btn btn-ghost" title="検索条件をクリアして全件表示に戻します">クリア</a>
+            </form>
         </div>
+        <?php if (isset($arrErr['search_id'])): ?>
+        <p class="err search-err"><?= V2H($arrErr['search_id']) ?></p>
+        <?php endif; ?>
 
         <div class="table-wrapper">
         <table class="admin-table">
@@ -43,7 +63,7 @@
             <tr>
                 <th>ID</th>
                 <th>チャプターID</th>
-                <th>名前</th>
+                <th>セクション名</th>
                 <th>フォルダー名</th>
                 <th>表示順</th>
                 <th>公開状況</th>
@@ -51,6 +71,9 @@
             </tr>
             </thead>
             <tbody>
+            <?php if (empty($section_data)): ?>
+            <tr class="empty-row"><td colspan="7">条件に合うセクションはありません</td></tr>
+            <?php endif; ?>
             <?php foreach($section_data as $sec): ?>
             <tr>
                 <td class="col-id"><?php echo V2H($sec['id']); ?></td>
@@ -67,6 +90,7 @@
                 </td>
                 <td class="col-actions">
                     <div class="row-actions">
+                        <?php if($is_admin): ?>
                         <form action="../ctrl_admin/section_update.php" method="post" class="inline-form">
                             <input type="hidden" name="id" value="<?php echo V2H($sec['id']); ?>">
                             <input type="hidden" name="chapter_id" value="<?php echo V2H($sec['chapter_id']); ?>">
@@ -85,6 +109,7 @@
                             <input type="hidden" name="is_published" value="<?php echo V2H($sec['is_published']); ?>">
                             <button type="submit" name="step" value="1" class="btn btn-small btn-danger" title="このセクションを削除します（確認画面へ進みます）">✕ 削除</button>
                         </form>
+                        <?php endif; ?>
                     </div>
                 </td>
             </tr>
