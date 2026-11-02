@@ -21,6 +21,7 @@
     // 検索・並び替えの条件（GETで受け取る）
     $search_id = isset($_GET['search_id']) ? trim($_GET['search_id']) : "";
     $sort      = isset($_GET['sort']) ? $_GET['sort'] : "order_asc";
+    $section_categories = getSectionCategories();
     $arrErr = array();
 
     // プルダウンの選択肢（キーはgetSections()に渡す値）

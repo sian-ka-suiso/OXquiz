@@ -34,6 +34,10 @@
     --adm-shadow:        0 1px 2px rgba(20,26,38,.04), 0 6px 16px -10px rgba(20,26,38,.25);
 
     --adm-font: "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+
+    --cat1-bg: #E4EBF4; --cat1-text: #243D66;
+    --cat2-bg: #AFC4E0; --cat2-text: #1D3358;
+    --cat3-bg: #243D66; --cat3-text: #F4F6F2;
 }
 
 * {
@@ -292,6 +296,34 @@ body {
 .btn[disabled] {
     opacity: .5;
     cursor: not-allowed;
+}
+
+/* ---------- 数理カテゴリータグ ---------- */
+.suuri-tag {
+    display: inline-flex;
+    align-items: center;
+    flex: none;
+    white-space: nowrap;
+    /* font-family: var(--font-mono); */
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: .02em;
+    padding: 2.5px 7px;
+    border-radius: 5px;
+    background: var(--cat1-bg);
+    color: var(--cat1-text);
+}
+
+.suuri-tag.cat-2 { background: var(--cat2-bg); color: var(--cat2-text); }
+.suuri-tag.cat-3 { background: var(--cat3-bg); color: var(--cat3-text); }
+
+/* 編集画面のチェックボックス */
+.suuri-checks label {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-right: 14px;
+    cursor: pointer;
 }
 
 /* ---------- Badges (公開状況など) ---------- */
