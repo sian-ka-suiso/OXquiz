@@ -4,20 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../css_admin/admin.css">
-    <title>よくある間違いOXクイズ　問題削除</title>
+    <title>よくある間違いOXクイズ　クエスチョン削除</title>
 </head>
 <body>
     <div class="admin-page">
         <header class="admin-header">
             <div class="admin-header-text">
-                <h1 class="admin-title">問題の削除確認</h1>
+                <h1 class="admin-title">クエスチョンの削除確認</h1>
                 <p class="admin-subtitle">内容を確認してから削除してください</p>
             </div>
         </header>
 
         <div class="notice notice-danger">
             <span class="notice-icon">⚠</span>
-            <span><strong>この操作は取り消せません。</strong>以下の問題を本当に削除しますか？</span>
+            <span><strong>この操作は取り消せません。</strong>以下のクエスチョンを本当に削除しますか？</span>
         </div>
 
         <div class="admin-panel">
@@ -48,7 +48,7 @@
                 <form action="../ctrl_admin/question_delete.php" method="post" class="inline-form">
                     <input type="hidden" name="id" value="<?php echo htmlspecialchars($id); ?>">
                     <input type="hidden" name="step" value="2">
-                    <button type="submit" class="btn btn-danger" title="この問題を完全に削除します">✕ 削除する</button>
+                    <button type="submit" class="btn btn-danger" title="このクエスチョンを完全に削除します">✕ 削除する</button>
                 </form>
                 <form action="../ctrl_admin/question.php" method="post" class="inline-form">
                     <input type="hidden" name="step" value="">

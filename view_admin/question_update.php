@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../css_admin/admin.css">
-    <title>よくある間違いOXクイズ　問題編集</title>
+    <title>よくある間違いOXクイズ　クエスチョン編集</title>
 </head>
 <body>
     <div class="admin-page">
         <header class="admin-header">
             <div class="admin-header-text">
-                <h1 class="admin-title">問題の編集</h1>
+                <h1 class="admin-title">クエスチョンの編集</h1>
                 <?php require('../view_admin/parts/header_role.php'); ?>
             </div>
         </header>
