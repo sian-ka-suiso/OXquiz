@@ -31,18 +31,18 @@
             </a>
             <a class="menu-card" href="../ctrl_admin/chapter.php" title="章（Chapter）の一覧確認・追加・編集・削除ができます">
                 <span class="menu-card-icon">📘</span>
-                <span class="menu-card-title">章（Chapter）</span>
+                <span class="menu-card-title">チャプター（章）</span>
                 <span class="menu-card-desc">章の一覧・追加・編集・削除</span>
             </a>
             <a class="menu-card" href="../ctrl_admin/section.php" title="節（Section）の一覧確認・追加・編集・削除ができます">
                 <span class="menu-card-icon">📗</span>
-                <span class="menu-card-title">節（Section）</span>
+                <span class="menu-card-title">セクション（節）</span>
                 <span class="menu-card-desc">節の一覧・追加・編集・削除</span>
             </a>
-            <a class="menu-card" href="../ctrl_admin/question.php" title="問題（Question）の一覧確認・追加">
+            <a class="menu-card" href="../ctrl_admin/question.php" title="問（Question）の一覧確認・追加・編集・削除ができます">
                 <span class="menu-card-icon">📕</span>
-                <span class="menu-card-title">問題</span>
-                <span class="menu-card-desc">問題の一覧・追加・編集・削除</span>
+                <span class="menu-card-title">クエスチョン（問）</span>
+                <span class="menu-card-desc">問の一覧・追加・編集・削除</span>
             </a>
         </div>
     </div>

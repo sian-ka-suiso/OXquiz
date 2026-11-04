@@ -42,6 +42,9 @@
                 <label>ID
                     <input type="text" name="search_id" value="<?= V2H($search_id) ?>" inputmode="numeric" placeholder="例：3" class="search-id">
                 </label>
+                <label>チャプターID
+                    <input type="text" name="search_chapter_id" value="<?= V2H($search_chapter_id) ?>" inputmode="numeric" placeholder="例：3" class="search-id">
+                </label>
                 <label>並び順
                     <select name="sort">
                         <?php foreach ($sortOptions as $value => $label): ?>
@@ -53,9 +56,9 @@
                 <a href="../ctrl_admin/section.php" class="btn btn-ghost" title="検索条件をクリアして全件表示に戻します">クリア</a>
             </form>
         </div>
-        <?php if (isset($arrErr['search_id'])): ?>
-        <p class="err search-err"><?= V2H($arrErr['search_id']) ?></p>
-        <?php endif; ?>
+        <?php foreach ($arrErr as $err): ?>
+        <p class="err search-err"><?= V2H($err) ?></p>
+        <?php endforeach; ?>
 
         <div class="table-wrapper">
         <table class="admin-table">

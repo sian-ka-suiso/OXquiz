@@ -387,30 +387,33 @@ function getSectionAll(){
 //**************************************************
 // セクション一覧取得（検索・並び替え付き、管理ページ用）
 //**************************************************
-function getSections($search_id = "", $sort = "order_asc"){
+function getSections($search_id = "", $search_chapter_id = "", $sort = "chapter_asc"){
     $pdo = db_connect();
     try {
         $where = [];
         $params = [];
 
         if ($search_id !== "") {
-            $where[] = "s.id = :id";
+            $where[] = "id = :id";
             $params[':id'] = (int)$search_id;
+        }
+        if ($search_chapter_id !== "") {
+            $where[] = "chapter_id = :chapter_id";
+            $params[':chapter_id'] = (int)$search_chapter_id;
         }
 
         // ORDER BY にはプレースホルダーが使えないため、決められた候補からのみ選ぶ
-        // （候補にない値が来た場合は表示順の昇順にする）
-        // 表示順はユーザー画面と同じく「チャプターの表示順 → セクションの表示順」
+        // （候補にない値が来た場合はチャプターIDの昇順にする）
+        // チャプターID順では、同じチャプター内を表示順で並べる
         $sortList = [
-            'order_asc'  => 'c.order_number ASC, s.order_number ASC, s.id ASC',
-            'order_desc' => 'c.order_number DESC, s.order_number DESC, s.id DESC',
-            'id_asc'     => 's.id ASC',
-            'id_desc'    => 's.id DESC',
+            'chapter_asc'  => 'chapter_id ASC, order_number ASC, id ASC',
+            'chapter_desc' => 'chapter_id DESC, order_number ASC, id ASC',
+            'id_asc'       => 'id ASC',
+            'id_desc'      => 'id DESC',
         ];
-        $orderBy = isset($sortList[$sort]) ? $sortList[$sort] : $sortList['order_asc'];
+        $orderBy = isset($sortList[$sort]) ? $sortList[$sort] : $sortList['chapter_asc'];
 
-        $sSql = "SELECT s.* FROM section_table s ";
-        $sSql .= "LEFT JOIN chapter_table c ON c.id = s.chapter_id";
+        $sSql = "SELECT * FROM section_table";
         if (!empty($where)) {
             $sSql .= " WHERE " . implode(" AND ", $where);
         }
@@ -503,7 +506,7 @@ function deleteSection($id){
     }
 }
 ####################################################################################
-### クエスチョン管理
+### 問題管理
 ####################################################################################
 //**************************************************
 // セクションID重複確認
@@ -529,7 +532,7 @@ function checkQuestionOrder($order_number, $section_id) {
     return $count > 0; // true = 存在する
 }
 //**************************************************
-// クエスチョン追加
+// 問題追加
 //**************************************************
 function insertQuestion($section_id, $order_number, $options, $correct_answer) {
     $pdo = db_connect();
@@ -548,13 +551,44 @@ function insertQuestion($section_id, $order_number, $options, $correct_answer) {
     }
 }
 //**************************************************
-// クエスチョンテーブルの全情報を取り出す
+// 問題一覧取得（検索・並び替え付き、管理ページ用）
 //**************************************************
-function getQuestionAll(){
+function getQuestionList($search_id = "", $search_section_id = "", $sort = "section_asc"){
     $pdo = db_connect();
     try {
+        $where = [];
+        $params = [];
+
+        if ($search_id !== "") {
+            $where[] = "id = :id";
+            $params[':id'] = (int)$search_id;
+        }
+        if ($search_section_id !== "") {
+            $where[] = "section_id = :section_id";
+            $params[':section_id'] = (int)$search_section_id;
+        }
+
+        // ORDER BY にはプレースホルダーが使えないため、決められた候補からのみ選ぶ
+        // （候補にない値が来た場合はセクションIDの昇順にする）
+        // セクションID順では、同じセクション内を表示順で並べる
+        $sortList = [
+            'section_asc'  => 'section_id ASC, order_number ASC, id ASC',
+            'section_desc' => 'section_id DESC, order_number ASC, id ASC',
+            'id_asc'       => 'id ASC',
+            'id_desc'      => 'id DESC',
+        ];
+        $orderBy = isset($sortList[$sort]) ? $sortList[$sort] : $sortList['section_asc'];
+
         $sSql = "SELECT * FROM question_table";
+        if (!empty($where)) {
+            $sSql .= " WHERE " . implode(" AND ", $where);
+        }
+        $sSql .= " ORDER BY " . $orderBy;
+
         $stmh = $pdo->prepare($sSql);
+        foreach ($params as $key => $value) {
+            $stmh->bindValue($key, $value, PDO::PARAM_INT);
+        }
         $stmh->execute();
         return $stmh->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $Exception) {
@@ -563,7 +597,7 @@ function getQuestionAll(){
     }
 }
 //**************************************************
-// クエスチョン更新（管理ページ用）
+// 問題更新（管理ページ用）
 //**************************************************
 function updateQuestion($id, $section_id, $order_number, $options, $correct_answer) {
     $pdo = db_connect();
@@ -583,7 +617,7 @@ function updateQuestion($id, $section_id, $order_number, $options, $correct_answ
     }
 }
 //**************************************************
-// クエスチョン削除（管理ページ用）
+// 問題削除（管理ページ用）
 //**************************************************
 function deleteQuestion($id){
     $pdo = db_connect();

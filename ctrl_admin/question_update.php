@@ -18,6 +18,13 @@
         exit();
     }
 //**************************************************
+// 権限チェック（管理者のみ）
+//**************************************************
+    if(empty($_SESSION['admin_is_admin'])){
+        header("location: question.php"); // 問題一覧に戻す
+        exit();
+    }
+//**************************************************
 // 変数取得
 //**************************************************
     $id = isset($_POST['id']) ? $_POST['id'] : "";
@@ -25,14 +32,12 @@
     $order_number = isset($_POST['order_number']) ? $_POST['order_number'] : "";
     $options = isset($_POST['options']) ? $_POST['options'] : "";
     $correct_answer = isset($_POST['correct_answer']) ? $_POST['correct_answer'] : "";
-    $created_at = isset($_POST['created_at']) ? $_POST['created_at'] : "";
-    $updated_at = isset($_POST['updated_at']) ? $_POST['updated_at'] : "";
     $step = isset($_POST['step']) ? $_POST['step'] : "";
 //**************************************************
 // 削除処理
 //**************************************************
     if($step == 2){
-        $update_check = updateQuestion($id, $section_id, $order_number, $options, $correct_answer, $created_at, $updated_at);
+        $update_check = updateQuestion($id, $section_id, $order_number, $options, $correct_answer);
         if($update_check){
             $step = "3";
         }

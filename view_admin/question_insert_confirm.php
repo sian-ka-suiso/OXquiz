@@ -52,7 +52,7 @@
                     <input type="hidden" name="created_at" value="<?php echo htmlspecialchars($created_at); ?>">
                     <input type="hidden" name="updated_at" value="<?php echo htmlspecialchars($updated_at); ?>">
                     <input type="hidden" name="question_insert" value="true">
-                    <button type="submit" class="btn btn-primary" title="この内容でセクションを追加します">✓ 追加する</button>
+                    <button type="submit" class="btn btn-primary" title="この内容でクエスチョンを追加します">✓ 追加する</button>
                 </form>
                 <form action="../ctrl_admin/question.php" method="post" class="inline-form">
                     <input type="hidden" name="step" value="">

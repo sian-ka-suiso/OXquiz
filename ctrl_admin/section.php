@@ -19,17 +19,18 @@
 //**************************************************
     $section_insert = isset($_POST['section_insert']) ? $_POST['section_insert'] : "";
     // 検索・並び替えの条件（GETで受け取る）
-    $search_id = isset($_GET['search_id']) ? trim($_GET['search_id']) : "";
-    $sort      = isset($_GET['sort']) ? $_GET['sort'] : "order_asc";
+    $search_id         = isset($_GET['search_id']) ? trim($_GET['search_id']) : "";
+    $search_chapter_id = isset($_GET['search_chapter_id']) ? trim($_GET['search_chapter_id']) : "";
+    $sort              = isset($_GET['sort']) ? $_GET['sort'] : "chapter_asc";
     $section_categories = getSectionCategories();
     $arrErr = array();
 
     // プルダウンの選択肢（キーはgetSections()に渡す値）
     $sortOptions = [
-        'order_asc'  => '表示順（昇順）',
-        'order_desc' => '表示順（降順）',
-        'id_asc'     => 'ID順（昇順）',
-        'id_desc'    => 'ID順（降順）',
+        'chapter_asc'  => 'チャプターID順（昇順）',
+        'chapter_desc' => 'チャプターID順（降順）',
+        'id_asc'       => 'ID順（昇順）',
+        'id_desc'      => 'ID順（降順）',
     ];
 //**************************************************
 // 入力確認
@@ -38,8 +39,12 @@
         $arrErr['search_id'] = "IDは半角数字で入力してください";
         $search_id = ""; // 不正な値ではID条件をかけない
     }
+    if ($search_chapter_id !== "" && !ctype_digit($search_chapter_id)) {
+        $arrErr['search_chapter_id'] = "チャプターIDは半角数字で入力してください";
+        $search_chapter_id = "";
+    }
     // 選択肢にない値は初期値に戻す
-    if (!isset($sortOptions[$sort])) { $sort = "order_asc"; }
+    if (!isset($sortOptions[$sort])) { $sort = "chapter_asc"; }
 //**************************************************
 // 挿入処理
 //**************************************************
@@ -61,7 +66,7 @@
 // データ取得
 //**************************************************
     // セクションテーブルの情報を取得
-    $section_data = getSections($search_id, $sort);
+    $section_data = getSections($search_id, $search_chapter_id, $sort);
     // 権限を取得
     $is_admin   = isset($_SESSION['admin_is_admin']) ? $_SESSION['admin_is_admin'] : 0;
     $is_teacher = isset($_SESSION['admin_is_teacher']) ? $_SESSION['admin_is_teacher'] : 0;
