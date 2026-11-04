@@ -548,13 +548,44 @@ function insertQuestion($section_id, $order_number, $options, $correct_answer) {
     }
 }
 //**************************************************
-// 問題テーブルの全情報を取り出す
+// 問題一覧取得（検索・並び替え付き、管理ページ用）
 //**************************************************
-function getQuestionAll(){
+function getQuestionList($search_id = "", $search_section_id = "", $sort = "section_asc"){
     $pdo = db_connect();
     try {
+        $where = [];
+        $params = [];
+
+        if ($search_id !== "") {
+            $where[] = "id = :id";
+            $params[':id'] = (int)$search_id;
+        }
+        if ($search_section_id !== "") {
+            $where[] = "section_id = :section_id";
+            $params[':section_id'] = (int)$search_section_id;
+        }
+
+        // ORDER BY にはプレースホルダーが使えないため、決められた候補からのみ選ぶ
+        // （候補にない値が来た場合はセクションIDの昇順にする）
+        // セクションID順では、同じセクション内を表示順で並べる
+        $sortList = [
+            'section_asc'  => 'section_id ASC, order_number ASC, id ASC',
+            'section_desc' => 'section_id DESC, order_number ASC, id ASC',
+            'id_asc'       => 'id ASC',
+            'id_desc'      => 'id DESC',
+        ];
+        $orderBy = isset($sortList[$sort]) ? $sortList[$sort] : $sortList['section_asc'];
+
         $sSql = "SELECT * FROM question_table";
+        if (!empty($where)) {
+            $sSql .= " WHERE " . implode(" AND ", $where);
+        }
+        $sSql .= " ORDER BY " . $orderBy;
+
         $stmh = $pdo->prepare($sSql);
+        foreach ($params as $key => $value) {
+            $stmh->bindValue($key, $value, PDO::PARAM_INT);
+        }
         $stmh->execute();
         return $stmh->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $Exception) {

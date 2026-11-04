@@ -33,7 +33,28 @@
                     </button>
                 </form>
             </div>
+            <!-- 検索・並び替え（条件がURLに残るようGETで送る） -->
+            <form action="../ctrl_admin/question.php" method="get" class="toolbar-group search-form">
+                <label>ID
+                    <input type="text" name="search_id" value="<?= V2H($search_id) ?>" inputmode="numeric" placeholder="例：3" class="search-id">
+                </label>
+                <label>セクションID
+                    <input type="text" name="search_section_id" value="<?= V2H($search_section_id) ?>" inputmode="numeric" placeholder="例：3" class="search-id">
+                </label>
+                <label>並び順
+                    <select name="sort">
+                        <?php foreach ($sortOptions as $value => $label): ?>
+                        <option value="<?= V2H($value) ?>" <?= $sort === $value ? 'selected' : '' ?>><?= V2H($label) ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </label>
+                <button type="submit" class="btn btn-primary" title="条件に合う問題を表示します">検索</button>
+                <a href="../ctrl_admin/question.php" class="btn btn-ghost" title="検索条件をクリアして全件表示に戻します">クリア</a>
+            </form>
         </div>
+        <?php foreach ($arrErr as $err): ?>
+        <p class="err search-err"><?= V2H($err) ?></p>
+        <?php endforeach; ?>
 
         <div class="table-wrapper">
         <table class="admin-table">
@@ -48,6 +69,9 @@
             </tr>
             </thead>
             <tbody>
+            <?php if (empty($question_data)): ?>
+            <tr class="empty-row"><td colspan="6">条件に合う問題はありません</td></tr>
+            <?php endif; ?>
             <?php foreach($question_data as $que): ?>
             <tr>
                 <td class="col-id"><?php echo V2H($que['id']); ?></td>

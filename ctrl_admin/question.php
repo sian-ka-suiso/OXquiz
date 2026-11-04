@@ -17,8 +17,33 @@
 //**************************************************
 // 変数取得
 //**************************************************
-    $question_data = getQuestionAll();
     $question_insert = isset($_POST['question_insert']) ? $_POST['question_insert'] : "";
+    // 検索・並び替えの条件（GETで受け取る）
+    $search_id         = isset($_GET['search_id']) ? trim($_GET['search_id']) : "";
+    $search_section_id = isset($_GET['search_section_id']) ? trim($_GET['search_section_id']) : "";
+    $sort              = isset($_GET['sort']) ? $_GET['sort'] : "section_asc";
+    $arrErr = array();
+
+    // プルダウンの選択肢（キーはgetQuestionList()に渡す値）
+    $sortOptions = [
+        'section_asc'  => 'セクションID順（昇順）',
+        'section_desc' => 'セクションID順（降順）',
+        'id_asc'       => 'ID順（昇順）',
+        'id_desc'      => 'ID順（降順）',
+    ];
+//**************************************************
+// 入力確認
+//**************************************************
+    if ($search_id !== "" && !ctype_digit($search_id)) {
+        $arrErr['search_id'] = "IDは半角数字で入力してください";
+        $search_id = ""; // 不正な値ではID条件をかけない
+    }
+    if ($search_section_id !== "" && !ctype_digit($search_section_id)) {
+        $arrErr['search_section_id'] = "セクションIDは半角数字で入力してください";
+        $search_section_id = "";
+    }
+    // 選択肢にない値は初期値に戻す
+    if (!isset($sortOptions[$sort])) { $sort = "section_asc"; }
 //**************************************************
 // 挿入処理
 //**************************************************
@@ -36,6 +61,11 @@
         header("Location:../ctrl_admin/question.php");
         exit();
     }
+//**************************************************
+// データ取得
+//**************************************************
+    // 問題テーブルの情報を取得
+    $question_data = getQuestionList($search_id, $search_section_id, $sort);
 //**************************************************
 // HTMLを出力
 //**************************************************
