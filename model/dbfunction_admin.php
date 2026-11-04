@@ -503,7 +503,7 @@ function deleteSection($id){
     }
 }
 ####################################################################################
-### クエスチョン管理
+### 問題管理
 ####################################################################################
 //**************************************************
 // セクションID重複確認
@@ -529,7 +529,7 @@ function checkQuestionOrder($order_number, $section_id) {
     return $count > 0; // true = 存在する
 }
 //**************************************************
-// クエスチョン追加
+// 問題追加
 //**************************************************
 function insertQuestion($section_id, $order_number, $options, $correct_answer) {
     $pdo = db_connect();
@@ -548,7 +548,7 @@ function insertQuestion($section_id, $order_number, $options, $correct_answer) {
     }
 }
 //**************************************************
-// クエスチョンテーブルの全情報を取り出す
+// 問題テーブルの全情報を取り出す
 //**************************************************
 function getQuestionAll(){
     $pdo = db_connect();
@@ -563,7 +563,7 @@ function getQuestionAll(){
     }
 }
 //**************************************************
-// クエスチョン更新（管理ページ用）
+// 問題更新（管理ページ用）
 //**************************************************
 function updateQuestion($id, $section_id, $order_number, $options, $correct_answer) {
     $pdo = db_connect();
@@ -583,7 +583,7 @@ function updateQuestion($id, $section_id, $order_number, $options, $correct_answ
     }
 }
 //**************************************************
-// クエスチョン削除（管理ページ用）
+// 問題削除（管理ページ用）
 //**************************************************
 function deleteQuestion($id){
     $pdo = db_connect();

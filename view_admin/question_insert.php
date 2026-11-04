@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../css_admin/admin.css">
-    <title>よくある間違いOXクイズ　クエスチョン追加</title>
+    <title>よくある間違いOXクイズ　問題追加</title>
 </head>
 <body>
     <div class="admin-page">
         <header class="admin-header">
             <div class="admin-header-text">
-                <h1 class="admin-title">クエスチョンの新規追加</h1>
+                <h1 class="admin-title">問題の新規追加</h1>
                 <p class="admin-subtitle">内容を入力して追加してください</p>
             </div>
         </header>

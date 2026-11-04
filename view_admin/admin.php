@@ -41,7 +41,7 @@
             </a>
             <a class="menu-card" href="../ctrl_admin/question.php" title="問題（Question）の一覧確認・追加">
                 <span class="menu-card-icon">📕</span>
-                <span class="menu-card-title">問題</span>
+                <span class="menu-card-title">問題（Question）</span>
                 <span class="menu-card-desc">問題の一覧・追加・編集・削除</span>
             </a>
         </div>

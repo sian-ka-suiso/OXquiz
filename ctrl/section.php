@@ -37,7 +37,7 @@
     $chapter_id = isset($_GET['chapter_id']) ? $_GET['chapter_id'] : "";
     // チャプター名取得を追加
     $chapter_names = getChapterNames($chapter_id);
-    // セクションid、セクション名、クエスチョンid配列
+    // セクションid、セクション名、問題id配列
     $sections = getSectionsWithQuestions($chapter_id);
     $section_categories = getSectionCategories();
 

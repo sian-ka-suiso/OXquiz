@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../css_admin/admin.css">
-    <title>よくある間違いOXクイズ　クエスチョン追加確認</title>
+    <title>よくある間違いOXクイズ　問題追加確認</title>
 </head>
 <body>
     <div class="admin-page">
         <header class="admin-header">
             <div class="admin-header-text">
-                <h1 class="admin-title">クエスチョン追加内容の確認</h1>
+                <h1 class="admin-title">問題追加内容の確認</h1>
                 <p class="admin-subtitle">この内容でよろしければ「追加する」を押してください</p>
             </div>
         </header>
@@ -52,7 +52,7 @@
                     <input type="hidden" name="created_at" value="<?php echo htmlspecialchars($created_at); ?>">
                     <input type="hidden" name="updated_at" value="<?php echo htmlspecialchars($updated_at); ?>">
                     <input type="hidden" name="question_insert" value="true">
-                    <button type="submit" class="btn btn-primary" title="この内容でセクションを追加します">✓ 追加する</button>
+                    <button type="submit" class="btn btn-primary" title="この内容で問題を追加します">✓ 追加する</button>
                 </form>
                 <form action="../ctrl_admin/question.php" method="post" class="inline-form">
                     <input type="hidden" name="step" value="">

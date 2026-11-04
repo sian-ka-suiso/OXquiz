@@ -22,8 +22,6 @@
     $order_number = isset($_POST['order_number']) ? $_POST['order_number'] : "";
     $options = isset($_POST['options']) ? $_POST['options'] : "";
     $correct_answer = isset($_POST['correct_answer']) ? $_POST['correct_answer'] : "";
-    $created_at = isset($_POST['created_at']) ? $_POST['created_at'] : "";
-    $updated_at = isset($_POST['updated_at']) ? $_POST['updated_at'] : "";
     $step = isset($_POST['step']) ? $_POST['step'] : "";
 //**************************************************
 // 削除処理
