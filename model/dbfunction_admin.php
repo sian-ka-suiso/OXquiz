@@ -387,30 +387,33 @@ function getSectionAll(){
 //**************************************************
 // セクション一覧取得（検索・並び替え付き、管理ページ用）
 //**************************************************
-function getSections($search_id = "", $sort = "order_asc"){
+function getSections($search_id = "", $search_chapter_id = "", $sort = "chapter_asc"){
     $pdo = db_connect();
     try {
         $where = [];
         $params = [];
 
         if ($search_id !== "") {
-            $where[] = "s.id = :id";
+            $where[] = "id = :id";
             $params[':id'] = (int)$search_id;
+        }
+        if ($search_chapter_id !== "") {
+            $where[] = "chapter_id = :chapter_id";
+            $params[':chapter_id'] = (int)$search_chapter_id;
         }
 
         // ORDER BY にはプレースホルダーが使えないため、決められた候補からのみ選ぶ
-        // （候補にない値が来た場合は表示順の昇順にする）
-        // 表示順はユーザー画面と同じく「チャプターの表示順 → セクションの表示順」
+        // （候補にない値が来た場合はチャプターIDの昇順にする）
+        // チャプターID順では、同じチャプター内を表示順で並べる
         $sortList = [
-            'order_asc'  => 'c.order_number ASC, s.order_number ASC, s.id ASC',
-            'order_desc' => 'c.order_number DESC, s.order_number DESC, s.id DESC',
-            'id_asc'     => 's.id ASC',
-            'id_desc'    => 's.id DESC',
+            'chapter_asc'  => 'chapter_id ASC, order_number ASC, id ASC',
+            'chapter_desc' => 'chapter_id DESC, order_number ASC, id ASC',
+            'id_asc'       => 'id ASC',
+            'id_desc'      => 'id DESC',
         ];
-        $orderBy = isset($sortList[$sort]) ? $sortList[$sort] : $sortList['order_asc'];
+        $orderBy = isset($sortList[$sort]) ? $sortList[$sort] : $sortList['chapter_asc'];
 
-        $sSql = "SELECT s.* FROM section_table s ";
-        $sSql .= "LEFT JOIN chapter_table c ON c.id = s.chapter_id";
+        $sSql = "SELECT * FROM section_table";
         if (!empty($where)) {
             $sSql .= " WHERE " . implode(" AND ", $where);
         }
