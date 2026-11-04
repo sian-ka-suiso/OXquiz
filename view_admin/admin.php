@@ -44,6 +44,11 @@
                 <span class="menu-card-title">問題</span>
                 <span class="menu-card-desc">問題の一覧・追加・編集・削除</span>
             </a>
+            <a class="menu-card" href="../ctrl_admin/explanation.php" title="解説（Explanation）の一覧確認・追加">
+                <span class="menu-card-icon">📕</span>
+                <span class="menu-card-title">解説</span>
+                <span class="menu-card-desc">解説の一覧・追加・編集・削除</span>
+            </a>
         </div>
     </div>
 </body>
