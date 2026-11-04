@@ -24,7 +24,6 @@
                     <table class="admin-form-table">
                         <tr><th>ID</th><td class="field-value"><?php echo htmlspecialchars($id); ?></td></tr>
                         <tr><th>問題ID</th><td class="field-value"><?php echo htmlspecialchars($question_id); ?></td></tr>
-                        <tr><th>いいね</th><td class="field-value"><?php echo htmlspecialchars($evaluation); ?></td></tr>
                     </table>
                 </div>
                 <div>
@@ -35,10 +34,6 @@
                             <tr>
                                 <th>問題ID</th>
                                 <td><input type="text" name="question_id" value="<?= $question_id ?>"></td>
-                            </tr>
-                            <tr>
-                                <th>いいね</th>
-                                <td><input type="text" name="evaluation" value="<?= $evaluation ?>"></td>
                             </tr>
                         </table>
                         <input type="hidden" name="step" value="2">

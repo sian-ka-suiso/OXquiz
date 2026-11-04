@@ -590,14 +590,13 @@ function getExplanations($search_id = ""){
 //**************************************************
 // 解説更新（管理ページ用）
 //**************************************************
-function updateExplanation($id, $question_id, $evaluation) {
+function updateExplanation($id, $question_id) {
     $pdo = db_connect();
     try {
-        $sql = "UPDATE explanation_table SET question_id = :question_id, evaluation = :evaluation WHERE id = :id";
+        $sql = "UPDATE explanation_table SET question_id = :question_id WHERE id = :id";
         $stmh = $pdo->prepare($sql);
         $stmh->bindValue(':id', $id, PDO::PARAM_STR);
         $stmh->bindValue(':question_id', $question_id, PDO::PARAM_STR);
-        $stmh->bindValue(':evaluation', $evaluation, PDO::PARAM_STR);
         $stmh->execute();
         return true;
     } catch (PDOException $Exception) {
