@@ -29,16 +29,12 @@
                 <tr>
                     <th>ID</th>
                     <th>問題ID</th>
-                    <th>制作日</th>
-                    <th>更新日</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
                     <td class="col-id"><?php echo htmlspecialchars($id); ?></td>
                     <td><?php echo htmlspecialchars($question_id); ?></td>
-                    <td><?php echo htmlspecialchars($created_at); ?></td>
-                    <td><?php echo htmlspecialchars($updated_at); ?></td>
                 </tr>
                 </tbody>
             </table>

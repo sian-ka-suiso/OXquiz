@@ -26,8 +26,6 @@
 //**************************************************
     $id = isset($_POST['id']) ? $_POST['id'] : "";
     $question_id = isset($_POST['question_id']) ? $_POST['question_id'] : "";
-    $created_at = isset($_POST['created_at']) ? $_POST['created_at'] : "";
-    $updated_at = isset($_POST['updated_at']) ? $_POST['updated_at'] : "";
     $step = isset($_POST['step']) ? $_POST['step'] : "";
 //**************************************************
 // 更新処理

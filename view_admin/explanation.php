@@ -63,8 +63,6 @@
             <tr>
                 <th>ID</th>
                 <th>問題ID</th>
-                <th>制作日</th>
-                <th>更新日</th>
                 <th class="col-actions">操作</th>
             </tr>
             </thead>
@@ -76,23 +74,17 @@
             <tr>
                 <td class="col-id"><?php echo V2H($exp['id']); ?></td>
                 <td><?php echo V2H($exp['question_id']); ?></td>
-                <td><?php echo V2H($exp['created_at']); ?></td>
-                <td><?php echo V2H($exp['updated_at']); ?></td>
                 <td class="col-actions">
                     <div class="row-actions">
                         <?php if($is_admin): ?>
                         <form action="../ctrl_admin/explanation_update.php" method="post" class="inline-form">
                             <input type="hidden" name="id" value="<?php echo V2H($exp['id']); ?>">
                             <input type="hidden" name="question_id" value="<?php echo V2H($exp['question_id']); ?>">
-                            <input type="hidden" name="created_at" value="<?php echo V2H($exp['created_at']); ?>">
-                            <input type="hidden" name="updated_at" value="<?php echo V2H($exp['updated_at']); ?>">
                             <button type="submit" name="step" value="1" class="btn btn-small btn-edit" title="この解説の内容を編集します">✏️ 編集</button>
                         </form>
                         <form action="../ctrl_admin/explanation_delete.php" method="post" class="inline-form">
                             <input type="hidden" name="id" value="<?php echo V2H($exp['id']); ?>">
                             <input type="hidden" name="question_id" value="<?php echo V2H($exp['question_id']); ?>">
-                            <input type="hidden" name="created_at" value="<?php echo V2H($exp['created_at']); ?>">
-                            <input type="hidden" name="updated_at" value="<?php echo V2H($exp['updated_at']); ?>">
                             <button type="submit" name="step" value="1" class="btn btn-small btn-danger" title="この解説を削除します（確認画面へ進みます）">✕ 削除</button>
                         </form>
                         <?php endif; ?>

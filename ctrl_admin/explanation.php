@@ -51,7 +51,7 @@
 // データ取得
 //**************************************************
     // チャプターテーブルの情報を取得
-    $explanation_data = getExplanations($search_id, $sort);
+    $explanation_data = getExplanations($search_id);
     // 権限を取得
     $is_admin   = isset($_SESSION['admin_is_admin']) ? $_SESSION['admin_is_admin'] : 0;
     $is_teacher = isset($_SESSION['admin_is_teacher']) ? $_SESSION['admin_is_teacher'] : 0;
