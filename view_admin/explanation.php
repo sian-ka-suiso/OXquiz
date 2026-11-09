@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../css_admin/admin.css">
-    <title>よくある間違いOXクイズ　解説一覧</title>
+    <title>よくある間違いOXクイズ　エクスプラネーション一覧</title>
 </head>
 <body>
     <div class="admin-page admin-page--wide">
         <header class="admin-header">
             <div class="admin-header-text">
-                <h1 class="admin-title">📘 解説一覧</h1>
+                <h1 class="admin-title">📘 エクスプラネーション一覧</h1>
                 <?php require('../view_admin/parts/header_role.php'); ?>
             </div>
             <div class="admin-header-actions">
@@ -20,7 +20,7 @@
             </div>
         </header>
 
-        <p class="admin-description">解説（Explanation）の確認・追加・編集・削除ができます</p>
+        <p class="admin-description">エクスプラネーション（Explanation）の確認・追加・編集・削除ができます</p>
 
         <div class="admin-toolbar">
             <div class="toolbar-group">
@@ -42,6 +42,9 @@
                 <label>ID
                     <input type="text" name="search_id" value="<?= V2H($search_id) ?>" inputmode="numeric" placeholder="例：3" class="search-id">
                 </label>
+                <label>クエスチョンID
+                    <input type="text" name="search_question_id" value="<?= V2H($search_question_id) ?>" inputmode="numeric" placeholder="例：3" class="search-id">
+                </label>
                 <label>並び順
                     <select name="sort">
                         <?php foreach ($sortOptions as $value => $label): ?>
@@ -53,16 +56,16 @@
                 <a href="../ctrl_admin/explanation.php" class="btn btn-ghost" title="検索条件をクリアして全件表示に戻します">クリア</a>
             </form>
         </div>
-        <?php if (isset($arrErr['search_id'])): ?>
-        <p class="err search-err"><?= V2H($arrErr['search_id']) ?></p>
-        <?php endif; ?>
+        <?php foreach ($arrErr as $err): ?>
+        <p class="err search-err"><?= V2H($err) ?></p>
+        <?php endforeach; ?>
 
         <div class="table-wrapper">
         <table class="admin-table">
             <thead>
             <tr>
                 <th>ID</th>
-                <th>問題ID</th>
+                <th>クエスチョンID</th>
                 <th class="col-actions">操作</th>
             </tr>
             </thead>

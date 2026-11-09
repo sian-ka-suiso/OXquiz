@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../css_admin/admin.css">
-    <title>よくある間違いOXクイズ　解説追加確認</title>
+    <title>よくある間違いOXクイズ　エクスプラネーション追加確認</title>
 </head>
 <body>
     <div class="admin-page">
         <header class="admin-header">
             <div class="admin-header-text">
-                <h1 class="admin-title">解説追加内容の確認</h1>
+                <h1 class="admin-title">エクスプラネーション追加内容の確認</h1>
                 <?php require('../view_admin/parts/header_role.php'); ?>
             </div>
         </header>
@@ -27,7 +27,7 @@
             <table class="admin-table">
                 <thead>
                 <tr>
-                    <th>問題ID</th>
+                    <th>クエスチョンID</th>
                 </tr>
                 </thead>
                 <tbody>

@@ -20,10 +20,14 @@
     $explanation_insert = isset($_POST['explanation_insert']) ? $_POST['explanation_insert'] : "";
     // 検索・並び替えの条件（GETで受け取る）
     $search_id = isset($_GET['search_id']) ? trim($_GET['search_id']) : "";
+    $search_question_id = isset($_GET['search_question_id']) ? trim($_GET['search_question_id']) : "";
+    $sort              = isset($_GET['sort']) ? $_GET['sort'] : "question_asc";    
     $arrErr = array();
 
     // プルダウンの選択肢（キーはgetChapters()に渡す値）
     $sortOptions = [
+        'question_asc'  => 'クエスチョンID順（昇順）',
+        'question_desc' => 'クエスチョンID順（降順）',
         'id_asc'     => 'ID順（昇順）',
         'id_desc'    => 'ID順（降順）',
     ];
@@ -34,6 +38,12 @@
         $arrErr['search_id'] = "IDは半角数字で入力してください";
         $search_id = ""; // 不正な値ではID条件をかけない
     }
+    if ($search_question_id !== "" && !ctype_digit($search_question_id)) {
+        $arrErr['search_section_id'] = "クエスチョンIDは半角数字で入力してください";
+        $search_question_id = "";
+    }
+    // 選択肢にない値は初期値に戻す
+    if (!isset($sortOptions[$sort])) { $sort = "question_asc"; }
 //**************************************************
 // 挿入処理
 //**************************************************
@@ -51,7 +61,7 @@
 // データ取得
 //**************************************************
     // チャプターテーブルの情報を取得
-    $explanation_data = getExplanations($search_id);
+    $explanation_data = getExplanationList($search_id, $search_question_id, $sort);
     // 権限を取得
     $is_admin   = isset($_SESSION['admin_is_admin']) ? $_SESSION['admin_is_admin'] : 0;
     $is_teacher = isset($_SESSION['admin_is_teacher']) ? $_SESSION['admin_is_teacher'] : 0;

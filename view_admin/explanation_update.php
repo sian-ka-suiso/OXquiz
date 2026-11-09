@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../css_admin/admin.css">
-    <title>よくある間違いOXクイズ　解説編集</title>
+    <title>よくある間違いOXクイズ　エクスプラネーション編集</title>
 </head>
 <body>
     <div class="admin-page">
         <header class="admin-header">
             <div class="admin-header-text">
-                <h1 class="admin-title">解説の編集</h1>
+                <h1 class="admin-title">エクスプラネーションの編集</h1>
                 <?php require('../view_admin/parts/header_role.php'); ?>
             </div>
         </header>
@@ -23,7 +23,7 @@
                     <p class="panel-heading is-before">変更前</p>
                     <table class="admin-form-table">
                         <tr><th>ID</th><td class="field-value"><?php echo htmlspecialchars($id); ?></td></tr>
-                        <tr><th>問題ID</th><td class="field-value"><?php echo htmlspecialchars($question_id); ?></td></tr>
+                        <tr><th>クエスチョンID</th><td class="field-value"><?php echo htmlspecialchars($question_id); ?></td></tr>
                     </table>
                 </div>
                 <div>
@@ -32,7 +32,7 @@
                         <table class="admin-form-table">
                             <tr><th>ID</th><td class="field-value"><?php echo htmlspecialchars($id); ?></td></tr>
                             <tr>
-                                <th>問題ID</th>
+                                <th>クエスチョンID</th>
                                 <td><input type="text" name="question_id" value="<?= $question_id ?>"></td>
                             </tr>
                         </table>

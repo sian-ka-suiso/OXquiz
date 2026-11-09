@@ -668,7 +668,7 @@ function insertExplanation($question_id) {
 //**************************************************
 // チャプター一覧取得（検索・並び替え付き、管理ページ用）
 //**************************************************
-function getExplanations($search_id = ""){
+function getExplanationList($search_id = "", $search_question_id = "", $sort = "question_asc"){
     $pdo = db_connect();
     try {
         $where = [];
@@ -678,18 +678,27 @@ function getExplanations($search_id = ""){
             $where[] = "id = :id";
             $params[':id'] = (int)$search_id;
         }
+        if ($search_question_id !== "") {
+            $where[] = "question_id = :question_id";
+            $params[':question_id'] = (int)$search_question_id;
+        }
 
         // ORDER BY にはプレースホルダーが使えないため、決められた候補からのみ選ぶ
-        // （候補にない値が来た場合は表示順の昇順にする）
+        // （候補にない値が来た場合はセクションIDの昇順にする）
+        // セクションID順では、同じセクション内を表示順で並べる
         $sortList = [
-            'id_asc'     => 'id ASC',
-            'id_desc'    => 'id DESC',
+            'question_asc'  => 'question_id ASC, id ASC',
+            'question_desc' => 'question_id DESC, id ASC',
+            'id_asc'       => 'id ASC',
+            'id_desc'      => 'id DESC',
         ];
+        $orderBy = isset($sortList[$sort]) ? $sortList[$sort] : $sortList['question_asc'];
 
         $sSql = "SELECT * FROM explanation_table";
         if (!empty($where)) {
             $sSql .= " WHERE " . implode(" AND ", $where);
         }
+        $sSql .= " ORDER BY " . $orderBy;
 
         $stmh = $pdo->prepare($sSql);
         foreach ($params as $key => $value) {
