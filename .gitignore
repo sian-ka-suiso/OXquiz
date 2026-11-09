@@ -23,3 +23,8 @@ Thumbs.db
 
 # 一時的な動作確認用ファイル（phpinfo()を出力するため非公開）
 /version.php
+
+
+# Composerで導入したライブラリ（composer install で再生成）
+# 本番環境へは FTP で vendor/ ごと別途アップロードする
+/vendor/
