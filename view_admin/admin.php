@@ -44,6 +44,11 @@
                 <span class="menu-card-title">クエスチョン（問）</span>
                 <span class="menu-card-desc">問の一覧・追加・編集・削除</span>
             </a>
+            <a class="menu-card" href="../ctrl_admin/export.php" title="担当クラスの進捗状況・正答率をExcelファイルで出力できます">
+                <span class="menu-card-icon">📊</span>
+                <span class="menu-card-title">Excel出力</span>
+                <span class="menu-card-desc">クラスごとの進捗・正答率の出力</span>
+            </a>
         </div>
     </div>
 </body>

@@ -633,6 +633,50 @@ function deleteQuestion($id){
     }
 }
 ####################################################################################
+### Excel出力
+####################################################################################
+//**************************************************
+// クラス一覧取得（Excel出力のクラス選択用）
+// $teacher_id : 担当教員のユーザーID（空なら全クラス）
+//**************************************************
+function getClasses($teacher_id = ""){
+    $pdo = db_connect();
+    try {
+        $sSql = "SELECT id, class_name, year, semester, date, teacher_id, is_active FROM class_table";
+        if ($teacher_id !== "") {
+            $sSql .= " WHERE teacher_id = :teacher_id";
+        }
+        $sSql .= " ORDER BY id ASC";
+
+        $stmh = $pdo->prepare($sSql);
+        if ($teacher_id !== "") {
+            $stmh->bindValue(':teacher_id', (int)$teacher_id, PDO::PARAM_INT);
+        }
+        $stmh->execute();
+        return $stmh->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $Exception) {
+        dbError(__FUNCTION__, $Exception);
+        return [];
+    }
+}
+//**************************************************
+// クラスに所属する一般ユーザー（学生）の一覧取得
+// 管理者・教員アカウントは集計対象外のため除く
+//**************************************************
+function getClassUsers(int $class_id){
+    $pdo = db_connect();
+    try {
+        $sSql = "SELECT id, email, user_name, created_at FROM user_table WHERE class_id = :class_id AND is_admin = 0 AND is_teacher = 0 ORDER BY id ASC";
+        $stmh = $pdo->prepare($sSql);
+        $stmh->bindValue(':class_id', $class_id, PDO::PARAM_INT);
+        $stmh->execute();
+        return $stmh->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $Exception) {
+        dbError(__FUNCTION__, $Exception);
+        return [];
+    }
+}
+####################################################################################
 ### ダッシュボード
 ####################################################################################
 //**************************************************

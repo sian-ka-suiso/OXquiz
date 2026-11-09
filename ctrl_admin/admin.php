@@ -18,9 +18,9 @@
 // 変数取得
 //**************************************************
     // ログイン中ユーザーの権限フラグ（権限ごとのUIの出し分けに使う）
-    $is_admin   = isset($_SESSION['admin_is_admin']) ? $_SESSION['admin_is_admin'] : 0;
+    $user_id = isset($_SESSION['admin_user_id']) ? $_SESSION['admin_user_id'] : 0;
+    $is_admin = isset($_SESSION['admin_is_admin']) ? $_SESSION['admin_is_admin'] : 0;
     $is_teacher = isset($_SESSION['admin_is_teacher']) ? $_SESSION['admin_is_teacher'] : 0;
-    $chapterSectionQuestions = getAll();
 //**************************************************
 // HTMLを出力
 //**************************************************
