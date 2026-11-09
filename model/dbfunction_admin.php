@@ -633,6 +633,109 @@ function deleteQuestion($id){
     }
 }
 ####################################################################################
+### 解説管理
+####################################################################################
+//**************************************************
+// 問題ID重複確認
+//**************************************************
+function checkExplanationQue($question_id) {
+    $pdo = db_connect();
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM question_table WHERE id = :question_id");
+    $stmt->bindValue(':question_id', $question_id, PDO::PARAM_STR);
+    $stmt->execute();
+    $count = $stmt->fetchColumn();
+    return $count > 0; // true = 存在する
+}
+//**************************************************
+// 解説追加
+//**************************************************
+function insertExplanation($question_id) {
+    $pdo = db_connect();
+    try {
+        $sql = "INSERT INTO explanation_table (question_id) VALUES (:question_id)";
+        $stmh = $pdo->prepare($sql);
+        $stmh->bindValue(':question_id', $question_id, PDO::PARAM_STR);
+        $stmh->execute();
+        return true;
+    } catch (PDOException $Exception) {
+        dbError(__FUNCTION__, $Exception);
+        return false;
+    }
+}
+//**************************************************
+// 解説テーブルの全情報を取り出す
+//**************************************************
+//**************************************************
+// チャプター一覧取得（検索・並び替え付き、管理ページ用）
+//**************************************************
+function getExplanations($search_id = ""){
+    $pdo = db_connect();
+    try {
+        $where = [];
+        $params = [];
+
+        if ($search_id !== "") {
+            $where[] = "id = :id";
+            $params[':id'] = (int)$search_id;
+        }
+
+        // ORDER BY にはプレースホルダーが使えないため、決められた候補からのみ選ぶ
+        // （候補にない値が来た場合は表示順の昇順にする）
+        $sortList = [
+            'id_asc'     => 'id ASC',
+            'id_desc'    => 'id DESC',
+        ];
+
+        $sSql = "SELECT * FROM explanation_table";
+        if (!empty($where)) {
+            $sSql .= " WHERE " . implode(" AND ", $where);
+        }
+
+        $stmh = $pdo->prepare($sSql);
+        foreach ($params as $key => $value) {
+            $stmh->bindValue($key, $value, PDO::PARAM_INT);
+        }
+        $stmh->execute();
+        return $stmh->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $Exception) {
+        dbError(__FUNCTION__, $Exception);
+        return [];
+    }
+}
+//**************************************************
+// 解説更新（管理ページ用）
+//**************************************************
+function updateExplanation($id, $question_id) {
+    $pdo = db_connect();
+    try {
+        $sql = "UPDATE explanation_table SET question_id = :question_id WHERE id = :id";
+        $stmh = $pdo->prepare($sql);
+        $stmh->bindValue(':id', $id, PDO::PARAM_STR);
+        $stmh->bindValue(':question_id', $question_id, PDO::PARAM_STR);
+        $stmh->execute();
+        return true;
+    } catch (PDOException $Exception) {
+        dbError(__FUNCTION__, $Exception);
+        return false;
+    }
+}
+//**************************************************
+// 解説削除（管理ページ用）
+//**************************************************
+function deleteExplanation($id){
+    $pdo = db_connect();
+    try {
+        $sql = "DELETE FROM explanation_table WHERE id = :id";
+        $stmh = $pdo->prepare($sql);
+        $stmh->bindValue(':id', $id,  PDO::PARAM_INT);
+        $stmh->execute();
+        return true;
+    } catch (PDOException $Exception) {
+        error_log("PDO Error in " . __FUNCTION__ . ": " . $Exception->getMessage());
+        return false;
+    }
+}
+####################################################################################
 ### ダッシュボード
 ####################################################################################
 //**************************************************
