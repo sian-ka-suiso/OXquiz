@@ -56,7 +56,6 @@
                 <tr><th>年度</th><td class="field-value"><?= V2H($selected_class['year']) ?></td></tr>
                 <tr><th>学期</th><td class="field-value"><?= V2H($selected_class['semester']) ?></td></tr>
                 <tr><th>曜日・時限</th><td class="field-value"><?= V2H($selected_class['date']) ?></td></tr>
-                <tr><th>担当教員ID</th><td class="field-value"><?= V2H($selected_class['teacher_id']) ?></td></tr>
                 <tr><th>所属人数</th><td class="field-value"><?= count($class_users) ?>人</td></tr>
             </table>
 

@@ -642,11 +642,12 @@ function deleteQuestion($id){
 function getClasses($teacher_id = ""){
     $pdo = db_connect();
     try {
-        $sSql = "SELECT id, class_name, year, semester, date, teacher_id, is_active FROM class_table";
+        $sSql = "SELECT c.id, c.class_name, c.year, c.semester, c.date, c.is_active FROM class_table c";
+        // 教員の場合のみ、担当クラスに絞り込む（管理者は全クラス）
         if ($teacher_id !== "") {
-            $sSql .= " WHERE teacher_id = :teacher_id";
+            $sSql .= " JOIN class_teacher ct ON ct.class_id = c.id WHERE ct.teacher_id = :teacher_id";
         }
-        $sSql .= " ORDER BY id ASC";
+        $sSql .= " ORDER BY c.id ASC";
 
         $stmh = $pdo->prepare($sSql);
         if ($teacher_id !== "") {
