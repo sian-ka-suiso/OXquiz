@@ -7,6 +7,12 @@
     require_once('../model/dbconnect.php');
 
     require_once('../model/dbfunction_admin.php');
+
+    // Excel出力で利用する
+    require_once('../vendor/autoload.php');
+    use PhpOffice\PhpSpreadsheet\Spreadsheet;
+    use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+    use PhpOffice\PhpSpreadsheet\Style\Fill;
 //**************************************************
 // ログインチェック
 //**************************************************
@@ -59,7 +65,60 @@
 // Excel出力
 //**************************************************
     if ($is_export && $selected_class !== null) {
-        // ここでExcelファイルを作成して出力する
+        // 1.ブックとシートを用意
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet()->setTitle('Chapter1(初見)');
+
+        // 2.見出し行＋データ行を作ってA1セルから書き込む
+        $rows = [['ID', 'メールアドレス', 'ユーザー名', '登録日']];
+        foreach ($class_users as $u) {
+            $rows[] = [$u['id'], $u['email'], $u['user_name'], $u['created_at']];
+        }
+        $sheet->fromArray($rows, null, 'A1');
+
+        // [装飾]
+        $last_colum = $sheet->getHighestColumn();
+        $header_range = 'A1:' . $last_colum . '1';
+        
+        // 太字
+        $sheet->getStyle($header_range)->getFont()->setBold(true);
+        // 塗りつぶしの種類
+        $sheet->getStyle($header_range)->getFill()->setFillType(Fill::FILL_SOLID);
+        // 塗りつぶしの色
+        $sheet->getStyle($header_range)->getFill()->getStartColor()->setARGB('FFDDEBF7');
+        // 幅調整
+        foreach (range('A', $last_colum) as $col) {
+            $sheet->getColumnDimension($col)->setAutoSize(true);
+        }
+
+        // 2枚目のシート（確認用）
+        $sheet2 = $spreadsheet->createSheet()->setTitle('Chapter1(現在)');
+        $sheet2->fromArray($rows, null, 'A1');
+
+       // 太字
+        $sheet2->getStyle($header_range)->getFont()->setBold(true);
+        // 塗りつぶしの種類
+        $sheet2->getStyle($header_range)->getFill()->setFillType(Fill::FILL_SOLID);
+        // 塗りつぶしの色
+        $sheet2->getStyle($header_range)->getFill()->getStartColor()->setARGB('FFDDEBF7');
+        // 幅調整
+        foreach (range('A', $last_colum) as $col) {
+            $sheet2->getColumnDimension($col)->setAutoSize(true);
+        }
+
+        // デフォルトで開くシートの設定　0は1枚目
+        $spreadsheet->setActiveSheetIndex(0);
+        // 3.ダウンロード用のヘッダー
+        if (ob_get_length()) ob_end_clean();
+        $filename = $selected_class['class_name'] . '_' . date('Ymd') . '.xlsx';
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header("Content-Disposition: attachment; filename*=UTF-8''".rawurlencode($filename));
+        header('Cache-Control: max-age=0');
+
+        // 4.ブラウザへ出力して終了
+        $writer = new Xlsx($spreadsheet);
+        $writer->save('php://output');
+        exit();
     }
 //**************************************************
 // HTMLを出力
