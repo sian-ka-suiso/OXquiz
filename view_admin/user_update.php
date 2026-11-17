@@ -26,6 +26,7 @@
                         <tr><th>メールアドレス</th><td class="field-value"><?php echo htmlspecialchars($email); ?></td></tr>
                         <tr><th>アカウント名</th><td class="field-value"><?php echo htmlspecialchars($user_name); ?></td></tr>
                         <tr><th>管理者フラグ</th><td class="field-value"><?php echo htmlspecialchars($is_admin); ?></td></tr>
+                        <tr><th>教員フラグ</th><td class="field-value"><?php echo htmlspecialchars($is_teacher); ?></td></tr>
                     </table>
                 </div>
                 <div>
@@ -35,12 +36,22 @@
                             <tr><th>ID</th><td class="field-value"><?php echo htmlspecialchars($id); ?></td></tr>
                             <tr><th>メールアドレス</th><td class="field-value"><?php echo htmlspecialchars($email); ?></td></tr>
                             <tr><th>アカウント名</th><td class="field-value"><?php echo htmlspecialchars($user_name); ?></td></tr>
+                            <!-- 権限の変更は、対象ユーザーが再ログインした後に反映される -->
                             <tr>
                                 <th>管理者フラグ</th>
                                 <td>
                                     <select name="is_admin">
                                         <option value="0" <?= $is_admin == 0 ? 'selected' : '' ?>>一般（０）</option>
                                         <option value="1" <?= $is_admin == 1 ? 'selected' : '' ?>>管理者（１）</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>教員フラグ</th>
+                                <td>
+                                    <select name="is_teacher">
+                                        <option value="0" <?= $is_teacher == 0 ? 'selected' : '' ?>>一般（０）</option>
+                                        <option value="1" <?= $is_teacher == 1 ? 'selected' : '' ?>>教員（１）</option>
                                     </select>
                                 </td>
                             </tr>

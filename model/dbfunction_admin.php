@@ -122,13 +122,14 @@ function getUsers($search_id = "", $role = "", $sort = "id_asc"){
 //**************************************************
 // ユーザー更新（管理ページ用）
 //**************************************************
-function updateUser(int $id, int $is_admin) {
+function updateUser(int $id, int $is_admin, int $is_teacher) {
     $pdo = db_connect();
     try {
-        $sql = "UPDATE user_table SET is_admin = :is_admin WHERE id = :id";
+        $sql = "UPDATE user_table SET is_admin = :is_admin, is_teacher = :is_teacher WHERE id = :id";
         $stmh = $pdo->prepare($sql);
         $stmh->bindValue(':id', $id, PDO::PARAM_STR);
         $stmh->bindValue(':is_admin', $is_admin, PDO::PARAM_STR);
+        $stmh->bindValue(':is_teacher', $is_teacher, PDO::PARAM_STR);
         $stmh->execute();
         return true;
     } catch (PDOException $Exception) {
@@ -224,6 +225,47 @@ function getChapterAll(){
     }
 }
 //**************************************************
+// チャプター一覧取得（検索・並び替え付き、管理ページ用）
+//**************************************************
+function getChapters($search_id = "", $sort = "order_asc"){
+    $pdo = db_connect();
+    try {
+        $where = [];
+        $params = [];
+
+        if ($search_id !== "") {
+            $where[] = "id = :id";
+            $params[':id'] = (int)$search_id;
+        }
+
+        // ORDER BY にはプレースホルダーが使えないため、決められた候補からのみ選ぶ
+        // （候補にない値が来た場合は表示順の昇順にする）
+        $sortList = [
+            'order_asc'  => 'order_number ASC, id ASC',
+            'order_desc' => 'order_number DESC, id DESC',
+            'id_asc'     => 'id ASC',
+            'id_desc'    => 'id DESC',
+        ];
+        $orderBy = isset($sortList[$sort]) ? $sortList[$sort] : $sortList['order_asc'];
+
+        $sSql = "SELECT * FROM chapter_table";
+        if (!empty($where)) {
+            $sSql .= " WHERE " . implode(" AND ", $where);
+        }
+        $sSql .= " ORDER BY " . $orderBy;
+
+        $stmh = $pdo->prepare($sSql);
+        foreach ($params as $key => $value) {
+            $stmh->bindValue($key, $value, PDO::PARAM_INT);
+        }
+        $stmh->execute();
+        return $stmh->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $Exception) {
+        dbError(__FUNCTION__, $Exception);
+        return [];
+    }
+}
+//**************************************************
 // チャプター更新（管理ページ用）
 //**************************************************
 function updateChapter($id, $name, $folder_name, $order_number, $is_published) {
@@ -259,7 +301,6 @@ function deleteChapter($id){
         return false;
     }
 }
-
 ####################################################################################
 ### セクション管理
 ####################################################################################
@@ -299,10 +340,11 @@ function checkSectionFolder($folder_name) {
 //**************************************************
 // オーダー番号重複確認
 //**************************************************
-function checkSectionOrder($order_number) {
+function checkSectionOrder($order_number, $chapter_id) {
     $pdo = db_connect();
-    $stmt = $pdo->prepare("SELECT COUNT(*) FROM section_table WHERE order_number = :order_number");
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM section_table WHERE order_number = :order_number AND chapter_id = :chapter_id");
     $stmt->bindValue(':order_number', $order_number, PDO::PARAM_STR);
+    $stmt->bindValue(':chapter_id', $chapter_id, PDO::PARAM_STR);
     $stmt->execute();
     $count = $stmt->fetchColumn();
     return $count > 0; // true = 存在する
@@ -343,6 +385,52 @@ function getSectionAll(){
     }
 }
 //**************************************************
+// セクション一覧取得（検索・並び替え付き、管理ページ用）
+//**************************************************
+function getSections($search_id = "", $search_chapter_id = "", $sort = "chapter_asc"){
+    $pdo = db_connect();
+    try {
+        $where = [];
+        $params = [];
+
+        if ($search_id !== "") {
+            $where[] = "id = :id";
+            $params[':id'] = (int)$search_id;
+        }
+        if ($search_chapter_id !== "") {
+            $where[] = "chapter_id = :chapter_id";
+            $params[':chapter_id'] = (int)$search_chapter_id;
+        }
+
+        // ORDER BY にはプレースホルダーが使えないため、決められた候補からのみ選ぶ
+        // （候補にない値が来た場合はチャプターIDの昇順にする）
+        // チャプターID順では、同じチャプター内を表示順で並べる
+        $sortList = [
+            'chapter_asc'  => 'chapter_id ASC, order_number ASC, id ASC',
+            'chapter_desc' => 'chapter_id DESC, order_number ASC, id ASC',
+            'id_asc'       => 'id ASC',
+            'id_desc'      => 'id DESC',
+        ];
+        $orderBy = isset($sortList[$sort]) ? $sortList[$sort] : $sortList['chapter_asc'];
+
+        $sSql = "SELECT * FROM section_table";
+        if (!empty($where)) {
+            $sSql .= " WHERE " . implode(" AND ", $where);
+        }
+        $sSql .= " ORDER BY " . $orderBy;
+
+        $stmh = $pdo->prepare($sSql);
+        foreach ($params as $key => $value) {
+            $stmh->bindValue($key, $value, PDO::PARAM_INT);
+        }
+        $stmh->execute();
+        return $stmh->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $Exception) {
+        dbError(__FUNCTION__, $Exception);
+        return [];
+    }
+}
+//**************************************************
 // セクション更新（管理ページ用）
 //**************************************************
 function updateSection($id, $chapter_id, $name, $folder_name, $order_number, $is_published) {
@@ -364,12 +452,177 @@ function updateSection($id, $chapter_id, $name, $folder_name, $order_number, $is
     }
 }
 //**************************************************
+// セクションの数理カテゴリー更新（管理ページ用）
+//**************************************************
+// 一度すべて削除してから、チェックされたものを登録し直す
+function updateSectionCategories($section_id, array $categories) {
+    $pdo = db_connect();
+    try {
+        $pdo->beginTransaction();
+
+        $stmh = $pdo->prepare("DELETE FROM section_category WHERE section_id = :section_id");
+        $stmh->bindValue(':section_id', $section_id, PDO::PARAM_INT);
+        $stmh->execute();
+
+        $stmh = $pdo->prepare("INSERT INTO section_category (section_id, suuri) VALUES (:section_id, :suuri)");
+        foreach ($categories as $suuri) {
+            $stmh->bindValue(':section_id', $section_id, PDO::PARAM_INT);
+            $stmh->bindValue(':suuri', $suuri, PDO::PARAM_STR);
+            $stmh->execute();
+        }
+
+        $pdo->commit();
+        return true;
+    } catch (PDOException $Exception) {
+        if ($pdo->inTransaction()) { $pdo->rollBack(); }
+        dbError(__FUNCTION__, $Exception);
+        return false;
+    }
+}
+//**************************************************
 // セクション削除（管理ページ用）
 //**************************************************
+// 数理カテゴリーも一緒に削除する
 function deleteSection($id){
     $pdo = db_connect();
     try {
+        $pdo->beginTransaction();
+
+        $stmh = $pdo->prepare("DELETE FROM section_category WHERE section_id = :id");
+        $stmh->bindValue(':id', $id,  PDO::PARAM_INT);
+        $stmh->execute();
+
         $sql = "DELETE FROM section_table WHERE id = :id";
+        $stmh = $pdo->prepare($sql);
+        $stmh->bindValue(':id', $id,  PDO::PARAM_INT);
+        $stmh->execute();
+
+        $pdo->commit();
+        return true;
+    } catch (PDOException $Exception) {
+        if ($pdo->inTransaction()) { $pdo->rollBack(); }
+        error_log("PDO Error in " . __FUNCTION__ . ": " . $Exception->getMessage());
+        return false;
+    }
+}
+####################################################################################
+### 問題管理
+####################################################################################
+//**************************************************
+// セクションID重複確認
+//**************************************************
+function checkQuestionSec($section_id) {
+    $pdo = db_connect();
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM section_table WHERE id = :section_id");
+    $stmt->bindValue(':section_id', $section_id, PDO::PARAM_STR);
+    $stmt->execute();
+    $count = $stmt->fetchColumn();
+    return $count > 0; // true = 存在する
+}
+//**************************************************
+// オーダー番号重複確認
+//**************************************************
+function checkQuestionOrder($order_number, $section_id) {
+    $pdo = db_connect();
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM question_table WHERE order_number = :order_number AND section_id = :section_id");
+    $stmt->bindValue(':order_number', $order_number, PDO::PARAM_STR);
+    $stmt->bindValue(':section_id', $section_id, PDO::PARAM_STR);
+    $stmt->execute();
+    $count = $stmt->fetchColumn();
+    return $count > 0; // true = 存在する
+}
+//**************************************************
+// 問題追加
+//**************************************************
+function insertQuestion($section_id, $order_number, $options, $correct_answer) {
+    $pdo = db_connect();
+    try {
+        $sql = "INSERT INTO question_table (section_id, order_number, options, correct_answer) VALUES (:section_id, :order_number, :options, :correct_answer)";
+        $stmh = $pdo->prepare($sql);
+        $stmh->bindValue(':section_id', $section_id, PDO::PARAM_STR);
+        $stmh->bindValue(':order_number',  $order_number,  PDO::PARAM_STR);
+        $stmh->bindValue(':options',  $options,  PDO::PARAM_STR);
+        $stmh->bindValue(':correct_answer',  $correct_answer,  PDO::PARAM_STR);
+        $stmh->execute();
+        return true;
+    } catch (PDOException $Exception) {
+        dbError(__FUNCTION__, $Exception);
+        return false;
+    }
+}
+//**************************************************
+// 問題一覧取得（検索・並び替え付き、管理ページ用）
+//**************************************************
+function getQuestionList($search_id = "", $search_section_id = "", $sort = "section_asc"){
+    $pdo = db_connect();
+    try {
+        $where = [];
+        $params = [];
+
+        if ($search_id !== "") {
+            $where[] = "id = :id";
+            $params[':id'] = (int)$search_id;
+        }
+        if ($search_section_id !== "") {
+            $where[] = "section_id = :section_id";
+            $params[':section_id'] = (int)$search_section_id;
+        }
+
+        // ORDER BY にはプレースホルダーが使えないため、決められた候補からのみ選ぶ
+        // （候補にない値が来た場合はセクションIDの昇順にする）
+        // セクションID順では、同じセクション内を表示順で並べる
+        $sortList = [
+            'section_asc'  => 'section_id ASC, order_number ASC, id ASC',
+            'section_desc' => 'section_id DESC, order_number ASC, id ASC',
+            'id_asc'       => 'id ASC',
+            'id_desc'      => 'id DESC',
+        ];
+        $orderBy = isset($sortList[$sort]) ? $sortList[$sort] : $sortList['section_asc'];
+
+        $sSql = "SELECT * FROM question_table";
+        if (!empty($where)) {
+            $sSql .= " WHERE " . implode(" AND ", $where);
+        }
+        $sSql .= " ORDER BY " . $orderBy;
+
+        $stmh = $pdo->prepare($sSql);
+        foreach ($params as $key => $value) {
+            $stmh->bindValue($key, $value, PDO::PARAM_INT);
+        }
+        $stmh->execute();
+        return $stmh->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $Exception) {
+        dbError(__FUNCTION__, $Exception);
+        return [];
+    }
+}
+//**************************************************
+// 問題更新（管理ページ用）
+//**************************************************
+function updateQuestion($id, $section_id, $order_number, $options, $correct_answer) {
+    $pdo = db_connect();
+    try {
+        $sql = "UPDATE question_table SET section_id = :section_id, order_number = :order_number, options = :options, correct_answer = :correct_answer WHERE id = :id";
+        $stmh = $pdo->prepare($sql);
+        $stmh->bindValue(':id', $id, PDO::PARAM_STR);
+        $stmh->bindValue(':section_id', $section_id, PDO::PARAM_STR);
+        $stmh->bindValue(':order_number', $order_number, PDO::PARAM_STR);
+        $stmh->bindValue(':options', $options, PDO::PARAM_STR);
+        $stmh->bindValue(':correct_answer', $correct_answer, PDO::PARAM_STR);
+        $stmh->execute();
+        return true;
+    } catch (PDOException $Exception) {
+        dbError(__FUNCTION__, $Exception);
+        return false;
+    }
+}
+//**************************************************
+// 問題削除（管理ページ用）
+//**************************************************
+function deleteQuestion($id){
+    $pdo = db_connect();
+    try {
+        $sql = "DELETE FROM question_table WHERE id = :id";
         $stmh = $pdo->prepare($sql);
         $stmh->bindValue(':id', $id,  PDO::PARAM_INT);
         $stmh->execute();
@@ -379,7 +632,118 @@ function deleteSection($id){
         return false;
     }
 }
+####################################################################################
+### 解説管理
+####################################################################################
+//**************************************************
+// 問題ID重複確認
+//**************************************************
+function checkExplanationQue($question_id) {
+    $pdo = db_connect();
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM question_table WHERE id = :question_id");
+    $stmt->bindValue(':question_id', $question_id, PDO::PARAM_STR);
+    $stmt->execute();
+    $count = $stmt->fetchColumn();
+    return $count > 0; // true = 存在する
+}
+//**************************************************
+// 解説追加
+//**************************************************
+function insertExplanation($question_id) {
+    $pdo = db_connect();
+    try {
+        $sql = "INSERT INTO explanation_table (question_id) VALUES (:question_id)";
+        $stmh = $pdo->prepare($sql);
+        $stmh->bindValue(':question_id', $question_id, PDO::PARAM_STR);
+        $stmh->execute();
+        return true;
+    } catch (PDOException $Exception) {
+        dbError(__FUNCTION__, $Exception);
+        return false;
+    }
+}
+//**************************************************
+// 解説テーブルの全情報を取り出す
+//**************************************************
+//**************************************************
+// チャプター一覧取得（検索・並び替え付き、管理ページ用）
+//**************************************************
+function getExplanationList($search_id = "", $search_question_id = "", $sort = "question_asc"){
+    $pdo = db_connect();
+    try {
+        $where = [];
+        $params = [];
 
+        if ($search_id !== "") {
+            $where[] = "id = :id";
+            $params[':id'] = (int)$search_id;
+        }
+        if ($search_question_id !== "") {
+            $where[] = "question_id = :question_id";
+            $params[':question_id'] = (int)$search_question_id;
+        }
+
+        // ORDER BY にはプレースホルダーが使えないため、決められた候補からのみ選ぶ
+        // （候補にない値が来た場合はセクションIDの昇順にする）
+        // セクションID順では、同じセクション内を表示順で並べる
+        $sortList = [
+            'question_asc'  => 'question_id ASC, id ASC',
+            'question_desc' => 'question_id DESC, id ASC',
+            'id_asc'       => 'id ASC',
+            'id_desc'      => 'id DESC',
+        ];
+        $orderBy = isset($sortList[$sort]) ? $sortList[$sort] : $sortList['question_asc'];
+
+        $sSql = "SELECT * FROM explanation_table";
+        if (!empty($where)) {
+            $sSql .= " WHERE " . implode(" AND ", $where);
+        }
+        $sSql .= " ORDER BY " . $orderBy;
+
+        $stmh = $pdo->prepare($sSql);
+        foreach ($params as $key => $value) {
+            $stmh->bindValue($key, $value, PDO::PARAM_INT);
+        }
+        $stmh->execute();
+        return $stmh->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $Exception) {
+        dbError(__FUNCTION__, $Exception);
+        return [];
+    }
+}
+//**************************************************
+// 解説更新（管理ページ用）
+//**************************************************
+function updateExplanation($id, $question_id) {
+    $pdo = db_connect();
+    try {
+        $sql = "UPDATE explanation_table SET question_id = :question_id WHERE id = :id";
+        $stmh = $pdo->prepare($sql);
+        $stmh->bindValue(':id', $id, PDO::PARAM_STR);
+        $stmh->bindValue(':question_id', $question_id, PDO::PARAM_STR);
+        $stmh->execute();
+        return true;
+    } catch (PDOException $Exception) {
+        dbError(__FUNCTION__, $Exception);
+        return false;
+    }
+}
+//**************************************************
+// 解説削除（管理ページ用）
+//**************************************************
+function deleteExplanation($id){
+    $pdo = db_connect();
+    try {
+        $sql = "DELETE FROM explanation_table WHERE id = :id";
+        $stmh = $pdo->prepare($sql);
+        $stmh->bindValue(':id', $id,  PDO::PARAM_INT);
+        $stmh->execute();
+        return true;
+    } catch (PDOException $Exception) {
+        error_log("PDO Error in " . __FUNCTION__ . ": " . $Exception->getMessage());
+        return false;
+    }
+}
 ####################################################################################
 ### ダッシュボード
 ####################################################################################

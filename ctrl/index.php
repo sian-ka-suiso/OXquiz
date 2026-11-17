@@ -59,6 +59,7 @@
                 $_SESSION['is_login'] = true;
                 $_SESSION['user_id']  = $id;
                 $_SESSION['email']    = $email;
+                unset($_SESSION['guest']);
 
                 // 利用規約に未同意の場合は同意ページへ
                 if (!hasTosAgreed($id)) {
@@ -87,6 +88,8 @@
     if(isset($_POST['guest'])){
         $_SESSION['is_login'] = true; // ゲストもログイン済み扱いにする
         $_SESSION['guest'] = true;
+        // 通常ログイン後のゲストログイン時に、セッション情報が残ったままを避ける
+        unset($_SESSION['user_id'], $_SESSION['email']);
         header("location: chapter.php");
         exit();
     }

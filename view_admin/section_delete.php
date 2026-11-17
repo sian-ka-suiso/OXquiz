@@ -32,6 +32,7 @@
                     <th>セクション名</th>
                     <th>フォルダー名</th>
                     <th>表示順</th>
+                    <th>数理カテゴリー</th>
                     <th>公開状況</th>
                 </tr>
                 </thead>
@@ -42,6 +43,7 @@
                     <td><?php echo htmlspecialchars($name); ?></td>
                     <td><?php echo htmlspecialchars($folder_name); ?></td>
                     <td><?php echo htmlspecialchars($order_number); ?></td>
+                    <td><?php echo V2H(implode('、', $section_categories)); ?></td>
                     <td><?php echo htmlspecialchars($is_published); ?></td>
                 </tr>
                 </tbody>

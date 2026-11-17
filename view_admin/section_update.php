@@ -27,6 +27,7 @@
                         <tr><th>セクション名</th><td class="field-value"><?php echo htmlspecialchars($name); ?></td></tr>
                         <tr><th>フォルダー名</th><td class="field-value"><?php echo htmlspecialchars($folder_name); ?></td></tr>
                         <tr><th>表示順</th><td class="field-value"><?php echo htmlspecialchars($order_number); ?></td></tr>
+                        <tr><th>数理カテゴリー</th><td class="field-value"><?php echo V2H(implode('、', $section_categories)); ?></td></tr>
                         <tr><th>公開状況</th><td class="field-value"><?php echo htmlspecialchars($is_published); ?></td></tr>
                     </table>
                 </div>
@@ -50,6 +51,18 @@
                             <tr>
                                 <th>表示順</th>
                                 <td><input type="text" name="order_number" value="<?= $order_number ?>"></td>
+                            </tr>
+                            <tr>
+                                <th>数理カテゴリー</th>
+                                <td class="suuri-checks">
+                                    <?php foreach ($suuriOptions as $suuri): ?>
+                                    <label>
+                                        <input type="checkbox" name="section_categories[]" value="<?= V2H($suuri) ?>"
+                                            <?= in_array($suuri, $section_categories, true) ? 'checked' : '' ?>>
+                                        <?= V2H($suuri) ?>
+                                    </label>
+                                    <?php endforeach; ?>
+                                </td>
                             </tr>
                             <tr>
                                 <th>公開状況</th>

@@ -38,9 +38,9 @@
     $chapter_id = isset($_GET['chapter_id']) ? $_GET['chapter_id'] : "";
     // セクションid
     $section_id = isset($_GET['section_id']) ? $_GET['section_id'] : "";
-    // クエスチョンid
+    // 問題id
     $question_id = isset($_GET['question_id']) ? $_GET['question_id'] : "";
-    // クエスチョンid配列
+    // 問題id配列
     $question_ids = getQuestionIds($section_id);
     // 問題番号
     $question_number = isset($_GET['qn']) ? $_GET['qn'] : "";
