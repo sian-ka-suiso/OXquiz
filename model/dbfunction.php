@@ -1,5 +1,6 @@
 <?php
-ini_set('display_errors', 1);
+// 開発用のエラー表示設定
+ini_set('display_errors', 1); // 本番環境では0にする。
 error_reporting(E_ALL);
 header('Content-Type: text/html; charset=UTF-8');
 
