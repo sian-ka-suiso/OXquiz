@@ -61,18 +61,28 @@
 //**************************************************
     // 選択したクラスに所属する学生の一覧
     $class_users = ($selected_class !== null) ? getClassUsers((int)$selected_class['id']) : [];
+
 //**************************************************
 // Excel出力
 //**************************************************
     if ($is_export && $selected_class !== null) {
         // 1.ブックとシートを用意
         $spreadsheet = new Spreadsheet();
-        $sheet = $spreadsheet->getActiveSheet()->setTitle('Chapter1(初見)');
+        $sheet = $spreadsheet->getActiveSheet()->setTitle('アカウント一覧');
 
         // 2.見出し行＋データ行を作ってA1セルから書き込む
-        $rows = [['ID', 'メールアドレス', 'ユーザー名', '登録日']];
+        $rows = [['ID', '学籍番号', 'ユーザー名', '登録日']];
+
+        // 学籍番号を抽出するための正規表現
+        $pattern = '/^[a-z](\d{7})@st\.kanazawa-it\.ac\.jp$/i';
         foreach ($class_users as $u) {
-            $rows[] = [$u['id'], $u['email'], $u['user_name'], $u['created_at']];
+            if (preg_match($pattern, $u['email'], $m)) {
+                $studentId = $m[1];
+            } else {
+                $studentId = null; // 学生以外のアドレスは学籍番号なし
+            }
+            // 変換した値を格納
+            $rows[] = [$u['id'], $studentId, $u['user_name'], $u['created_at']];
         }
         $sheet->fromArray($rows, null, 'A1');
 

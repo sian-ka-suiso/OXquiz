@@ -61,29 +61,29 @@
 
             <p class="panel-heading">出力対象のアカウント</p>
             <div class="table-wrapper">
-            <table class="admin-table">
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>メールアドレス</th>
-                    <th>アカウント名</th>
-                    <th>登録日</th>
-                </tr>
-                </thead>
-                <tbody>
-                <?php if (empty($class_users)): ?>
-                <tr class="empty-row"><td colspan="4">このクラスに所属するアカウントはありません</td></tr>
-                <?php endif; ?>
-                <?php foreach ($class_users as $class_user): ?>
-                <tr>
-                    <td class="col-id"><?= V2H($class_user['id']) ?></td>
-                    <td><?= V2H($class_user['email']) ?></td>
-                    <td><?= V2H((string)$class_user['user_name']) ?></td>
-                    <td><?= V2H($class_user['created_at']) ?></td>
-                </tr>
-                <?php endforeach; ?>
-                </tbody>
-            </table>
+                <table class="admin-table">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>メールアドレス</th>
+                        <th>アカウント名</th>
+                        <th>登録日</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php if (empty($class_users)): ?>
+                    <tr class="empty-row"><td colspan="4">このクラスに所属するアカウントはありません</td></tr>
+                    <?php endif; ?>
+                    <?php foreach ($class_users as $class_user): ?>
+                    <tr>
+                        <td class="col-id"><?= V2H($class_user['id']) ?></td>
+                        <td><?= V2H($class_user['email']) ?></td>
+                        <td><?= V2H((string)$class_user['user_name']) ?></td>
+                        <td><?= V2H($class_user['created_at']) ?></td>
+                    </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
             </div>
 
             <div class="form-actions">
